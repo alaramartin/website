@@ -2,7 +2,8 @@
 
 :root {
   --background: #7B0121;
-  --foreground: #D1B5A6;
+  --foreground: #E2CFC5;
+  --secondary: #421C0A;
 }
 
 body {
