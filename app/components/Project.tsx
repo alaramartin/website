@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { lato } from "@/app/ui/fonts";
 import {
@@ -5,15 +6,17 @@ import {
     ArrowSquareOutIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { skills } from "../page";
 
-const Tag = () => {};
+// todo: hover effect on the skill tag where when you hover, it expands to show the name of the skill
+// todo: clicked-on skill flashes when scrolled to
 
 interface ProjectProps {
     name: string;
     githubLink: string;
     href?: string;
     description: string;
-    tags?: { skill: string; icon?: any }[];
+    tags?: string[];
 }
 
 const Project = ({
@@ -23,6 +26,17 @@ const Project = ({
     description,
     tags,
 }: ProjectProps) => {
+    const handleSkillClick = (e: React.MouseEvent, skillKey: string) => {
+        e.preventDefault();
+        const element = document.getElementById(skillKey);
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }
+    };
+
     return (
         <div
             className={`${lato.className} antialiased border-2 border-lightred bg-pinkbeige rounded-2xl mx-15 my-6 p-4 shadow-xl/20 shadow-lightred relative place-content-center`}
@@ -31,7 +45,7 @@ const Project = ({
             <Link
                 href={githubLink}
                 target="_blank"
-                className="inline-block absolute top-2 right-2 hover:bg-[#c5b6ad] rounded-lg p-2"
+                className="inline-block absolute top-2 right-2 hover:bg-[#c5b6ad] rounded-lg p-2 transition-colors"
             >
                 <GithubLogoIcon size={20} />
             </Link>
@@ -40,21 +54,29 @@ const Project = ({
                 <Link
                     href={href}
                     target="_blank"
-                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg p-1.5 gap-1 underline"
+                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg p-1.5 gap-1 underline transition-colors"
                 >
                     Try it out! <ArrowSquareOutIcon />
                 </Link>
             )}
             {tags && (
                 <div className="mt-2">
-                    {tags.map((tag) => (
-                        <div
-                            key={tag.skill}
-                            className="inline-block border-1 border-lightred rounded-lg mx-2 my-2 p-2"
-                        >
-                            {tag.icon ? tag.icon : tag.skill}
-                        </div>
-                    ))}
+                    {tags.map((tag) => {
+                        const skillData = skills[tag];
+                        if (!skillData) return null;
+                        const IconComponent = skillData.icon;
+
+                        return (
+                            <button
+                                key={tag}
+                                onClick={(e) => handleSkillClick(e, tag)}
+                                className="inline-block border-1 border-lightred rounded-lg mx-2 my-2 p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                                title={`Skill: ${skillData.skillName}`}
+                            >
+                                <IconComponent size={16} />
+                            </button>
+                        );
+                    })}
                 </div>
             )}
         </div>

@@ -14,6 +14,17 @@
     --color-textbrown: #421c0a;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+/* @theme {
+    --color-darkburgundy: #760933;
+    --color-pinkbeige: #f7f5eb;
+    --color-lightred: #b32442;
+    --color-textbrown: #042a38;
+} */
+
 body {
     background: var(--color-pinkbeige);
     color: var(--foreground);
