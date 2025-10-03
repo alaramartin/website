@@ -1,12 +1,20 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
-  --background: #E2CFC5;
-  --foreground: #7B0121;
-  --secondary: #421C0A;
+    --background: #e2cfc5;
+    --foreground: #7b0121;
+    --secondary: #421c0a;
+}
+
+@theme {
+    --color-darkburgundy: #7b0121;
+    --color-oldbeige: #f7e4da;
+    --color-pinkbeige: #e2cfc5;
+    --color-lightred: #d58789;
+    --color-textbrown: #421c0a;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+    background: var(--color-pinkbeige);
+    color: var(--foreground);
 }

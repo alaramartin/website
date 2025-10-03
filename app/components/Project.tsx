@@ -13,7 +13,7 @@ interface ProjectProps {
     githubLink: string;
     href?: string;
     description: string;
-    tags?: string[];
+    tags?: { skill: string; icon?: any }[];
 }
 
 const Project = ({
@@ -25,9 +25,9 @@ const Project = ({
 }: ProjectProps) => {
     return (
         <div
-            className={`${lato.className} antialiased border-2 border-[#d58789] bg-[#E2CFC5] rounded-2xl m-4 p-4 shadow-xl/20 shadow-[#d58789] relative`}
+            className={`${lato.className} antialiased border-2 border-lightred bg-pinkbeige rounded-2xl mx-15 my-6 p-4 shadow-xl/20 shadow-lightred relative place-content-center`}
         >
-            <p className="text-xl font-extrabold pb-2">{name}</p>
+            <p className="text-xl font-extrabold py-2">{name}</p>
             <Link
                 href={githubLink}
                 target="_blank"
@@ -48,9 +48,12 @@ const Project = ({
             {tags && (
                 <div className="mt-2">
                     {tags.map((tag) => (
-                        <p key={tag} className="inline-block rounded-lg p-2">
-                            {tag}
-                        </p>
+                        <div
+                            key={tag.skill}
+                            className="inline-block border-1 border-lightred rounded-lg mx-2 my-2 p-2"
+                        >
+                            {tag.icon ? tag.icon : tag.skill}
+                        </div>
                     ))}
                 </div>
             )}
