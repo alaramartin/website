@@ -18,6 +18,37 @@ html {
     scroll-behavior: smooth;
 }
 
+@keyframes shadow-pulse {
+    0%,
+    100% {
+        box-shadow: none;
+    }
+    50% {
+        box-shadow: 0 0 4px 4px #7b012180;
+    }
+}
+
+.shadow-pulse {
+    animation: shadow-pulse 1.5s ease-in-out 1;
+}
+
+@keyframes change-bg {
+    from {
+        background-color: var(--color-darkburgundy);
+        color: var(--color-pinkbeige);
+    }
+    to {
+        background-color: var(--color-pinkbeige);
+        color: var(--color-darkburgundy);
+    }
+}
+
+.change-bg {
+    animation: change-bg ease-in forwards;
+    animation-timeline: scroll();
+    animation-range: 0vh 80vh;
+}
+
 /* @theme {
     --color-darkburgundy: #760933;
     --color-pinkbeige: #f7f5eb;

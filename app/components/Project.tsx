@@ -34,6 +34,12 @@ const Project = ({
                 behavior: "smooth",
                 block: "center",
             });
+
+            element.classList.add("shadow-pulse");
+
+            setTimeout(() => {
+                element.classList.remove("shadow-pulse");
+            }, 1500);
         }
     };
 
@@ -45,7 +51,7 @@ const Project = ({
             <Link
                 href={githubLink}
                 target="_blank"
-                className="inline-block absolute top-2 right-2 hover:bg-[#c5b6ad] rounded-lg p-2 transition-colors"
+                className="inline-block absolute top-2 right-2 border-1 border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
             >
                 <GithubLogoIcon size={20} />
             </Link>
@@ -56,7 +62,7 @@ const Project = ({
                     target="_blank"
                     className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg p-1.5 gap-1 underline transition-colors"
                 >
-                    Try it out! <ArrowSquareOutIcon />
+                    Check it out! <ArrowSquareOutIcon />
                 </Link>
             )}
             {tags && (

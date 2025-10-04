@@ -1,8 +1,8 @@
 import { italiana } from "@/app/ui/fonts";
 import LinksBar from "./components/LinksBar";
 import Project from "./components/Project";
-import Footer from "./components/Footer";
 import Skill from "./components/Skill";
+import Footer from "./components/Footer";
 import {
     FireIcon,
     GoogleChromeLogoIcon,
@@ -15,8 +15,9 @@ import {
     TriangleIcon,
     WindIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
-const projects: {
+export const projects: {
     name: string;
     githubLink: string;
     href?: string;
@@ -84,7 +85,7 @@ export const skills: Record<
 
 export default function Home() {
     return (
-        <div>
+        <div className="change-bg">
             <div
                 className={`h-screen ${italiana.className} antialiased relative`}
             >
@@ -92,15 +93,13 @@ export default function Home() {
                     <LinksBar></LinksBar>
                 </div>
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-4 flex items-baseline cursor-default">
-                    <p className="text-9xl whitespace-nowrap pr-5 text-darkburgundy">
-                        ALARA
-                    </p>
+                    <p className="text-9xl whitespace-nowrap pr-5">ALARA</p>
                     <p className="text-7xl whitespace-nowrap text-lightred">
                         MARTIN
                     </p>
                 </div>
             </div>
-            <div className={`text-center pt-10 px-15`}>
+            <div className={`text-center pt-18 px-15`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4`}
                 >
@@ -129,6 +128,7 @@ export default function Home() {
                             </div>
                         );
                     })}
+                    <Link href="/projects">View more projects</Link>
                 </div>
             </div>
             <div className={`text-center pt-10 px-15`}>
@@ -139,8 +139,8 @@ export default function Home() {
                 </p>
                 <div className="grid grid-cols-6 text-textbrown mx-5">
                     {Object.entries(skills).map(([skillKey, skill]) => (
-                        <div id={skillKey} key={skillKey}>
-                            <Skill skill={skill} />
+                        <div key={skillKey}>
+                            <Skill id={skillKey} skill={skill} />
                         </div>
                     ))}
                 </div>

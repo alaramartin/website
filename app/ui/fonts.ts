@@ -14,5 +14,5 @@ export const roboto = Roboto({
 
 export const lato = Lato({
     subsets: ["latin"],
-    weight: ['300']
+    weight: ['400']
 })
