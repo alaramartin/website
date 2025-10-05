@@ -6,7 +6,7 @@ import {
     ArrowSquareOutIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { skills } from "../page";
+import { skills } from "@/app/page";
 
 interface ProjectProps {
     name: string;
@@ -23,23 +23,6 @@ const Project = ({
     description,
     tags,
 }: ProjectProps) => {
-    const handleSkillClick = (e: React.MouseEvent, skillKey: string) => {
-        e.preventDefault();
-        const element = document.getElementById(skillKey);
-        if (element) {
-            element.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-            });
-
-            element.classList.add("shadow-pulse");
-
-            setTimeout(() => {
-                element.classList.remove("shadow-pulse");
-            }, 1500);
-        }
-    };
-
     return (
         <div
             className={`${lato.className} antialiased border-2 border-lightred bg-pinkbeige rounded-2xl mx-15 my-6 p-4 shadow-xl/20 shadow-lightred relative place-content-center`}
@@ -62,6 +45,15 @@ const Project = ({
                     Check it out! <ArrowSquareOutIcon />
                 </Link>
             )}
+            {githubLink && (
+                <Link
+                    href={githubLink}
+                    target="_blank"
+                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
+                >
+                    View the Source Code! <GithubLogoIcon />
+                </Link>
+            )}
             {tags && (
                 <div className="mt-2">
                     {tags.map((tag) => {
@@ -72,8 +64,7 @@ const Project = ({
                         return (
                             <button
                                 key={tag}
-                                onClick={(e) => handleSkillClick(e, tag)}
-                                className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer group overflow-hidden"
+                                className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 group overflow-hidden"
                                 title={`Skill: ${skillData.skillName}`}
                             >
                                 <IconComponent size={16} className="mx-1" />

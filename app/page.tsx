@@ -1,6 +1,6 @@
 import { italiana } from "@/app/ui/fonts";
 import LinksBar from "./components/LinksBar";
-import Project from "./components/Project";
+import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
 import Footer from "./components/Footer";
 import {
@@ -87,7 +87,7 @@ export const skills: Record<
     Git: { skillName: "Git", icon: GitMergeIcon },
     Java: { skillName: "Java", icon: CoffeeIcon },
     HTMLCSS: { skillName: "HTML/CSS", icon: CodeIcon },
-    whimsy: { skillName: "whimsy", icon: FlowerIcon },
+    whimsy: { skillName: "whimsy :)", icon: FlowerIcon },
 };
 
 export default function Home() {
@@ -125,13 +125,13 @@ export default function Home() {
 
                         return (
                             <div key={project.name} className={gridColumn}>
-                                <Project
+                                <MiniProject
                                     name={project.name}
                                     githubLink={project.githubLink}
                                     href={project.href}
                                     description={project.description}
                                     tags={project.tags}
-                                ></Project>
+                                ></MiniProject>
                             </div>
                         );
                     })}

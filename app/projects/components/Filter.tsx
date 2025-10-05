@@ -7,6 +7,8 @@ import { useState } from "react";
 /* idea: on homepage, limit skill tags to 3 (because i want to keep the skill highlighting/scroll thing lol)
 on projects page, limit to three but add a "..." where you can expand and see all of them
 add ALL the relevant skills to each project so that the filter functionality actually makes sense
+
+make a MiniProject.tsx compoennt for homepage and keep Project.tsx for projects page
 */
 
 // todo: split the filter into tools/tech/skills sections
@@ -28,10 +30,7 @@ const Filter = () => {
         console.log(tempFilters);
 
         // highlight or un-highlight the selected filters
-        // fixme: should be accessible by the skillKey not the name because too complicated
-        const skillElement = document.getElementById(
-            skillToUpdate.replaceAll(" ", "_").replaceAll("/", "")
-        );
+        const skillElement = document.getElementById(skill);
         if (skillElement?.classList.contains("selected")) {
             skillElement?.classList.remove("selected");
             filterToOneTag(skill, false, tempFilters);
@@ -53,13 +52,12 @@ const Filter = () => {
                 isUnfiltered = false;
             }
         });
-        console.log("isunfiltered:", isUnfiltered);
         return isUnfiltered;
     }
 
     const filterToOneTag = (
         skill: string,
-        removeProjectFromView: boolean,
+        removeUnselectedProjectsFromView: boolean,
         currentFilters: Record<string, boolean>
     ) => {
         // iterate through the projects and see which ones have the tag of the skill
@@ -72,32 +70,50 @@ const Filter = () => {
             if (!projectTags.includes(skill)) {
                 const projectInDoc = document.getElementById(project.name);
                 if (projectInDoc) {
-                    if (removeProjectFromView) {
+                    if (removeUnselectedProjectsFromView) {
                         // only remove if there are no other skills selecting this project
                         if (
-                            selectors[projectName].length <= 1 &&
+                            selectors[projectName].length < 1 &&
                             !areAllUnselected(currentFilters)
                         ) {
                             projectInDoc.style.display = "none";
                         }
                     } else {
-                        selectors[projectName].splice(
-                            selectors[projectName].indexOf(skill),
-                            1
-                        );
-                        // only add back if there are other selectors
+                        // only add back if there are other selectors or everything is unfiltered
                         if (
                             selectors[projectName].length > 0 ||
                             areAllUnselected(currentFilters)
                         ) {
                             projectInDoc.style.display = "block";
                             console.log(projectName, selectors[projectName]);
-                            console.log(areAllUnselected(currentFilters));
                         }
                     }
                 }
             } else {
-                selectors[projectName].push(skill);
+                if (removeUnselectedProjectsFromView) {
+                    selectors[projectName].push(skill);
+                    const projectInDoc = document.getElementById(project.name);
+                    if (projectInDoc) {
+                        projectInDoc.style.display = "block";
+                    }
+                } else {
+                    selectors[projectName].splice(
+                        selectors[projectName].indexOf(skill),
+                        1
+                    );
+                    // only remove if there are no other skills selecting this project
+                    if (
+                        selectors[projectName].length < 1 &&
+                        !areAllUnselected(currentFilters)
+                    ) {
+                        const projectInDoc = document.getElementById(
+                            project.name
+                        );
+                        if (projectInDoc) {
+                            projectInDoc.style.display = "none";
+                        }
+                    }
+                }
             }
         });
     };

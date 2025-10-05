@@ -1,6 +1,6 @@
 import { italiana } from "@/app/ui/fonts";
 import { projects } from "@/app/page";
-import Project from "../components/Project";
+import Project from "./components/Project";
 import Footer from "../components/Footer";
 import Filter from "./components/Filter";
 
@@ -8,6 +8,8 @@ import Filter from "./components/Filter";
 // todo: add a filter for skills/technologies/tools/etc used
 
 export default function Page() {
+    // todo: keep track of which projects to show/which are unfiltered using state
+
     return (
         <>
             <div className={`text-center pt-10 px-15`}>
@@ -21,7 +23,6 @@ export default function Page() {
                     {projects.map((project, index) => {
                         let gridColumn = "";
                         const totalItems = projects.length;
-
                         if (totalItems - index === 1 && index % 2 === 0) {
                             gridColumn = "col-span-2 col-start-2";
                         } else {
