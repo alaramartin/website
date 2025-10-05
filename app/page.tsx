@@ -27,6 +27,7 @@ export const projects: {
     href?: string;
     description: string;
     tags: string[];
+    display: boolean;
 }[] = [
     {
         name: "PKL Viewer",
@@ -35,6 +36,7 @@ export const projects: {
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
         tags: ["TypeScript", "Python", "VS_Code_API"],
+        display: true,
     },
     {
         name: "DICOM Viewer",
@@ -43,6 +45,7 @@ export const projects: {
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
         tags: ["TypeScript", "JavaScript", "VS_Code_API"],
+        display: true,
     },
     {
         name: "AP Score Reveal",
@@ -51,6 +54,7 @@ export const projects: {
         description:
             "Chrome extension that hides AP scores until clicked and plays custom sounds and animations for each reveal.",
         tags: ["TypeScript", "React", "Chrome_Extensions_API"],
+        display: true,
     },
     {
         name: "HIPSTER-AI",
@@ -58,6 +62,7 @@ export const projects: {
         description:
             "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
         tags: ["PyTorch", "Python", "Git"],
+        display: true,
     },
     {
         name: "Website",
@@ -65,6 +70,7 @@ export const projects: {
         href: "localhost:3000",
         description: "ts (this) website",
         tags: ["React", "NextJS", "TailwindCSS"],
+        display: true,
     },
 ];
 
