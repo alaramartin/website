@@ -14,6 +14,7 @@ import {
     GitMergeIcon,
     TriangleIcon,
     WindIcon,
+    ArrowCircleRightIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
@@ -101,7 +102,7 @@ export default function Home() {
             </div>
             <div className={`text-center pt-18 px-15`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4`}
+                    className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
                 >
                     Projects
                 </p>
@@ -128,12 +129,17 @@ export default function Home() {
                             </div>
                         );
                     })}
-                    <Link href="/projects">View more projects</Link>
                 </div>
+                <Link
+                    className="inline-flex items-center text-textbrown hover:bg-[#c5b6ad] rounded-lg m-4 p-2 gap-1 underline transition-colors"
+                    href="/projects"
+                >
+                    View more of my projects <ArrowCircleRightIcon size={20} />{" "}
+                </Link>
             </div>
             <div className={`text-center pt-10 px-15`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4`}
+                    className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
                 >
                     Skills
                 </p>

@@ -46,9 +46,12 @@ html {
 .change-bg {
     animation: change-bg ease-in forwards;
     animation-timeline: scroll();
-    animation-range: 0vh 80vh;
+    animation-range: 0vh 75vh;
 }
 
+.selected {
+    background-color: color-mix(in oklab, #d58789 40%, transparent);
+}
 /* @theme {
     --color-darkburgundy: #760933;
     --color-pinkbeige: #f7f5eb;

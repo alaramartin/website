@@ -8,9 +8,6 @@ import {
 import Link from "next/link";
 import { skills } from "../page";
 
-// todo: hover effect on the skill tag where when you hover, it expands to show the name of the skill
-// todo: clicked-on skill flashes when scrolled to
-
 interface ProjectProps {
     name: string;
     githubLink: string;
@@ -60,7 +57,7 @@ const Project = ({
                 <Link
                     href={href}
                     target="_blank"
-                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg p-1.5 gap-1 underline transition-colors"
+                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
                 >
                     Check it out! <ArrowSquareOutIcon />
                 </Link>
@@ -76,10 +73,13 @@ const Project = ({
                             <button
                                 key={tag}
                                 onClick={(e) => handleSkillClick(e, tag)}
-                                className="inline-block border-1 border-lightred rounded-lg mx-2 my-2 p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                                className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer group overflow-hidden"
                                 title={`Skill: ${skillData.skillName}`}
                             >
-                                <IconComponent size={16} />
+                                <IconComponent size={16} className="mx-1" />
+                                <p className="max-w-0 group-hover:max-w-xs ml-0 group-hover:ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap">
+                                    {skillData.skillName}
+                                </p>
                             </button>
                         );
                     })}

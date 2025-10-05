@@ -2,11 +2,20 @@ import { italiana } from "@/app/ui/fonts";
 import { projects } from "@/app/page";
 import Project from "../components/Project";
 import Footer from "../components/Footer";
+import Filter from "./components/Filter";
+
+// todo: add a searchbar
+// todo: add a filter for skills/technologies/tools/etc used
+/*
+in Project.tsx, whenever you make a project element, add the skill tag names as classes
+hide/show elements as needed when selected
+*/
 
 export default function Page() {
     return (
         <>
             <div className={`text-center pt-10 px-15`}>
+                <Filter />
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4`}
                 >
