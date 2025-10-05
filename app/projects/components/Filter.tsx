@@ -1,44 +1,114 @@
 "use client";
 import React from "react";
 import { skills } from "@/app/page";
+import { projects } from "@/app/page";
 import { useState } from "react";
 
-/* idea: on homepage, limit skill tags to 3
+/* idea: on homepage, limit skill tags to 3 (because i want to keep the skill highlighting/scroll thing lol)
 on projects page, limit to three but add a "..." where you can expand and see all of them
 add ALL the relevant skills to each project so that the filter functionality actually makes sense
 */
 
+// todo: split the filter into tools/tech/skills sections
+// todo: make filter be collapsible
+
 const Filter = () => {
     let initCheckedFilters: Record<string, boolean> = {};
     Object.values(skills).forEach((skill) => {
-        initCheckedFilters[skill.skillName] = true;
+        initCheckedFilters[skill.skillName] = false;
     });
     // keep track of the status of each filter; initialized to all checked (no filter)
     const [checkedFilters, setCheckedFilters] = useState(initCheckedFilters);
 
     const updateFilters = (skill: string) => {
         const skillToUpdate = skills[skill].skillName;
-        setCheckedFilters((prevFilters) => ({
-            ...prevFilters,
-            [skillToUpdate]: !prevFilters[skill],
-        }));
+        const tempFilters = checkedFilters;
+        tempFilters[skillToUpdate] = !tempFilters[skillToUpdate];
+
+        console.log(tempFilters);
 
         // highlight or un-highlight the selected filters
-        const skillElement = document.getElementById(skillToUpdate);
+        // fixme: should be accessible by the skillKey not the name because too complicated
+        const skillElement = document.getElementById(
+            skillToUpdate.replaceAll(" ", "_").replaceAll("/", "")
+        );
         if (skillElement?.classList.contains("selected")) {
             skillElement?.classList.remove("selected");
+            filterToOneTag(skill, false, tempFilters);
         } else {
             skillElement?.classList.add("selected");
+            filterToOneTag(skill, true, tempFilters);
         }
+
+        setCheckedFilters(tempFilters);
+    };
+
+    // project: { which skills are selecting it to be viewed}
+    let selectors: Record<string, string[]> = {};
+
+    function areAllUnselected(currentFilters: Record<string, boolean>) {
+        let isUnfiltered = true;
+        Object.keys(currentFilters).forEach((key) => {
+            if (currentFilters[key] === true) {
+                isUnfiltered = false;
+            }
+        });
+        console.log("isunfiltered:", isUnfiltered);
+        return isUnfiltered;
+    }
+
+    const filterToOneTag = (
+        skill: string,
+        removeProjectFromView: boolean,
+        currentFilters: Record<string, boolean>
+    ) => {
+        // iterate through the projects and see which ones have the tag of the skill
+        projects.forEach((project) => {
+            const projectTags = project.tags;
+            const projectName = project.name;
+            if (!selectors[projectName]) {
+                selectors[projectName] = [];
+            }
+            if (!projectTags.includes(skill)) {
+                const projectInDoc = document.getElementById(project.name);
+                if (projectInDoc) {
+                    if (removeProjectFromView) {
+                        // only remove if there are no other skills selecting this project
+                        if (
+                            selectors[projectName].length <= 1 &&
+                            !areAllUnselected(currentFilters)
+                        ) {
+                            projectInDoc.style.display = "none";
+                        }
+                    } else {
+                        selectors[projectName].splice(
+                            selectors[projectName].indexOf(skill),
+                            1
+                        );
+                        // only add back if there are other selectors
+                        if (
+                            selectors[projectName].length > 0 ||
+                            areAllUnselected(currentFilters)
+                        ) {
+                            projectInDoc.style.display = "block";
+                            console.log(projectName, selectors[projectName]);
+                            console.log(areAllUnselected(currentFilters));
+                        }
+                    }
+                }
+            } else {
+                selectors[projectName].push(skill);
+            }
+        });
     };
 
     return (
-        <div>
+        <div className="px-20 py-4 text-textbrown">
             <p>Filter by Skill</p>
             {Object.entries(skills).map(([skillKey, skill]) => (
                 <div
                     key={skillKey}
-                    id={skill.skillName}
+                    id={skillKey}
                     className="inline-flex border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 hover:bg-lightred/20"
                 >
                     <input

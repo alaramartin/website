@@ -15,6 +15,9 @@ import {
     TriangleIcon,
     WindIcon,
     ArrowCircleRightIcon,
+    CoffeeIcon,
+    CodeIcon,
+    FlowerIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
@@ -23,7 +26,7 @@ export const projects: {
     githubLink: string;
     href?: string;
     description: string;
-    tags?: string[];
+    tags: string[];
 }[] = [
     {
         name: "PKL Viewer",
@@ -67,7 +70,7 @@ export const projects: {
 
 export const skills: Record<
     string,
-    { skillName: string; icon: React.ElementType; href?: string }
+    { skillName: string; icon: React.ElementType }
 > = {
     TypeScript: { skillName: "TypeScript", icon: FileTsIcon },
     Python: { skillName: "Python", icon: FilePyIcon },
@@ -82,6 +85,9 @@ export const skills: Record<
     },
     PyTorch: { skillName: "PyTorch", icon: FireIcon },
     Git: { skillName: "Git", icon: GitMergeIcon },
+    Java: { skillName: "Java", icon: CoffeeIcon },
+    HTMLCSS: { skillName: "HTML/CSS", icon: CodeIcon },
+    whimsy: { skillName: "whimsy", icon: FlowerIcon },
 };
 
 export default function Home() {
