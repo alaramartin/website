@@ -168,11 +168,15 @@ export default function Home() {
                 >
                     Skills
                 </p>
-                <div className="grid grid-cols-6 text-textbrown mx-5">
+                <div className="grid grid-cols-6 text-textbrown mx-5 place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
-                        <div key={skillKey}>
+                        <Link
+                            href={`/projects?skill=${skillKey}`}
+                            key={skillKey}
+                            className="inline-block w-fit"
+                        >
                             <Skill id={skillKey} skill={skill} />
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

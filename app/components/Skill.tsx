@@ -8,6 +8,7 @@ interface SkillProps {
 
 const Skill = ({ id, skill }: SkillProps) => {
     const IconComponent = skill.icon;
+
     return (
         <div
             id={id}

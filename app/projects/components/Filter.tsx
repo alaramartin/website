@@ -3,30 +3,38 @@ import React, { useState } from "react";
 import { skills } from "@/app/page";
 import { XCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
-/* idea: on homepage, limit skill tags to 3 but add a "..." where you can expand and see all of them
-on projects just show all of them. the project cards can be pretty big
-add ALL the relevant skills to each project so that the filter functionality actually makes sense
-*/
-
 // todo: split the filter into tools/tech/skills sections
 // todo: make filter be collapsible
 
 interface FilterProps {
     projects: any[];
     onFilterToggle: (filtered: any[]) => void;
+    initialSkillFilter?: string | null;
 }
 
-const Filter = ({ projects, onFilterToggle }: FilterProps) => {
-    // initialize all filters to unchecked
-    const initCheckedFilters: Record<string, boolean> = {};
+const Filter = ({
+    projects,
+    onFilterToggle,
+    initialSkillFilter,
+}: FilterProps) => {
+    // initialize all filters to unchecked (or one filter checked, if coming from homepage skill)
+    let initCheckedFilters: Record<string, boolean> = {};
     Object.values(skills).forEach((skill) => {
         initCheckedFilters[skill.skillName] = false;
     });
 
+    if (initialSkillFilter && skills[initialSkillFilter]) {
+        initCheckedFilters[skills[initialSkillFilter].skillName] = true;
+    }
+
     const [checkedFilters, setCheckedFilters] = useState(initCheckedFilters);
 
     const resetFilters = () => {
-        setCheckedFilters(initCheckedFilters);
+        const emptyFilters: Record<string, boolean> = {};
+        Object.values(skills).forEach((skill) => {
+            emptyFilters[skill.skillName] = false;
+        });
+        setCheckedFilters(emptyFilters);
         onFilterToggle(projects);
     };
 

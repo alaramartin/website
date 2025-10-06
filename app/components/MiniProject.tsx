@@ -66,7 +66,9 @@ const MiniProject = ({
                 <div className="mt-2">
                     {tags.map((tag, index) => {
                         // only show first three (most relevant) skill tags on homepage
-                        // todo: make it have a "..." that you can click to see all relevant skills
+                        /* todo: make it have an expand button (down arrow) on the row under that you can click to see all relevant skills
+                        when expanded, switch the expand button to a collapse button (up arrow) to re-collapse to 3 elements
+                        */
                         if (index < 3) {
                             const skillData = skills[tag];
                             if (!skillData) return null;

@@ -4,14 +4,26 @@ import { projects } from "@/app/page";
 import Project from "./components/Project";
 import Footer from "../components/Footer";
 import Filter from "./components/Filter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 // todo: add a searchbar
-// todo: add a filter for skills/technologies/tools/etc used
 
 export default function Page() {
     // keep track of which projects to show/which are unfiltered using state
     const [visibleProjects, setVisibleProjects] = useState(projects);
+
+    // set initial filter if coming from skills in homepage
+    const searchParams = useSearchParams();
+    const skillFilter = searchParams.get("skill");
+    useEffect(() => {
+        if (skillFilter) {
+            const filtered = projects.filter((project) => {
+                return project.tags.includes(skillFilter);
+            });
+            setVisibleProjects(filtered);
+        }
+    }, [skillFilter]);
 
     return (
         <>
@@ -24,6 +36,7 @@ export default function Page() {
                 <Filter
                     projects={projects}
                     onFilterToggle={setVisibleProjects}
+                    initialSkillFilter={skillFilter}
                 />
                 <div className="grid grid-cols-4 text-textbrown">
                     {visibleProjects.map((project, index) => {
