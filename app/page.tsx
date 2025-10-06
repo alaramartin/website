@@ -1,4 +1,5 @@
-import { italiana } from "@/app/ui/fonts";
+"use client";
+import { italiana, lato } from "@/app/ui/fonts";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
@@ -20,6 +21,7 @@ import {
     FlowerIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const projects: {
     name: string;
@@ -110,6 +112,7 @@ export const skills: Record<
 };
 
 export default function Home() {
+    const router = useRouter();
     return (
         <div className="change-bg">
             <div
@@ -168,15 +171,21 @@ export default function Home() {
                 >
                     Skills
                 </p>
+                <p className={`${lato.className} cursor-default pb-4`}>
+                    Click on a skill to see related projects on projects page
+                </p>
                 <div className="grid grid-cols-6 text-textbrown mx-5 place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
-                        <Link
-                            href={`/projects?skill=${skillKey}`}
+                        <div
+                            onClick={() => {
+                                sessionStorage.setItem("skillFilter", skillKey);
+                                router.push("/projects");
+                            }}
                             key={skillKey}
-                            className="inline-block w-fit"
+                            className="inline-block w-fit cursor-pointer"
                         >
                             <Skill id={skillKey} skill={skill} />
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </div>

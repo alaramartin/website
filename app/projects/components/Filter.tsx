@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { skills } from "@/app/page";
 import { XCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
@@ -26,6 +26,20 @@ const Filter = ({
     if (initialSkillFilter && skills[initialSkillFilter]) {
         initCheckedFilters[skills[initialSkillFilter].skillName] = true;
     }
+
+    useEffect(() => {
+        if (initialSkillFilter && skills[initialSkillFilter]) {
+            const skillName = skills[initialSkillFilter].skillName;
+
+            const newFilters: Record<string, boolean> = {};
+            Object.values(skills).forEach((skill) => {
+                newFilters[skill.skillName] = false;
+            });
+
+            newFilters[skillName] = true;
+            setCheckedFilters(newFilters);
+        }
+    }, [initialSkillFilter]);
 
     const [checkedFilters, setCheckedFilters] = useState(initCheckedFilters);
 

@@ -5,7 +5,6 @@ import Project from "./components/Project";
 import Footer from "../components/Footer";
 import Filter from "./components/Filter";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 // todo: add a searchbar
 
@@ -14,16 +13,18 @@ export default function Page() {
     const [visibleProjects, setVisibleProjects] = useState(projects);
 
     // set initial filter if coming from skills in homepage
-    const searchParams = useSearchParams();
-    const skillFilter = searchParams.get("skill");
+    const [skillFilter, setSkillFilter] = useState<string | null>(null);
     useEffect(() => {
-        if (skillFilter) {
+        const initialSkill = sessionStorage.getItem("skillFilter");
+        if (initialSkill) {
+            setSkillFilter(initialSkill);
             const filtered = projects.filter((project) => {
-                return project.tags.includes(skillFilter);
+                return project.tags.includes(initialSkill);
             });
             setVisibleProjects(filtered);
+            sessionStorage.removeItem("skillFilter");
         }
-    }, [skillFilter]);
+    }, []);
 
     return (
         <>
