@@ -64,24 +64,28 @@ const MiniProject = ({
             )}
             {tags && (
                 <div className="mt-2">
-                    {tags.map((tag) => {
-                        const skillData = skills[tag];
-                        if (!skillData) return null;
-                        const IconComponent = skillData.icon;
+                    {tags.map((tag, index) => {
+                        // only show first three (most relevant) skill tags on homepage
+                        // todo: make it have a "..." that you can click to see all relevant skills
+                        if (index < 3) {
+                            const skillData = skills[tag];
+                            if (!skillData) return null;
+                            const IconComponent = skillData.icon;
 
-                        return (
-                            <button
-                                key={tag}
-                                onClick={(e) => handleSkillClick(e, tag)}
-                                className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer group overflow-hidden"
-                                title={`Skill: ${skillData.skillName}`}
-                            >
-                                <IconComponent size={16} className="mx-1" />
-                                <p className="max-w-0 group-hover:max-w-xs ml-0 group-hover:ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap">
-                                    {skillData.skillName}
-                                </p>
-                            </button>
-                        );
+                            return (
+                                <button
+                                    key={tag}
+                                    onClick={(e) => handleSkillClick(e, tag)}
+                                    className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer group overflow-hidden"
+                                    title={`Skill: ${skillData.skillName}`}
+                                >
+                                    <IconComponent
+                                        size={16}
+                                        className="m-0.5"
+                                    />
+                                </button>
+                            );
+                        }
                     })}
                 </div>
             )}

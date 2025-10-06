@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { skills } from "@/app/page";
+import { XCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
-/* idea: on homepage, limit skill tags to 3 (because i want to keep the skill highlighting/scroll thing lol)
-on projects page, limit to three but add a "..." where you can expand and see all of them
+/* idea: on homepage, limit skill tags to 3 but add a "..." where you can expand and see all of them
+on projects just show all of them. the project cards can be pretty big
 add ALL the relevant skills to each project so that the filter functionality actually makes sense
 */
 
@@ -23,6 +24,11 @@ const Filter = ({ projects, onFilterToggle }: FilterProps) => {
     });
 
     const [checkedFilters, setCheckedFilters] = useState(initCheckedFilters);
+
+    const resetFilters = () => {
+        setCheckedFilters(initCheckedFilters);
+        onFilterToggle(projects);
+    };
 
     const areAllUnselected = (filters: Record<string, boolean>) =>
         Object.values(filters).every((v) => !v);
@@ -57,7 +63,7 @@ const Filter = ({ projects, onFilterToggle }: FilterProps) => {
     };
 
     return (
-        <div className="px-20 py-4 text-textbrown">
+        <div className="px-20 py-4 text-textbrown select-none">
             <p>Filter by Skill</p>
             {Object.entries(skills).map(([skillKey, skill]) => {
                 const isChecked = checkedFilters[skill.skillName];
@@ -87,6 +93,17 @@ const Filter = ({ projects, onFilterToggle }: FilterProps) => {
                     </div>
                 );
             })}
+            {!areAllUnselected(checkedFilters) && (
+                <button
+                    className={
+                        "inline-flex items-center gap-2 border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 bg-lightred/20 hover:bg-lightred/40 active:bg-lightred/50 cursor-pointer"
+                    }
+                    onClick={resetFilters}
+                >
+                    {" "}
+                    <XCircleIcon /> <p>Clear All Filters</p>
+                </button>
+            )}
         </div>
     );
 };

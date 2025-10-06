@@ -35,7 +35,7 @@ export const projects: {
         href: "https://marketplace.visualstudio.com/items?itemName=alarm.pkl-viewer",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
-        tags: ["TypeScript", "Python", "VS_Code_API"],
+        tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         display: true,
     },
     {
@@ -44,7 +44,7 @@ export const projects: {
         href: "https://marketplace.visualstudio.com/items?itemName=alarm.dicom-viewer",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
-        tags: ["TypeScript", "JavaScript", "VS_Code_API"],
+        tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         display: true,
     },
     {
@@ -53,7 +53,13 @@ export const projects: {
         href: "https://chromewebstore.google.com/detail/ap%C2%AE-exam-score-reveal/mhjggldhegkdodlneehpkhpjbgmpohak",
         description:
             "Chrome extension that hides AP scores until clicked and plays custom sounds and animations for each reveal.",
-        tags: ["TypeScript", "React", "Chrome_Extensions_API"],
+        tags: [
+            "TypeScript",
+            "React",
+            "Chrome_Extensions_API",
+            "HTMLCSS",
+            "TailwindCSS",
+        ],
         display: true,
     },
     {
@@ -69,7 +75,14 @@ export const projects: {
         githubLink: "https://github.com/alaramartin/website",
         href: "localhost:3000",
         description: "ts (this) website",
-        tags: ["React", "NextJS", "TailwindCSS"],
+        tags: [
+            "React",
+            "NextJS",
+            "TailwindCSS",
+            "TypeScript",
+            "HTMLCSS",
+            "whimsy",
+        ],
         display: true,
     },
 ];
