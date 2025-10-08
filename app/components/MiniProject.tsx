@@ -57,7 +57,7 @@ const MiniProject = ({
                 <Link
                     href={href}
                     target="_blank"
-                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
+                    className="inline-flex items-center hover:bg-lightred/30 rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
                 >
                     Check it out! <ArrowSquareOutIcon />
                 </Link>
@@ -78,7 +78,7 @@ const MiniProject = ({
                                 <button
                                     key={tag}
                                     onClick={(e) => handleSkillClick(e, tag)}
-                                    className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer group overflow-hidden"
+                                    className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
                                     title={`Skill: ${skillData.skillName}`}
                                 >
                                     <IconComponent

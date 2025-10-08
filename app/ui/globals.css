@@ -6,12 +6,12 @@
     --secondary: #421c0a;
 }
 
-/* @theme {
-    --color-darkburgundy: #7b0121;
-    --color-pinkbeige: #e2cfc5;
-    --color-lightred: #d5878a;
-    --color-textbrown: #421c0a;
-} */
+@theme {
+    --color-darkburgundy: #a3002c;
+    --color-pinkbeige: #fff4f1;
+    --color-lightred: #ed8c8c;
+    --color-textbrown: #0c1844;
+}
 
 html {
     scroll-behavior: smooth;
@@ -50,12 +50,6 @@ html {
 
 .selected {
     background-color: color-mix(in oklab, #d58789 40%, transparent);
-}
-@theme {
-    --color-darkburgundy: #a3002c;
-    --color-pinkbeige: #fff4f1;
-    --color-lightred: #ed8c8c;
-    --color-textbrown: #0c1844;
 }
 
 body {

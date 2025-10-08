@@ -40,7 +40,7 @@ const Project = ({
                 <Link
                     href={href}
                     target="_blank"
-                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
+                    className="inline-flex items-center hover:bg-lightred/30 rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
                 >
                     Check it out! <ArrowSquareOutIcon />
                 </Link>
@@ -49,7 +49,7 @@ const Project = ({
                 <Link
                     href={githubLink}
                     target="_blank"
-                    className="inline-flex items-center hover:bg-[#c5b6ad] rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
+                    className="inline-flex items-center hover:bg-lightred/30 rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
                 >
                     View the Source Code! <GithubLogoIcon />
                 </Link>
