@@ -28,7 +28,7 @@ const LinksBar = () => {
     return (
         <div className="flex justify-center m-auto">
             {links.map((link) => (
-                <div className="px-2" key={link.name}>
+                <div className="p-2" key={link.name}>
                     <Link
                         href={link.href}
                         target="_blank"

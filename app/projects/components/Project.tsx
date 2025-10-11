@@ -25,13 +25,13 @@ const Project = ({
 }: ProjectProps) => {
     return (
         <div
-            className={`${lato.className} antialiased border-2 border-lightred bg-pinkbeige rounded-2xl mx-15 my-6 p-4 shadow-xl/20 shadow-lightred relative place-content-center`}
+            className={`${lato.className} antialiased border-2 border-lightred bg-pinkbeige rounded-2xl p-4 shadow-xl/20 shadow-lightred relative h-full place-content-center`}
         >
             <p className="text-xl font-extrabold py-2">{name}</p>
             <Link
                 href={githubLink}
                 target="_blank"
-                className="inline-block absolute top-2 right-2 border-1 border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                className="inline-block absolute top-3 right-3 border-1 border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
             >
                 <GithubLogoIcon size={20} />
             </Link>

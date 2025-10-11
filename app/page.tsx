@@ -116,7 +116,7 @@ export default function Home() {
     return (
         <div className="change-bg">
             <div
-                className={`h-screen ${italiana.className} antialiased relative`}
+                className={`h-screen ${italiana.className} antialiased relative select-none`}
             >
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <LinksBar></LinksBar>
@@ -128,13 +128,13 @@ export default function Home() {
                     </p>
                 </div>
             </div>
-            <div className={`text-center pt-18 px-15`}>
+            <div className={`text-center pt-18 px-30`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
                 >
                     Projects
                 </p>
-                <div className="grid grid-cols-4 text-textbrown">
+                <div className="grid grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8">
                     {projects.map((project, index) => {
                         let gridColumn = "";
                         const totalItems = projects.length;

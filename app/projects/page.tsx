@@ -4,11 +4,12 @@ import { projects } from "@/app/page";
 import Project from "./components/Project";
 import Footer from "../components/Footer";
 import Filter from "./components/Filter";
+import HomeButton from "../components/HomeButton";
 import { useState, useEffect } from "react";
 
 // todo: add a searchbar
 
-export default function Page() {
+export default function ProjectsPage() {
     // keep track of which projects to show/which are unfiltered using state
     const [visibleProjects, setVisibleProjects] = useState(projects);
 
@@ -30,7 +31,7 @@ export default function Page() {
         <>
             <div className={`text-center pt-10 px-15`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4`}
+                    className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
                 >
                     Projects
                 </p>
@@ -39,7 +40,7 @@ export default function Page() {
                     onFilterToggle={setVisibleProjects}
                     initialSkillFilter={skillFilter}
                 />
-                <div className="grid grid-cols-4 text-textbrown">
+                <div className="grid grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8 px-15">
                     {visibleProjects.map((project, index) => {
                         let gridColumn = "";
                         const totalItems = visibleProjects.length;
@@ -67,6 +68,7 @@ export default function Page() {
                     })}
                 </div>
             </div>
+            <HomeButton />
             <Footer />
         </>
     );
