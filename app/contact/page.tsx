@@ -6,6 +6,7 @@ import {
     EnvelopeIcon,
     LinkedinLogoIcon,
     GithubLogoIcon,
+    GlobeIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
 const contactLinks: {
@@ -16,7 +17,8 @@ const contactLinks: {
 }[] = [
     {
         contactType: "Email",
-        href: "alara.martin@gmail.com",
+        href: "mailto:alara.martin@gmail.com",
+        username: "alara.martin@gmail.com",
         icon: EnvelopeIcon,
     },
     {
@@ -31,20 +33,30 @@ const contactLinks: {
         username: "alaramartin",
         icon: GithubLogoIcon,
     },
+    {
+        contactType: "Website",
+        href: "https://alaramartin.vercel.app",
+        username: "alaramartin.vercel.app",
+        icon: GlobeIcon,
+    },
 ];
 
 export default function ContactPage() {
     return (
         <>
             <div
-                className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+                className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 select-none`}
             >
-                <p>Contact Me</p>
-                {contactLinks.map((contactLink) => (
-                    <div key={contactLink.contactType}>
-                        <ContactLink contact={contactLink} />
-                    </div>
-                ))}
+                <p className="flex justify-self-center text-2xl font-bold">
+                    CONTACT ME
+                </p>
+                <div className="inline-flex">
+                    {contactLinks.map((contactLink) => (
+                        <div key={contactLink.contactType}>
+                            <ContactLink contact={contactLink} />
+                        </div>
+                    ))}
+                </div>
             </div>
             <HomeButton />
         </>
