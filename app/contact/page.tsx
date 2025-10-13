@@ -1,7 +1,8 @@
 import React from "react";
 import HomeButton from "../components/HomeButton";
 import ContactLink from "./components/ContactLink";
-import { italiana } from "../ui/fonts";
+import Footer from "../components/Footer";
+import { italiana, lato } from "../ui/fonts";
 import {
     EnvelopeIcon,
     LinkedinLogoIcon,
@@ -44,21 +45,24 @@ const contactLinks: {
 export default function ContactPage() {
     return (
         <>
-            <div
-                className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 select-none`}
-            >
-                <p className="flex justify-self-center text-2xl font-bold">
-                    CONTACT ME
-                </p>
-                <div className="inline-flex">
-                    {contactLinks.map((contactLink) => (
-                        <div key={contactLink.contactType}>
-                            <ContactLink contact={contactLink} />
-                        </div>
-                    ))}
+            <div className="h-screen relative">
+                <div
+                    className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 select-none`}
+                >
+                    <p className="flex justify-self-center text-2xl font-bold">
+                        CONTACT ME
+                    </p>
+                    <div className={`inline-flex ${lato.className}`}>
+                        {contactLinks.map((contactLink) => (
+                            <div key={contactLink.contactType}>
+                                <ContactLink contact={contactLink} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
             <HomeButton />
+            <Footer />
         </>
     );
 }

@@ -15,7 +15,7 @@ const ContactLink = ({ contact }: ContactLinkProps) => {
     return (
         <div className="m-10 inline-flex whitespace-nowrap items-center">
             <div className="justify-items-center">
-                <IconComponent />
+                <IconComponent size={18} />
                 <p>{contact.contactType}</p>
             </div>
             <hr className="border-lightred border-r-1 h-10 m-3 opacity-80" />

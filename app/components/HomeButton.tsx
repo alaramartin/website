@@ -6,9 +6,10 @@ const HomeButton = () => {
     return (
         <Link
             href="/"
-            className="absolute right-0 bottom-0 rounded-full bg-pinkbeige text-darkburgundy border-lightred border-2 p-2 m-6 shadow-xl/20 shadow-lightred"
+            className="select-none fixed inline-flex items-center gap-2 right-0 bottom-0 rounded-full bg-pinkbeige text-darkburgundy border-lightred border-1 p-3 m-6 shadow-xl/20 shadow-lightred hover:scale-102 hover:-translate-y-0.5 hover:shadow-xl/25 transition-all duration-200"
         >
-            <HouseIcon size={36} />
+            <HouseIcon size={24} />
+            Back to Home
         </Link>
     );
 };

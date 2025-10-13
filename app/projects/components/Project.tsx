@@ -25,7 +25,7 @@ const Project = ({
 }: ProjectProps) => {
     return (
         <div
-            className={`${lato.className} antialiased border-2 border-lightred bg-pinkbeige rounded-2xl p-4 shadow-xl/20 shadow-lightred relative h-full place-content-center`}
+            className={`${lato.className} antialiased border-1 border-lightred bg-pinkbeige rounded-2xl p-4 shadow-xl/20 shadow-lightred relative h-full place-content-center`}
         >
             <p className="text-xl font-extrabold py-2">{name}</p>
             <Link
@@ -71,7 +71,7 @@ const Project = ({
                                         return (
                                             <div
                                                 key={tag}
-                                                className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 group overflow-hidden cursor-default select-none"
+                                                className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 transition-all duration-300 group overflow-hidden cursor-default select-none"
                                             >
                                                 <IconComponent
                                                     size={16}

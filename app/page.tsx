@@ -159,7 +159,7 @@ export default function Home() {
                     })}
                 </div>
                 <Link
-                    className="inline-flex items-center text-textbrown hover:bg-lightred/30 rounded-lg m-4 p-2 gap-1 underline transition-colors"
+                    className={`${lato.className} text-lg inline-flex items-center text-textbrown hover:bg-lightred/30 rounded-lg m-6 p-2 gap-1 underline transition-colors`}
                     href="/projects"
                 >
                     View more of my projects <ArrowCircleRightIcon size={20} />{" "}
