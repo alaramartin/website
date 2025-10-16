@@ -1,4 +1,3 @@
-import React from "react";
 import HomeButton from "../components/HomeButton";
 import ContactLink from "./components/ContactLink";
 import Footer from "../components/Footer";
@@ -9,6 +8,12 @@ import {
     GithubLogoIcon,
     GlobeIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Contact | Alara Martin",
+    description: "Contact me.",
+};
 
 const contactLinks: {
     contactType: string;

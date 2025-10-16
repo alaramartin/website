@@ -1,31 +1,23 @@
-"use client";
 import { italiana } from "@/app/ui/fonts";
-import { projects } from "@/app/page";
-import Project from "./components/Project";
+import ProjectsContent from "./components/ProjectsContent";
 import Footer from "../components/Footer";
-import Filter from "./components/Filter";
 import HomeButton from "../components/HomeButton";
-import { useState, useEffect } from "react";
+import { Metadata } from "next";
 
-// todo: add a searchbar
+// todo: add a searchbar - searches through project titles and descriptions for matches
 
-export default function ProjectsPage() {
-    // keep track of which projects to show/which are unfiltered using state
-    const [visibleProjects, setVisibleProjects] = useState(projects);
+export const metadata: Metadata = {
+    title: "Projects | Alara Martin",
+    description: "My projects.",
+};
 
-    // set initial filter if coming from skills in homepage
-    const [skillFilter, setSkillFilter] = useState<string | null>(null);
-    useEffect(() => {
-        const initialSkill = sessionStorage.getItem("skillFilter");
-        if (initialSkill) {
-            setSkillFilter(initialSkill);
-            const filtered = projects.filter((project) => {
-                return project.tags.includes(initialSkill);
-            });
-            setVisibleProjects(filtered);
-            sessionStorage.removeItem("skillFilter");
-        }
-    }, []);
+interface PageProps {
+    searchParams: Promise<{ skill?: string }>;
+}
+
+export default async function ProjectsPage({ searchParams }: PageProps) {
+    const resolvedSearchParams = await searchParams;
+    const skillFilter = resolvedSearchParams.skill || null;
 
     return (
         <>
@@ -35,38 +27,7 @@ export default function ProjectsPage() {
                 >
                     Projects
                 </p>
-                <Filter
-                    projects={projects}
-                    onFilterToggle={setVisibleProjects}
-                    initialSkillFilter={skillFilter}
-                />
-                <div className="grid grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8 px-15">
-                    {visibleProjects.map((project, index) => {
-                        let gridColumn = "";
-                        const totalItems = visibleProjects.length;
-                        if (totalItems - index === 1 && index % 2 === 0) {
-                            gridColumn = "col-span-2 col-start-2";
-                        } else {
-                            gridColumn = "col-span-2";
-                        }
-
-                        return (
-                            <div
-                                id={project.name}
-                                key={project.name}
-                                className={gridColumn}
-                            >
-                                <Project
-                                    name={project.name}
-                                    githubLink={project.githubLink}
-                                    href={project.href}
-                                    description={project.description}
-                                    tags={project.tags}
-                                ></Project>
-                            </div>
-                        );
-                    })}
-                </div>
+                <ProjectsContent initialSkillFilter={skillFilter} />
             </div>
             <HomeButton />
             <Footer />

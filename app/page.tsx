@@ -1,4 +1,3 @@
-"use client";
 import { italiana, lato } from "@/app/ui/fonts";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
@@ -21,7 +20,6 @@ import {
     FlowerIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export const projects: {
     name: string;
@@ -112,7 +110,6 @@ export const skills: Record<
 };
 
 export default function Home() {
-    const router = useRouter();
     return (
         <div className="change-bg">
             <div
@@ -176,16 +173,13 @@ export default function Home() {
                 </p>
                 <div className="grid grid-cols-6 text-textbrown mx-5 place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
-                        <div
-                            onClick={() => {
-                                sessionStorage.setItem("skillFilter", skillKey);
-                                router.push("/projects");
-                            }}
+                        <Link
                             key={skillKey}
+                            href={`/projects?skill=${skillKey}`}
                             className="inline-block w-fit cursor-pointer"
                         >
                             <Skill id={skillKey} skill={skill} />
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
