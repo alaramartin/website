@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { projects } from "@/app/page";
+import { projects } from "@/app/data/info.ts";
 import Project from "./Project";
 import Filter from "./Filter";
 

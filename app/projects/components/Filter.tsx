@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { skills } from "@/app/page";
+import { skills } from "@/app/data/info.ts";
 import { XCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
 // todo: split the filter into tools/tech/skills sections

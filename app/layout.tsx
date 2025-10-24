@@ -4,7 +4,10 @@ import { Analytics } from "@vercel/analytics/next";
 import "@/app/ui/globals.css";
 
 export const metadata: Metadata = {
-    title: "Alara Martin",
+    title: {
+        template: "%s | Alara Martin",
+        default: "Alara Martin",
+    },
     description: "My personal website.",
 };
 

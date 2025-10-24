@@ -7,8 +7,7 @@ import { Metadata } from "next";
 // todo: add a searchbar - searches through project titles and descriptions for matches
 
 export const metadata: Metadata = {
-    title: "Projects | Alara Martin",
-    description: "My projects.",
+    title: "Projects",
 };
 
 interface PageProps {

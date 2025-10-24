@@ -11,8 +11,7 @@ import {
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Contact | Alara Martin",
-    description: "Contact me.",
+    title: "Contact",
 };
 
 const contactLinks: {

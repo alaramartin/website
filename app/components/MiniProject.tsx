@@ -6,7 +6,7 @@ import {
     ArrowSquareOutIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { skills } from "../page";
+import { skills } from "@/app/data/info.ts";
 
 interface MiniProjectProps {
     name: string;
