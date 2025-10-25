@@ -19,14 +19,9 @@ export async function getSortedBlogPosts() {
         // get file metadata (title, date)
         const matterResult = matter(fileContents);
         const data = matterResult.data as { date?: string; title?: string; [key: string]: any };
-        const processedHTML = await remark()
-            .use(html)
-            .process(matterResult.content);
-        const contentHTML = processedHTML.toString();
 
         return {
             id,
-            contentHTML,
             date: data.date ?? '',
             title: data.title ?? ''
         };
@@ -43,14 +38,19 @@ export async function getSortedBlogPosts() {
     });
 }
 
-export function getPostData(id: string) {
-  const fullPath = path.join(postsDir, `${id}.md`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+export async function getPostData(id: string) {
+    const fullPath = path.join(postsDir, `${id}.md`);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
  
-  const matterResult = matter(fileContents);
+    const matterResult = matter(fileContents);
+    const processedHTML = await remark()
+        .use(html)
+        .process(matterResult.content);
+    const contentHTML = processedHTML.toString();
  
-  return {
-    id,
-    ...matterResult.data,
-  };
+    return {
+        id,
+        contentHTML,
+        ...matterResult.data,
+    };
 }
