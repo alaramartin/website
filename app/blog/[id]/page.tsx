@@ -23,7 +23,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     return (
         <>
-            <p>post: {id}</p>
             <BlogText blogID={id} />
             <HomeButton />
             <Footer />

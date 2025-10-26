@@ -81,6 +81,14 @@ export default function Home() {
                     ))}
                 </div>
             </div>
+            <div className={`text-center pt-16 px-15`}>
+                <Link
+                    className={`${italiana.className} font-bold text-2xl inline-flex items-center hover:bg-lightred/30 rounded-lg m-6 p-2 gap-1 underline transition-colors`}
+                    href="/blog"
+                >
+                    Check out my blog! <ArrowCircleRightIcon size={20} />{" "}
+                </Link>
+            </div>
             <Footer />
         </div>
     );
