@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-
 import "@/app/ui/globals.css";
+import Footer from "./components/Footer";
+import { ThemeProvider } from "next-themes";
+import DarkModeToggle from "./components/DarkModeToggle";
 
 export const metadata: Metadata = {
     title: {
@@ -17,9 +19,16 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body>
-                {children}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                >
+                    {children}
+                    <Footer />
+                </ThemeProvider>
                 <Analytics />
             </body>
         </html>

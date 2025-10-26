@@ -1,5 +1,4 @@
 import ContactLink from "./components/ContactLink";
-import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { italiana, lato } from "../ui/fonts";
 import {
@@ -9,6 +8,7 @@ import {
     GlobeIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { Metadata } from "next";
+import DarkModeToggle from "../components/DarkModeToggle";
 
 export const metadata: Metadata = {
     title: "Contact",
@@ -50,6 +50,7 @@ export default function ContactPage() {
     return (
         <>
             <NavBar />
+            <DarkModeToggle />
             <div className="h-screen relative">
                 <div
                     className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 select-none`}
@@ -66,7 +67,6 @@ export default function ContactPage() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }

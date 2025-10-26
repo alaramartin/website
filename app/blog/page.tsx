@@ -1,10 +1,10 @@
 import { italiana, lato } from "@/app/ui/fonts";
-import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { getSortedBlogPosts } from "@/lib/posts.ts";
 import { Metadata } from "next";
 import BlogListView from "./components/BlogListView";
 import { getPostData } from "@/lib/posts.ts";
+import DarkModeToggle from "../components/DarkModeToggle";
 
 export const metadata: Metadata = {
     title: "Blog",
@@ -33,7 +33,8 @@ export default async function BlogPage() {
     return (
         <>
             <NavBar />
-            <div className={`text-center pt-18 px-15`}>
+            <DarkModeToggle />
+            <div className={`text-center pt-18 px-15 dark:bg-darkburgundy`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
                 >
@@ -46,7 +47,6 @@ export default async function BlogPage() {
                 </p>
                 <BlogListView posts={posts} />
             </div>
-            <Footer />
         </>
     );
 }

@@ -1,8 +1,8 @@
 import BlogText from "./components/BlogText";
-import Footer from "@/app/components/Footer";
 import NavBar from "@/app/components/NavBar";
 import { notFound } from "next/navigation";
 import { getPostData } from "@/lib/posts";
+import DarkModeToggle from "@/app/components/DarkModeToggle";
 
 interface PageProps {
     params: { id: string };
@@ -24,8 +24,8 @@ export default async function BlogPostPage({ params }: PageProps) {
     return (
         <>
             <NavBar />
+            <DarkModeToggle />
             <BlogText blogID={id} />
-            <Footer />
         </>
     );
 }

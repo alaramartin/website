@@ -3,7 +3,7 @@ import NavBar from "./components/NavBar";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
-import Footer from "./components/Footer";
+import DarkModeToggle from "./components/DarkModeToggle";
 import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
@@ -12,6 +12,7 @@ export default function Home() {
     return (
         <div className="change-bg">
             <NavBar />
+            <DarkModeToggle />
             <div
                 className={`h-screen ${italiana.className} antialiased relative select-none`}
             >
@@ -91,7 +92,6 @@ export default function Home() {
                     Check out my blog! <ArrowCircleRightIcon size={20} />{" "}
                 </Link>
             </div>
-            <Footer />
         </div>
     );
 }

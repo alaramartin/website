@@ -10,6 +10,16 @@
     --color-textbrown: #0c1844;
 }
 
+.dark {
+    --background: #a3002c;
+    --foreground: #fff8f6;
+    --secondary: #0c1844;
+    --color-darkburgundy: #fff8f6;
+    --color-pinkbeige: #a3002c;
+    --color-lightred: #0c1844;
+    --color-textbrown: #ed8c91;
+}
+
 @theme {
     --color-darkburgundy: #a3002c;
     --color-pinkbeige: #fff8f6;
