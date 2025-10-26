@@ -1,4 +1,5 @@
 import { italiana, lato } from "@/app/ui/fonts";
+import NavBar from "./components/NavBar";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
@@ -10,6 +11,7 @@ import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 export default function Home() {
     return (
         <div className="change-bg">
+            <NavBar />
             <div
                 className={`h-screen ${italiana.className} antialiased relative select-none`}
             >

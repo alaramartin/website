@@ -14,7 +14,7 @@ export default function SearchBar({
     return (
         <div className="text-center flex items-center justify-center gap-2">
             <input
-                type="search"
+                type="text"
                 id="searchbar"
                 maxLength={100}
                 placeholder={placeholderText}
@@ -30,6 +30,12 @@ export default function SearchBar({
             >
                 <MagnifyingGlassIcon size={18} weight="bold" />
             </label>
+            <button
+                onClick={() => setSearch("")}
+                className={`text-textbrown text-sm inline-flex cursor-pointer m-2 hover:underline rounded-xl`}
+            >
+                Clear Search
+            </button>
         </div>
     );
 }

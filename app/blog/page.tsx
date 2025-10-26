@@ -1,6 +1,7 @@
 import { italiana, lato } from "@/app/ui/fonts";
 import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
+import NavBar from "../components/NavBar";
 import { getSortedBlogPosts } from "@/lib/posts.ts";
 import { Metadata } from "next";
 import BlogListView from "./components/BlogListView";
@@ -32,7 +33,8 @@ export default async function BlogPage() {
 
     return (
         <>
-            <div className={`text-center pt-10 px-15`}>
+            <NavBar />
+            <div className={`text-center pt-18 px-15`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
                 >

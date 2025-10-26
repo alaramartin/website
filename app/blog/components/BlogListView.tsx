@@ -43,6 +43,13 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                 setSearch={setSearch}
             />
             <div className={`text-left px-30 pt-10 flex flex-col`}>
+                {visibleBlogPosts.length === 0 && (
+                    <div className="col-span-4 flex items-center justify-center py-10">
+                        <p className="text-center italic opacity-65">
+                            No posts found :&#40;
+                        </p>
+                    </div>
+                )}
                 {visibleBlogPosts.map(({ id, date, title }) => (
                     <Link
                         key={id}

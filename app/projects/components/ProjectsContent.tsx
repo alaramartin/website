@@ -49,6 +49,13 @@ function ProjectsContent({ initialSkillFilter }: ProjectsContentProps) {
                 initialSkillFilter={initialSkillFilter}
             />
             <div className="grid grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8 px-15">
+                {visibleProjects.length === 0 && (
+                    <div className="col-span-4 flex items-center justify-center py-10">
+                        <p className="text-center italic opacity-65">
+                            No projects found :&#40;
+                        </p>
+                    </div>
+                )}
                 {visibleProjects.map((project, index) => {
                     let gridColumn = "";
                     const totalItems = visibleProjects.length;

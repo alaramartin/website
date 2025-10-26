@@ -1,6 +1,7 @@
 import HomeButton from "../components/HomeButton";
 import ContactLink from "./components/ContactLink";
 import Footer from "../components/Footer";
+import NavBar from "../components/NavBar";
 import { italiana, lato } from "../ui/fonts";
 import {
     EnvelopeIcon,
@@ -49,6 +50,7 @@ const contactLinks: {
 export default function ContactPage() {
     return (
         <>
+            <NavBar />
             <div className="h-screen relative">
                 <div
                     className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 select-none`}

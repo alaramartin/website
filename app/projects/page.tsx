@@ -2,6 +2,7 @@ import { italiana } from "@/app/ui/fonts";
 import ProjectsContent from "./components/ProjectsContent";
 import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
+import NavBar from "../components/NavBar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,7 +19,8 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
 
     return (
         <>
-            <div className={`text-center pt-10 px-15`}>
+            <NavBar />
+            <div className={`text-center pt-16 px-15`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
                 >
