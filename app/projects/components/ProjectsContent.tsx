@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { projects } from "@/app/data/info";
 import Project from "./Project";
 import Filter from "./Filter";
@@ -10,37 +10,30 @@ interface ProjectsContentProps {
 }
 
 function ProjectsContent({ initialSkillFilter }: ProjectsContentProps) {
-    // keep track of which projects to show/which are unfiltered using state
-    const [visibleProjects, setVisibleProjects] = useState(projects);
     // keep track of filtered projects
-    const [filteredProjects, setFilteredProjects] = useState(projects);
-    useEffect(() => {
+    const [filteredProjects, setFilteredProjects] = useState(() => {
         if (initialSkillFilter) {
-            const filtered = projects.filter((project) => {
-                return project.tags.includes(initialSkillFilter);
-            });
-            setVisibleProjects(filtered);
-            setFilteredProjects(filtered);
+            return projects.filter((project) =>
+                project.tags.includes(initialSkillFilter)
+            );
         }
-    }, []);
+        return projects;
+    });
 
     // keep track of which projects to show when searched -- FILTER TAKES PRECEDENCE, search shows only those that match the filter as well
     const [search, setSearch] = useState("");
-    useEffect(() => {
-        if (search) {
-            const filtered = filteredProjects.filter((project) => {
-                return (
-                    project.name.toLowerCase().includes(search.toLowerCase()) ||
-                    project.description
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
-                );
-            });
-            setVisibleProjects(filtered);
+
+    const visibleProjects = useMemo(() => {
+        const searchQ = search.toLowerCase();
+        if (!searchQ) {
+            return filteredProjects;
         }
-        if (search === "") {
-            setVisibleProjects(filteredProjects);
-        }
+        return filteredProjects.filter((project) => {
+            return (
+                project.name.toLowerCase().includes(searchQ) ||
+                project.description.toLowerCase().includes(searchQ)
+            );
+        });
     }, [search, filteredProjects]);
 
     return (
