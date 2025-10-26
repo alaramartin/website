@@ -4,8 +4,6 @@ import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
 import { Metadata } from "next";
 
-// todo: add a searchbar - searches through project titles and descriptions for matches
-
 export const metadata: Metadata = {
     title: "Projects",
 };

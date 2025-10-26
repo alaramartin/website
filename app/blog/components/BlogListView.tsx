@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import SearchBar from "./SearchBar";
+import SearchBar from "../../components/SearchBar";
 import { useState, useEffect } from "react";
 
 interface Post {
@@ -21,12 +21,6 @@ export default function BlogListView({ posts }: BlogListViewProps) {
     useEffect(() => {
         if (search) {
             const filteredBlogPosts = posts.filter((post) => {
-                console.log(
-                    post.title.toLowerCase().includes(search.toLowerCase()),
-                    post.contentHTML
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
-                );
                 return (
                     post.title.toLowerCase().includes(search.toLowerCase()) ||
                     post.contentHTML
@@ -34,7 +28,6 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                         .includes(search.toLowerCase())
                 );
             });
-            console.log(filteredBlogPosts.length);
             setVisibleBlogPosts(filteredBlogPosts);
         }
         if (search === "") {
@@ -44,7 +37,11 @@ export default function BlogListView({ posts }: BlogListViewProps) {
 
     return (
         <>
-            <SearchBar search={search} setSearch={setSearch} />
+            <SearchBar
+                placeholderText="Search by post title and/or content"
+                search={search}
+                setSearch={setSearch}
+            />
             <div className={`text-left px-30 pt-10 flex flex-col`}>
                 {visibleBlogPosts.map(({ id, date, title }) => (
                     <Link

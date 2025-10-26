@@ -1,21 +1,27 @@
 import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
 
 interface SearchProps {
+    placeholderText: string;
     search: string;
     setSearch: (search: string) => void;
 }
 
-export default function SearchBar({ search, setSearch }: SearchProps) {
+export default function SearchBar({
+    placeholderText,
+    search,
+    setSearch,
+}: SearchProps) {
     return (
         <div className="text-center flex items-center justify-center gap-2">
             <input
                 type="search"
                 id="searchbar"
                 maxLength={100}
-                placeholder="Search for blog post title or content"
+                placeholder={placeholderText}
                 className="text-textbrown border-2 border-lightred/50 focus:border-darkburgundy focus:outline-none p-1 rounded-xl transition-all duration-50 w-xl text-center"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                autoComplete="off"
             />
             <label
                 htmlFor="searchbar"
