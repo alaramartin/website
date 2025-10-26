@@ -13,7 +13,7 @@ export default function SearchBar({ search, setSearch }: SearchProps) {
                 id="searchbar"
                 maxLength={100}
                 placeholder="Search for blog post title or content"
-                className="text-textbrown border-2 border-lightred/50 focus:border-darkburgundy focus:outline-none p-1 rounded-xl transition-all duration-50"
+                className="text-textbrown border-2 border-lightred/50 focus:border-darkburgundy focus:outline-none p-1 rounded-xl transition-all duration-50 w-xl text-center"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
