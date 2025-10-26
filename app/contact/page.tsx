@@ -1,4 +1,3 @@
-import HomeButton from "../components/HomeButton";
 import ContactLink from "./components/ContactLink";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
@@ -67,7 +66,6 @@ export default function ContactPage() {
                     </div>
                 </div>
             </div>
-            <HomeButton />
             <Footer />
         </>
     );

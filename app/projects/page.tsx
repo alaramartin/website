@@ -1,7 +1,6 @@
 import { italiana } from "@/app/ui/fonts";
 import ProjectsContent from "./components/ProjectsContent";
 import Footer from "../components/Footer";
-import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavBar";
 import { Metadata } from "next";
 
@@ -28,7 +27,6 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
                 </p>
                 <ProjectsContent initialSkillFilter={skillFilter} />
             </div>
-            <HomeButton />
             <Footer />
         </>
     );

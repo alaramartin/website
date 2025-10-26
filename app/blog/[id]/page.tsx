@@ -1,6 +1,6 @@
 import BlogText from "./components/BlogText";
-import HomeButton from "@/app/components/HomeButton";
 import Footer from "@/app/components/Footer";
+import NavBar from "@/app/components/NavBar";
 import { notFound } from "next/navigation";
 import { getPostData } from "@/lib/posts";
 
@@ -23,8 +23,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     return (
         <>
+            <NavBar />
             <BlogText blogID={id} />
-            <HomeButton />
             <Footer />
         </>
     );

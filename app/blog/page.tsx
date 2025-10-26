@@ -1,6 +1,5 @@
 import { italiana, lato } from "@/app/ui/fonts";
 import Footer from "../components/Footer";
-import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavBar";
 import { getSortedBlogPosts } from "@/lib/posts.ts";
 import { Metadata } from "next";
@@ -47,7 +46,6 @@ export default async function BlogPage() {
                 </p>
                 <BlogListView posts={posts} />
             </div>
-            <HomeButton />
             <Footer />
         </>
     );
