@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import HomeButton from "../components/HomeButton";
 import { getSortedBlogPosts } from "@/lib/posts.ts";
 import { Metadata } from "next";
-import Link from "next/link";
+import BlogListView from "./components/BlogListView";
 
 export const metadata: Metadata = {
     title: "Blog",
@@ -28,20 +28,7 @@ export default async function BlogPage() {
                 >
                     my thoughts :&#41;
                 </p>
-            </div>
-            <div className={`text-left px-30 pt-10 flex flex-col`}>
-                {posts.map(({ id, date, title }) => (
-                    <Link
-                        key={id}
-                        href={`/blog/${id}`}
-                        className="inline-block h-fit p-4 transition-all duration-100 group"
-                    >
-                        <p className="group-hover:underline text-lg pb-1">
-                            {title}
-                        </p>
-                        <p className="text-sm font-light">{date}</p>
-                    </Link>
-                ))}
+                <BlogListView posts={posts} />
             </div>
             <HomeButton />
             <Footer />
