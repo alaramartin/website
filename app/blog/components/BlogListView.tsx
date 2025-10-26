@@ -3,8 +3,15 @@ import Link from "next/link";
 import SearchBar from "./SearchBar";
 import { useState, useEffect } from "react";
 
+interface Post {
+    id: string;
+    date: string;
+    title: string;
+    contentHTML: string;
+}
+
 interface BlogListViewProps {
-    posts: { id: string; date: string; title: string }[];
+    posts: Post[];
 }
 
 export default function BlogListView({ posts }: BlogListViewProps) {
@@ -15,9 +22,17 @@ export default function BlogListView({ posts }: BlogListViewProps) {
         if (search) {
             const filteredBlogPosts = posts.filter((post) => {
                 console.log(
-                    post.title.toLowerCase().includes(search.toLowerCase())
+                    post.title.toLowerCase().includes(search.toLowerCase()),
+                    post.contentHTML
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
                 );
-                return post.title.toLowerCase().includes(search.toLowerCase());
+                return (
+                    post.title.toLowerCase().includes(search.toLowerCase()) ||
+                    post.contentHTML
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
+                );
             });
             console.log(filteredBlogPosts.length);
             setVisibleBlogPosts(filteredBlogPosts);
