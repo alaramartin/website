@@ -72,7 +72,7 @@ export default function Home() {
                 <p className={`${lato.className} cursor-default pb-4`}>
                     Click on a skill to see related projects on projects page
                 </p>
-                <div className="grid grid-cols-6 text-textbrown mx-5 place-items-center">
+                <div className="grid grid-cols-5 text-textbrown mx-5 place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
                         <Link
                             key={skillKey}

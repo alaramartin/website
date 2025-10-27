@@ -8,6 +8,8 @@ import {
     ArrowSquareInIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import BugCatcherGame from "./components/BugCatcherGame";
+import DarkModeToggle from "./components/DarkModeToggle";
+import NavBar from "./components/NavBar";
 
 export const metadata: Metadata = {
     title: "404 Not Found",
@@ -19,6 +21,8 @@ const NotFound = () => {
         <main
             className={`${lato.className} min-h-screen flex flex-col items-center justify-center gap-8 select-none`}
         >
+            <NavBar />
+            <DarkModeToggle />
             <div className="text-center">
                 <h1 className={`${italiana.className} font-extrabold text-9xl`}>
                     404

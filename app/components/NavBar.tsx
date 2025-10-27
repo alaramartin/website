@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
     HouseIcon,
     AddressBookIcon,
@@ -14,9 +16,11 @@ const navLinks = [
 ];
 
 export default function NavBar() {
+    const pathname = usePathname() || "/";
+
     return (
         <div className="fixed top-0 left-0 w-full px-8 pt-4 pb-2 z-50 bg-inherit">
-            <div className="mx-auto flex items-center justify-start space-x-26">
+            <div className="mx-auto flex items-center justify-start space-x-30">
                 {navLinks.map((navLink) => {
                     const Icon = navLink.icon;
                     return (
@@ -29,7 +33,14 @@ export default function NavBar() {
                                 className="peer inline-flex items-center p-2 rounded-md"
                                 aria-label={navLink.title}
                             >
-                                <Icon size={24} />
+                                <Icon
+                                    size={24}
+                                    weight={
+                                        pathname === navLink.link
+                                            ? "fill"
+                                            : "regular"
+                                    }
+                                />
                             </Link>
                             <p
                                 className="absolute left-full ml-2 top-1/2 -translate-y-1/2
