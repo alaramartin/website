@@ -1,8 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-/* todo: game for 404 page
-
-    game idea: catch the falling bugs
+/*  game for 404 page: catch the falling bugs
     use arrows to move left or right while bugs fall from the sky randomly
     if caught, then get a point.
     if not caught, then lose
@@ -42,7 +40,7 @@ export default function BugCatcherGame() {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") {
                 // stop them from moving beyond the edge of the area
-                setPlayerX((x) => Math.max(x - 5, 0));
+                setPlayerX((x) => Math.max(x - 5, 5));
             }
             if (e.key === "ArrowRight") {
                 // stop them from moving beyond the edge of the area
@@ -59,13 +57,16 @@ export default function BugCatcherGame() {
 
         const spawn = setInterval(() => {
             const newSpawnedBug: Bug = {
-                id: crypto.randomUUID(), // unique id
+                id:
+                    typeof crypto !== "undefined" && (crypto as any).randomUUID
+                        ? (crypto as any).randomUUID()
+                        : Math.random().toString(36).slice(2, 9), // unique id with fallback
                 x: Math.random() * 90,
                 y: 0,
                 type: Math.random() < 0.85 ? "warning" : "fatal",
             };
             setBugs((bugs) => [...bugs, newSpawnedBug]);
-        }, 3000);
+        }, 1200 + Math.random() * 800);
 
         // cleanup
         return () => clearInterval(spawn);
@@ -78,36 +79,58 @@ export default function BugCatcherGame() {
         const fallingInterval = setInterval(() => {
             setBugs((bugs) => {
                 const remaining: Bug[] = [];
+                let scoreIncrement = 0;
+                let warningsIncrement = 0;
+                let lost = false;
 
                 for (const bug of bugs) {
-                    // make it move dwn
-                    const newY = bug.y + 5;
-                    // check if reached the bottom and the player missed it
-                    if (newY > 100) {
-                        if (bug.type === "fatal") {
-                            setGameOver(true);
-                        } else {
-                            setNumWarnings((warnings) => {
-                                const newWarnings = warnings + 1;
-                                // game over if missed 3 or more warnings
-                                if (newWarnings >= 3) {
-                                    setGameOver(true);
-                                }
-                                return newWarnings;
-                            });
-                        }
-                    }
                     // check if player caught it
-                    if (newY >= 86 && Math.abs(bug.x - playerX) < 10) {
-                        setScore((currentScore) => currentScore + 1);
+                    if (
+                        bug.y >= 86 &&
+                        Math.abs(bug.x - playerXRef.current) < 10
+                    ) {
+                        scoreIncrement += 1;
                         continue;
                     }
+
+                    // check if reached the bottom and the player missed it
+                    if (bug.y > 100) {
+                        if (bug.type === "fatal") {
+                            lost = true;
+                        } else {
+                            warningsIncrement = 1;
+                        }
+                        continue;
+                    }
+
+                    // make it move dwn
+                    const newY = bug.y + 5;
+
+                    // a bug is remining if it didn't hit the ground or the player
                     remaining.push({ ...bug, y: newY });
+                }
+
+                if (warningsIncrement > 0) {
+                    setNumWarnings((warnings) => {
+                        const newWarnings = warnings + warningsIncrement;
+                        if (newWarnings >= 3) {
+                            setGameOver(true);
+                        }
+                        return newWarnings;
+                    });
+                }
+
+                if (lost) {
+                    setGameOver(true);
+                }
+
+                if (scoreIncrement > 0) {
+                    setScore((currentScore) => currentScore + scoreIncrement);
                 }
 
                 return remaining;
             });
-        }, 350);
+        }, 300);
 
         // cleanup
         return () => clearInterval(fallingInterval);
@@ -117,10 +140,10 @@ export default function BugCatcherGame() {
         <>
             <div className="flex flex-col items-center justify-center">
                 <div
-                    className="relative border-2 border-lightred-80 rounded-lg"
+                    className="relative border-2 border-lightred-80 rounded-lg bg-white"
                     style={{
-                        width: "200px",
-                        height: "300px",
+                        width: "400px",
+                        height: "500px",
                         overflow: "hidden",
                     }}
                 >
@@ -135,9 +158,13 @@ export default function BugCatcherGame() {
                             }}
                         >
                             {bug.type === "fatal" ? (
-                                <BugBeetleIcon color="red" />
+                                <BugBeetleIcon
+                                    color="red"
+                                    size={26}
+                                    weight="fill"
+                                />
                             ) : (
-                                <BugIcon color="gold" />
+                                <BugIcon color="gold" size={26} weight="fill" />
                             )}
                         </div>
                     ))}
@@ -149,7 +176,7 @@ export default function BugCatcherGame() {
                             transform: "translateX(-50%)",
                         }}
                     >
-                        <PersonSimpleIcon />
+                        <PersonSimpleIcon size={30} />
                     </div>
                 </div>
 
@@ -168,7 +195,7 @@ export default function BugCatcherGame() {
                             setBugs([]);
                         }}
                     >
-                        <ArrowClockwiseIcon /> Restart?
+                        <ArrowClockwiseIcon /> Play
                     </div>
                 )}
             </div>
