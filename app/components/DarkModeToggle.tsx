@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { StarAndCrescentIcon } from "@phosphor-icons/react/dist/ssr";
 
 export default function DarkModeToggle() {
-    const { theme, systemTheme, setTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const [mount, setMount] = useState(false);
-    const currentTheme = theme === "system" ? systemTheme : theme;
+    const currentTheme = theme === "system" ? "light" : theme; // default to light mode bc light mode is dark on homepage and looks nicer
 
     // set mount once mounted, don't render until mounted
     useEffect(() => {
