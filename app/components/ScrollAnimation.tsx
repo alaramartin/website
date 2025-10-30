@@ -11,18 +11,48 @@ function lerp(a: number, b: number, t: number) {
     return Math.round(a + (b - a) * t);
 }
 
-export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
-    const { theme } = useTheme();
+// get the rgb or hex value of a color
+function parseColorString(s: string) {
+    const str = (s || "").trim();
+    // hex #rrggbb (with or without leading #)
+    const hexMatch = str.match(/^#?([0-9a-fA-F]{6})$/);
+    if (hexMatch) {
+        const hex = hexMatch[1];
+        return {
+            r: parseInt(hex.slice(0, 2), 16),
+            g: parseInt(hex.slice(2, 4), 16),
+            b: parseInt(hex.slice(4, 6), 16),
+        };
+    }
+    // rgb(...) or rgba(...)
+    const rgbMatch = str.match(
+        /rgba?\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})/i
+    );
+    if (rgbMatch) {
+        return {
+            r: Number(rgbMatch[1]),
+            g: Number(rgbMatch[2]),
+            b: Number(rgbMatch[3]),
+        };
+    }
+    // fallback
+    return { r: 255, g: 255, b: 255 };
+}
 
+export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
     useEffect(() => {
-        const START_BG_COLOR =
-            theme === "light"
-                ? { r: 163, g: 0, b: 44 }
-                : { r: 255, g: 248, b: 246 };
-        const END_BG_COLOR =
-            theme === "light"
-                ? { r: 255, g: 248, b: 246 }
-                : { r: 163, g: 0, b: 44 };
+        const root = document.documentElement;
+
+        const readThemeColors = () => {
+            const cs = getComputedStyle(root);
+            const darkToken =
+                cs.getPropertyValue("--color-darkburgundy") || "#a3002c";
+            const pinkToken =
+                cs.getPropertyValue("--color-pinkbeige") || "#fff8f6";
+            const start = parseColorString(darkToken);
+            const end = parseColorString(pinkToken);
+            return { start, end };
+        };
 
         // to stop multiple animation useeffects to run at the same time
         let ticking = false;
@@ -30,6 +60,8 @@ export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
 
         const updateRGBVars = (tValue: number) => {
             const c = Math.max(0, Math.min(1, tValue));
+            const { start: START_BG_COLOR, end: END_BG_COLOR } =
+                readThemeColors();
 
             // lerping stuff to find new rgb values
             //      background
@@ -75,7 +107,7 @@ export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onResize);
         };
-    }, [rangeVH, theme]);
+    }, [rangeVH]);
 
     return null;
 }
