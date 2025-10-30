@@ -103,6 +103,24 @@ export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
 
         onResize();
 
+        // fixes the bug where it doesn't toggle the theme on homepage
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                if (
+                    mutation.type === "attributes" &&
+                    (mutation as MutationRecord).attributeName === "class"
+                ) {
+                    const t = window.scrollY / maxScroll;
+                    updateRGBVars(t);
+                    break;
+                }
+            }
+        });
+        observer.observe(root, {
+            attributes: true,
+            attributeFilter: ["class"],
+        });
+
         return () => {
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onResize);

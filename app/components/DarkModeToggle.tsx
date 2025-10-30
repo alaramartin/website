@@ -4,9 +4,8 @@ import { useState, useEffect } from "react";
 import { StarAndCrescentIcon } from "@phosphor-icons/react/dist/ssr";
 
 export default function DarkModeToggle() {
-    const { theme, setTheme } = useTheme();
+    const { resolvedTheme, setTheme } = useTheme();
     const [mount, setMount] = useState(false);
-    const currentTheme = theme === "system" ? "light" : theme; // default to light mode bc light mode is dark on homepage and looks nicer
 
     // set mount once mounted, don't render until mounted
     useEffect(() => {
@@ -17,18 +16,19 @@ export default function DarkModeToggle() {
         return null;
     }
 
+    const isDark = resolvedTheme === "dark";
+
     return (
         <>
             <button
+                type="button"
                 aria-label="toggle dark mode"
-                onClick={() =>
-                    setTheme(currentTheme === "dark" ? "light" : "dark")
-                }
-                className="fixed m-4 top-0 right-0 cursor-pointer z-10000000"
+                onClick={() => setTheme(isDark ? "light" : "dark")}
+                className="fixed m-4 top-0 right-0 cursor-pointer z-100000"
             >
                 <StarAndCrescentIcon
                     size={26}
-                    weight={currentTheme === "dark" ? "fill" : "regular"}
+                    weight={isDark ? "fill" : "regular"}
                 />
             </button>
         </>
