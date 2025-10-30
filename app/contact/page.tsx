@@ -51,20 +51,16 @@ export default function ContactPage() {
         <>
             <NavBar />
             <DarkModeToggle />
-            <div className="h-screen relative">
-                <div
-                    className={`${italiana.className} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 select-none`}
-                >
-                    <p className="flex justify-self-center text-2xl font-bold">
-                        CONTACT ME
-                    </p>
-                    <div className={`inline-flex ${lato.className}`}>
-                        {contactLinks.map((contactLink) => (
-                            <div key={contactLink.contactType}>
-                                <ContactLink contact={contactLink} />
-                            </div>
-                        ))}
-                    </div>
+            <div className="h-screen flex flex-col items-center justify-center select-none">
+                <p className={`${italiana.className} text-2xl font-bold`}>
+                    CONTACT ME
+                </p>
+                <div className={`inline-flex ${lato.className}`}>
+                    {contactLinks.map((contactLink) => (
+                        <div key={contactLink.contactType}>
+                            <ContactLink contact={contactLink} />
+                        </div>
+                    ))}
                 </div>
             </div>
         </>

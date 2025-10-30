@@ -90,35 +90,32 @@ const Filter = ({
             {Object.entries(skills).map(([skillKey, skill]) => {
                 const isChecked = checkedFilters[skill.skillName];
                 return (
-                    <div
+                    <label
                         key={skillKey}
                         id={skillKey}
-                        className={`inline-flex border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 ${
+                        className={`inline-flex border border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 cursor-pointer ${
                             isChecked
                                 ? "bg-lightred/40"
                                 : "hover:bg-lightred/20"
                         }`}
                     >
                         <input
-                            className="absolute top-0 right-0 left-0 bottom-0 cursor-pointer opacity-0"
                             type="checkbox"
                             name={skill.skillName}
                             checked={isChecked}
                             onChange={() => handleFilterToggle(skillKey)}
+                            className="absolute opacity-0 pointer-events-none"
                         />
-                        <label
-                            htmlFor={skill.skillName}
-                            className="inline-flex items-center gap-2"
-                        >
+                        <div className="inline-flex items-center gap-2 w-full">
                             <skill.icon /> {skill.skillName}
-                        </label>
-                    </div>
+                        </div>
+                    </label>
                 );
             })}
             {!areAllUnselected(checkedFilters) && (
                 <button
                     className={
-                        "inline-flex items-center gap-2 border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 bg-lightred/20 hover:bg-lightred/40 active:bg-lightred/50 cursor-pointer"
+                        "inline-flex items-center gap-2 border border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 bg-lightred/20 hover:bg-lightred/40 active:bg-lightred/50 cursor-pointer"
                     }
                     onClick={resetFilters}
                 >
