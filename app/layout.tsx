@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "@/app/ui/globals.css";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "next-themes";
-import DarkModeToggle from "./components/DarkModeToggle";
+import ScrollAnimation from "./components/ScrollAnimation";
 
 export const metadata: Metadata = {
     title: {
@@ -26,6 +26,7 @@ export default function RootLayout({
                     defaultTheme="system"
                     enableSystem
                 >
+                    <ScrollAnimation />
                     {children}
                     <Footer />
                 </ThemeProvider>

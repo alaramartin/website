@@ -18,7 +18,7 @@ const ContactLink = ({ contact }: ContactLinkProps) => {
                 <IconComponent size={18} />
                 <p>{contact.contactType}</p>
             </div>
-            <hr className="border-lightred border-r-1 h-10 m-3 opacity-80" />
+            <hr className="border-lightred border-r h-10 m-3 opacity-80" />
             <Link href={contact.href} className={`underline`} target="_blank">
                 {contact.username ? contact.username : contact.href}
             </Link>

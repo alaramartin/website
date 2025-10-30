@@ -42,33 +42,36 @@ const MiniProject = ({
 
     return (
         <div
-            className={`${lato.className} antialiased border-1 border-lightred bg-pinkbeige rounded-2xl p-4 shadow-xl/10 shadow-lightred relative h-full place-content-center`}
+            className={`${lato.className} antialiased border border-lightred bg-pinkbeige rounded-2xl p-4 shadow-xl/10 shadow-lightred relative h-full place-content-center`}
         >
             <p className="text-xl font-extrabold py-2">{name}</p>
-            <Link
-                href={githubLink}
-                target="_blank"
-                className="inline-block absolute top-3 right-3 border-1 border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
-            >
-                <GithubLogoIcon size={20} />
-            </Link>
-            <p>{description}</p>
-            {href && (
+            <div className="absolute top-3 right-3 space-x-2">
                 <Link
-                    href={href}
+                    href={githubLink}
                     target="_blank"
-                    className="inline-flex items-center hover:bg-lightred/30 rounded-lg mt-1.5 p-2 gap-1 underline transition-colors"
+                    aria-label="View the source code on GitHub!"
+                    className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
                 >
-                    Check it out! <ArrowSquareOutIcon />
+                    <GithubLogoIcon size={20} />
                 </Link>
-            )}
+                {href && (
+                    <Link
+                        href={href}
+                        target="_blank"
+                        aria-label="Check it out!"
+                        className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                    >
+                        <ArrowSquareOutIcon size={20} />
+                    </Link>
+                )}
+            </div>
+
+            <p>{description}</p>
+
             {tags && (
                 <div className="mt-2">
                     {tags.map((tag, index) => {
                         // only show first three (most relevant) skill tags on homepage
-                        /* todo: make it have an expand button (down arrow) on the row under that you can click to see all relevant skills
-                        when expanded, switch the expand button to a collapse button (up arrow) to re-collapse to 3 elements
-                        */
                         if (index < 3) {
                             const skillData = skills[tag];
                             if (!skillData) return null;
@@ -78,7 +81,7 @@ const MiniProject = ({
                                 <button
                                     key={tag}
                                     onClick={(e) => handleSkillClick(e, tag)}
-                                    className="inline-flex items-center border-1 border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
+                                    className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
                                     title={`Skill: ${skillData.skillName}`}
                                 >
                                     <IconComponent

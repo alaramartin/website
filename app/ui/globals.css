@@ -8,6 +8,15 @@
     --color-pinkbeige: #fff8f6;
     --color-lightred: #ed8c91;
     --color-textbrown: #0c1844;
+
+    /* rgb values of the background andn foreground for the scroll animation */
+    --bg-r: 163;
+    --bg-g: 0;
+    --bg-b: 44;
+
+    --fg-r: 255;
+    --fg-g: 248;
+    --fg-b: 246;
 }
 
 .dark {
@@ -18,6 +27,15 @@
     --color-pinkbeige: #a3002c;
     --color-lightred: #ed8c91;
     --color-textbrown: #fff8f6;
+
+    /* rgb values of the background andn foreground for the scroll animation */
+    --fg-r: 163;
+    --fg-g: 0;
+    --fg-b: 44;
+
+    --bg-r: 255;
+    --bg-g: 248;
+    --bg-b: 246;
 }
 
 @theme {
@@ -45,7 +63,7 @@ html {
     animation: shadow-pulse 1.5s ease-in-out 1;
 }
 
-@keyframes change-bg {
+/* @keyframes change-bg {
     from {
         background-color: var(--color-darkburgundy);
         color: var(--color-pinkbeige);
@@ -54,12 +72,27 @@ html {
         background-color: var(--color-pinkbeige);
         color: var(--color-darkburgundy);
     }
-}
+} */
 
-.change-bg {
+/* .change-bg {
+    background-color: var(--color-darkburgundy);
+    color: var(--color-pinkbeige);
+    /* transition: background-color 600ms ease, color 600ms ease; */
+
+/* removing to test cross-platform-compatible versin of this animation
     animation: change-bg ease-in forwards;
     animation-timeline: scroll();
-    animation-range: 0vh 75vh;
+    animation-range: 0vh 75vh; */
+/* } */
+
+/* body.scroll-change .change-bg {
+    background-color: var(--color-pinkbeige);
+    color: var(--color-darkburgundy);
+} */
+
+.change-bg {
+    background-color: rgb(var(--bg-r), var(--bg-g), var(--bg-b));
+    color: rgb(var(--fg-r), var(--fg-g), var(--fg-b));
 }
 
 @keyframes arrow-bounce {
