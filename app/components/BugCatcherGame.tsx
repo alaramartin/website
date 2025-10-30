@@ -227,7 +227,7 @@ export default function BugCatcherGame() {
                                 }}
                             >
                                 {firstGame ? (
-                                    <p>Play Game</p>
+                                    <p>Play</p>
                                 ) : (
                                     <div>
                                         <p className="inline-flex items-center gap-2">
@@ -239,9 +239,9 @@ export default function BugCatcherGame() {
                             <div>
                                 {firstGame && (
                                     <p className="text-center m-4 text-[#a3002b]">
-                                        Catch the bugs!! If you miss three
-                                        warnings (yellow) or one fatal error
-                                        (red), it's game over.
+                                        Catch the bugs! If you miss three
+                                        warnings &#40;yellow&#41; or one fatal
+                                        error &#40;red&#41;, it's game over.
                                     </p>
                                 )}
                             </div>

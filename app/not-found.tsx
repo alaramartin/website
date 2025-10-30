@@ -53,8 +53,12 @@ const NotFound = () => {
                     </Link>
                 </div>
                 <div className="mt-4 bottom-0 absolute">
-                    <p className="text-center mb-2 inline-flex items-center gap-1">
-                        or... play a game! <ArrowFatLineDownIcon size={26} />
+                    <p className="text-center mb-6 inline-flex items-center gap-1">
+                        or... play a game!{" "}
+                        <ArrowFatLineDownIcon
+                            size={26}
+                            className="arrow-bounce"
+                        />
                     </p>
                 </div>
             </main>
