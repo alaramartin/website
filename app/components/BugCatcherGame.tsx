@@ -29,13 +29,17 @@ export default function BugCatcherGame() {
         playerXRef.current = playerX;
     }, [playerX]);
 
+    const [firstGame, setFirstGame] = useState(true); // keep track of if it's the first game
     const [score, setScore] = useState(0);
     // if the user hits 3 warnings, it's game over
     const [numWarnings, setNumWarnings] = useState(0);
     const [gameOver, setGameOver] = useState(true);
     const [bugs, setBugs] = useState<Bug[]>([]);
+    const fallingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    // make sure bugs aren't processedm multiple times
+    const processedBugsRef = useRef<Set<string>>(new Set());
 
-    // add listneer for the arrow keys to move the user
+    // add listener for the arrow keys to move the user
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") {
@@ -63,7 +67,7 @@ export default function BugCatcherGame() {
                         : Math.random().toString(36).slice(2, 9), // unique id with fallback
                 x: Math.random() * 90,
                 y: 0,
-                type: Math.random() < 0.85 ? "warning" : "fatal",
+                type: Math.random() < 0.8 ? "warning" : "fatal",
             };
             setBugs((bugs) => [...bugs, newSpawnedBug]);
         }, 1200 + Math.random() * 800);
@@ -74,9 +78,18 @@ export default function BugCatcherGame() {
 
     // bugs falling and collision detection
     useEffect(() => {
-        if (gameOver) return;
+        if (gameOver) {
+            if (fallingIntervalRef.current) {
+                clearInterval(fallingIntervalRef.current);
+                fallingIntervalRef.current = null;
+            }
+            return;
+        }
 
-        const fallingInterval = setInterval(() => {
+        // stop duplicates
+        if (fallingIntervalRef.current) return;
+
+        fallingIntervalRef.current = setInterval(() => {
             setBugs((bugs) => {
                 const remaining: Bug[] = [];
                 let scoreIncrement = 0;
@@ -84,12 +97,19 @@ export default function BugCatcherGame() {
                 let lost = false;
 
                 for (const bug of bugs) {
+                    // check if already processed
+                    if (processedBugsRef.current.has(bug.id)) {
+                        continue;
+                    }
+
                     // check if player caught it
                     if (
                         bug.y >= 86 &&
-                        Math.abs(bug.x - playerXRef.current) < 10
+                        bug.y <= 94 &&
+                        Math.abs(bug.x - playerXRef.current) < 7
                     ) {
                         scoreIncrement += 1;
+                        processedBugsRef.current.add(bug.id);
                         continue;
                     }
 
@@ -97,16 +117,18 @@ export default function BugCatcherGame() {
                     if (bug.y > 100) {
                         if (bug.type === "fatal") {
                             lost = true;
+                            processedBugsRef.current.add(bug.id);
                         } else {
                             warningsIncrement = 1;
+                            processedBugsRef.current.add(bug.id);
                         }
                         continue;
                     }
 
-                    // make it move dwn
+                    // make it move down
                     const newY = bug.y + 5;
 
-                    // a bug is remining if it didn't hit the ground or the player
+                    // a bug is remaining if it didn't hit the ground or the player
                     remaining.push({ ...bug, y: newY });
                 }
 
@@ -133,11 +155,16 @@ export default function BugCatcherGame() {
         }, 300);
 
         // cleanup
-        return () => clearInterval(fallingInterval);
+        return () => {
+            if (fallingIntervalRef.current) {
+                clearInterval(fallingIntervalRef.current);
+                fallingIntervalRef.current = null;
+            }
+        };
     }, [gameOver]);
 
     return (
-        <>
+        <div className="mt-10">
             <div className="flex flex-col items-center justify-center">
                 <div
                     className="relative border-2 border-lightred-80 rounded-lg bg-white"
@@ -176,29 +203,57 @@ export default function BugCatcherGame() {
                             transform: "translateX(-50%)",
                         }}
                     >
-                        <PersonSimpleIcon size={30} />
+                        <PersonSimpleIcon size={30} color="#a3002c" />
                     </div>
+
+                    {gameOver && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-[#a3002b]">
+                            <div>
+                                {!firstGame && (
+                                    <p className="mb-2">Game Over!</p>
+                                )}
+                            </div>
+
+                            <div
+                                className="inline-flex cursor-pointer items-center border-2 border-lightred rounded-xl p-3 gap-2 bg-lightred/10 hover:bg-lightred/20 transition-all duration-200"
+                                onClick={() => {
+                                    setFirstGame(false);
+                                    setGameOver(false);
+                                    setScore(0);
+                                    setNumWarnings(0);
+                                    setBugs([]);
+                                    // clear the handled set so the next game starts fresh
+                                    processedBugsRef.current.clear();
+                                }}
+                            >
+                                {firstGame ? (
+                                    <p>Play Game</p>
+                                ) : (
+                                    <div>
+                                        <p className="inline-flex items-center gap-2">
+                                            <ArrowClockwiseIcon /> Replay
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                            <div>
+                                {firstGame && (
+                                    <p className="text-center m-4 text-[#a3002b]">
+                                        Catch the bugs!! If you miss three
+                                        warnings (yellow) or one fatal error
+                                        (red), it's game over.
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-2 text-center">
                     <p>Score: {score}</p>
                     <p>Warnings: {numWarnings}</p>
                 </div>
-
-                {gameOver && (
-                    <div
-                        className="inline-flex cursor-pointer items-center border-2 border-lightred rounded-xl p-3 gap-2 hover:bg-lightred/20 transition-all duration-200"
-                        onClick={() => {
-                            setGameOver(false);
-                            setScore(0);
-                            setNumWarnings(0);
-                            setBugs([]);
-                        }}
-                    >
-                        <ArrowClockwiseIcon /> Play
-                    </div>
-                )}
             </div>
-        </>
+        </div>
     );
 }
