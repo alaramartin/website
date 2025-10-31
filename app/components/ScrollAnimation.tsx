@@ -1,6 +1,7 @@
+// note: now that i'm thinking critically, this entire file was probably completely unnecessary, but cross-platform compatibility is HARD
+
 "use client";
 import { useEffect } from "react";
-import { useTheme } from "next-themes";
 
 type ScrollProps = {
     rangeVH?: number; // the threshold for scrolling to activate the animation
