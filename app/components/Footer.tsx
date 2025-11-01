@@ -8,7 +8,7 @@ const Footer = () => {
             <LinksBar />
 
             <p className={`m-2 ${italiana.className} text-2xl`}>ALARA MARTIN</p>
-            <span className="inline-block m-2 py-3 px-4 border-t-1 border-lightred/80">
+            <span className="inline-block m-2 py-3 px-4 border-t border-lightred/80">
                 <Link
                     className="hover:underline transition-all"
                     href="/contact"

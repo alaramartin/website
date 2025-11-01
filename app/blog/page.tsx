@@ -34,7 +34,7 @@ export default async function BlogPage() {
         <>
             <NavBar />
             <DarkModeToggle />
-            <div className={`text-center pt-18 px-15 dark:bg-darkburgundy`}>
+            <div className={`text-center pt-18 px-15`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
                 >
