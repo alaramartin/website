@@ -1,14 +1,15 @@
 import { italiana, lato } from "@/app/ui/fonts";
 import NavBar from "../components/NavBar";
 import { getSortedBlogPosts } from "@/lib/posts.ts";
-import { Metadata } from "next";
 import BlogListView from "./components/BlogListView";
 import { getPostData } from "@/lib/posts.ts";
 import DarkModeToggle from "../components/DarkModeToggle";
+import generateMetadata from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = generateMetadata({
     title: "Blog",
-};
+    description: "My blog.",
+});
 
 export default async function BlogPage() {
     const allPostsData = await getSortedBlogPosts();

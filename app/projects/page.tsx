@@ -2,11 +2,12 @@ import { italiana } from "@/app/ui/fonts";
 import ProjectsContent from "./components/ProjectsContent";
 import DarkModeToggle from "../components/DarkModeToggle";
 import NavBar from "../components/NavBar";
-import { Metadata } from "next";
+import generateMetadata from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = generateMetadata({
     title: "Projects",
-};
+    description: "My projects.",
+});
 
 interface PageProps {
     searchParams: Promise<{ skill?: string }>;

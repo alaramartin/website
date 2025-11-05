@@ -42,46 +42,56 @@ const MiniProject = ({
 
     return (
         <div
-            className={`${lato.className} antialiased border border-lightred bg-pinkbeige rounded-2xl p-4 shadow-xl/10 shadow-lightred relative h-full place-content-center`}
+            className={`${lato.className} antialiased flex flex-row items-center border border-lightred bg-pinkbeige rounded-2xl p-4 m-8 shadow-xl/10 shadow-lightred relative h-full place-content-center`}
         >
-            <p className="text-xl font-extrabold py-2">{name}</p>
-            <div className="absolute top-3 right-3 space-x-2">
-                <Link
-                    href={githubLink}
-                    target="_blank"
-                    aria-label="View the source code on GitHub!"
-                    className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
-                >
-                    <GithubLogoIcon size={20} />
-                </Link>
-                {href && (
+            <div className="flex flex-col items-center text-center mx-3">
+                <p className="text-lg font-bold py-2">{name}</p>
+                <div className="space-x-2">
                     <Link
-                        href={href}
+                        href={githubLink}
                         target="_blank"
-                        aria-label="Check it out!"
+                        aria-label="View the source code on GitHub!"
                         className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
                     >
-                        <ArrowSquareOutIcon size={20} />
+                        <GithubLogoIcon size={15} />
                     </Link>
-                )}
+                    {href && (
+                        <Link
+                            href={href}
+                            target="_blank"
+                            aria-label="Check it out!"
+                            className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                        >
+                            <ArrowSquareOutIcon size={15} />
+                        </Link>
+                    )}
+                </div>
             </div>
+            <hr
+                className="border-r border-lightred h-10 mx-3 opacity-80 bg-transparent"
+                style={{ margin: "0 12px", borderRightWidth: "1px" }}
+            />
 
             <p>{description}</p>
 
             {tags && (
-                <div className="mt-2">
+                <div className="mt-2 grid grid-cols-4">
                     {tags.map((tag, index) => {
                         // only show first three (most relevant) skill tags on homepage
                         if (index < 3) {
                             const skillData = skills[tag];
                             if (!skillData) return null;
                             const IconComponent = skillData.icon;
+                            let colStart: number = 1;
+                            if (index === 2) {
+                                colStart = 2;
+                            }
 
                             return (
                                 <button
                                     key={tag}
                                     onClick={(e) => handleSkillClick(e, tag)}
-                                    className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
+                                    className={`col-span-2 inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer col-start-${colStart}`}
                                     title={`Skill: ${skillData.skillName}`}
                                 >
                                     <IconComponent

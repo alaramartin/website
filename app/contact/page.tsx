@@ -7,12 +7,13 @@ import {
     GithubLogoIcon,
     GlobeIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import { Metadata } from "next";
 import DarkModeToggle from "../components/DarkModeToggle";
+import generateMetadata from "@/lib/metadata";
 
-export const metadata: Metadata = {
-    title: "Contact",
-};
+export const metadata = generateMetadata({
+    title: "Contact Me",
+    description: "Contact me.",
+});
 
 const contactLinks: {
     contactType: string;
