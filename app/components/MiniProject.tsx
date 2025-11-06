@@ -42,10 +42,10 @@ const MiniProject = ({
 
     return (
         <div
-            className={`${lato.className} antialiased flex flex-row items-center w-full bg-pinkbeige rounded-2xl md:p-4 md:m-8 h-26 border border-lightred shadow-xl/10 shadow-lightred`}
+            className={`${lato.className} antialiased flex flex-row items-center bg-pinkbeige rounded-2xl md:p-3 md:mx-8 md:my-2 h-26 border border-lightred shadow-lg/10 shadow-lightred`}
         >
             <div className="flex flex-col items-center text-center justify-center w-1/4">
-                <p className="text-lg font-bold py-2">{name}</p>
+                <p className="text-lg font-semibold py-2">{name}</p>
                 <div className="space-x-2">
                     <Link
                         href={githubLink}
@@ -68,13 +68,13 @@ const MiniProject = ({
                 </div>
             </div>
 
-            <div className="h-14 border-r border-lightred opacity-80 mx-4" />
+            <div className="h-14 border-r border-lightred opacity-80 mx-2" />
 
-            <div className="flex-1 flex justify-center">
+            <div className="flex-1 flex justify-center text-center">
                 <p className="text-center">{description}</p>
             </div>
 
-            <div className="flex justify-end w-1/12">
+            <div className="flex justify-end w-1/8">
                 <div className="flex flex-row">
                     {tags &&
                         tags.slice(0, 3).map((tag) => {

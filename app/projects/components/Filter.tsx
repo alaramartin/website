@@ -1,10 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { skills } from "@/app/data/info.ts";
-import { XCircleIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+    XCircleIcon,
+    CaretUpIcon,
+    CaretDownIcon,
+} from "@phosphor-icons/react/dist/ssr";
 
-// todo: split the filter into tools/tech/skills sections
-// todo: make filter be collapsible
+// todo: split the filter into tools/tech/skills sections?
 
 interface FilterProps {
     projects: any[];
@@ -26,6 +29,9 @@ const Filter = ({
     if (initialSkillFilter && skills[initialSkillFilter]) {
         initCheckedFilters[skills[initialSkillFilter].skillName] = true;
     }
+
+    // if coming straigh tfrom homepage with filter applied, filters should be not-collapsed
+    const [collapsed, setCollapsed] = useState(initialSkillFilter == undefined);
 
     useEffect(() => {
         if (initialSkillFilter && skills[initialSkillFilter]) {
@@ -85,44 +91,69 @@ const Filter = ({
     };
 
     return (
-        <div className="md:px-20 py-4 text-textbrown select-none">
-            <p>Filter by Skill</p>
-            {Object.entries(skills).map(([skillKey, skill]) => {
-                const isChecked = checkedFilters[skill.skillName];
-                return (
-                    <label
-                        key={skillKey}
-                        id={skillKey}
-                        className={`inline-flex border border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 cursor-pointer ${
-                            isChecked
-                                ? "bg-lightred/40"
-                                : "hover:bg-lightred/20"
-                        }`}
-                    >
-                        <input
-                            type="checkbox"
-                            name={skill.skillName}
-                            checked={isChecked}
-                            onChange={() => handleFilterToggle(skillKey)}
-                            className="absolute opacity-0 pointer-events-none"
-                        />
-                        <div className="inline-flex items-center gap-2 w-full">
-                            <skill.icon /> {skill.skillName}
-                        </div>
-                    </label>
-                );
-            })}
-            {!areAllUnselected(checkedFilters) && (
+        <div
+            className={`lg:px-40 py-4 text-textbrown select-none flex justify-center`}
+        >
+            <div
+                className={`w-full md:w-2/3 border border-lightred rounded-lg overflow-hidden transition-all duration-300 ${
+                    collapsed ? "pb-0" : "pb-4"
+                }`}
+            >
                 <button
-                    className={
-                        "inline-flex items-center gap-2 border border-lightred rounded-lg mx-2 my-1.5 p-2 relative transition-colors duration-100 bg-lightred/20 hover:bg-lightred/40 active:bg-lightred/50 cursor-pointer"
-                    }
-                    onClick={resetFilters}
+                    onClick={() => setCollapsed(!collapsed)}
+                    className="cursor-pointer flex justify-between items-center w-full px-4 py-2 text-left hover:bg-lightred/10 transition-colors duration-150"
                 >
-                    {" "}
-                    <XCircleIcon /> <p>Clear All Filters</p>
+                    <div className="flex items-center gap-2 font-medium p-1">
+                        Filter by Skill
+                        {collapsed ? <CaretDownIcon /> : <CaretUpIcon />}
+                    </div>
+
+                    {!areAllUnselected(checkedFilters) && (
+                        <div
+                            className="text-xs flex items-center gap-1 border border-lightred rounded-md px-2 py-1 bg-lightred/20 hover:bg-lightred/40 active:bg-lightred/50 cursor-pointer transition-colors duration-150"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                resetFilters();
+                            }}
+                        >
+                            <XCircleIcon size={14} /> Clear Filters
+                        </div>
+                    )}
                 </button>
-            )}
+
+                <div
+                    className={`transition-all duration-300 overflow-hidden ${
+                        collapsed ? "max-h-0" : "max-h-[600px]"
+                    }`}
+                >
+                    <div className="flex flex-wrap justify-center gap-2 px-4 pt-3">
+                        {Object.entries(skills).map(([skillKey, skill]) => {
+                            const isChecked = checkedFilters[skill.skillName];
+                            return (
+                                <label
+                                    key={skillKey}
+                                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-lightred text-sm cursor-pointer transition-all duration-150 ${
+                                        isChecked
+                                            ? "bg-lightred/40"
+                                            : "hover:bg-lightred/20"
+                                    }`}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={isChecked}
+                                        onChange={() =>
+                                            handleFilterToggle(skillKey)
+                                        }
+                                        className="hidden"
+                                    />
+                                    <skill.icon size={16} />
+                                    {skill.skillName}
+                                </label>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

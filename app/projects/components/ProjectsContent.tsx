@@ -76,6 +76,7 @@ function ProjectsContent({ initialSkillFilter }: ProjectsContentProps) {
                                 githubLink={project.githubLink}
                                 href={project.href}
                                 description={project.description}
+                                notes={project.notes}
                                 tags={project.tags}
                             ></Project>
                         </div>

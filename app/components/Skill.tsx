@@ -12,7 +12,7 @@ const Skill = ({ id, skill }: SkillProps) => {
     return (
         <div
             id={id}
-            className={`${lato.className} antialiased inline-flex items-center border border-lightred bg-pinkbeige rounded-2xl m-2 p-4 shadow-xl/10 shadow-lightred gap-2 hover:scale-101 hover:-translate-y-0.5 hover:shadow-xl/25 transition-all duration-200`}
+            className={`${lato.className} antialiased inline-flex items-center border border-lightred bg-pinkbeige rounded-2xl m-2 p-4 shadow-lg/10 shadow-lightred gap-2 hover:scale-101 hover:-translate-y-0.5 hover:shadow-xl/20 transition-all duration-200`}
         >
             <IconComponent size={26} />
             <p>{skill.skillName}</p>

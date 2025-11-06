@@ -20,6 +20,7 @@ export const projects: {
     href?: string;
     miniDescription?: string;
     description: string;
+    notes?: string[];
     tags: string[];
     display: boolean;
 }[] = [
@@ -31,6 +32,7 @@ export const projects: {
             "View Python pickle (.pkl) files directly in the VS Code editor.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
+        notes: ["3000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         display: true,
     },
@@ -41,6 +43,7 @@ export const projects: {
         miniDescription: "View DICOM images and edit metadata side-by-side.",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
+        notes: ["250+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         display: true,
     },
@@ -51,6 +54,7 @@ export const projects: {
         miniDescription: "Chrome extension to customize score reveals.",
         description:
             "Chrome extension that hides AP scores until clicked and plays custom sounds and animations for each reveal.",
+        notes: ["accidentally spoiled my own 2025 AP score reveal by inspecting the HTML to build this extension"],
         tags: [
             "TypeScript",
             "React",
@@ -66,15 +70,17 @@ export const projects: {
         miniDescription: "Under 1mm MPJPE. Aura.",
         description:
             "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
+        notes: ["0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
         tags: ["PyTorch", "Python", "Git"],
         display: true,
     },
     {
         name: "Website",
         githubLink: "https://github.com/alaramartin/website",
-        href: "localhost:3000",
+        href: "https://alaramartin.vercel.app",
         miniDescription: "ts (this) website",
         description: "ts (this) website",
+        notes: ["i still don't know how to make it nicer :(", "someone pls teach me ui/ux design"],
         tags: [
             "React",
             "NextJS",

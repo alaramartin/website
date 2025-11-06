@@ -7,12 +7,14 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { skills } from "@/app/data/info.ts";
+import Notes from "./Notes";
 
 interface ProjectProps {
     name: string;
     githubLink: string;
     href?: string;
     description: string;
+    notes?: string[];
     tags?: string[];
 }
 
@@ -21,6 +23,7 @@ const Project = ({
     githubLink,
     href,
     description,
+    notes,
     tags,
 }: ProjectProps) => {
     return (
@@ -49,6 +52,8 @@ const Project = ({
                 )}
             </div>
             <p>{description}</p>
+
+            {notes && <Notes notes={notes} />}
 
             {tags && (
                 <div className="mt-2 space-y-2">

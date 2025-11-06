@@ -39,7 +39,7 @@ export default function Home() {
                     Skills
                 </p>
                 <p className={`${lato.className} cursor-default pb-4`}>
-                    Click on a skill to see related projects on projects page
+                    Click on a skill to see related projects on projects page.
                 </p>
                 <div className="text-textbrown mx-5 place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
@@ -55,17 +55,20 @@ export default function Home() {
             </div>
             <div className={`text-center pt-18 md:px-30`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-2 font-bold`}
+                    className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
                 >
                     Projects
                 </p>
-                <div className="flex flex-col justify-center text-textbrown pt-8 md:mx-36 mx-8">
+                <p className={`${lato.className} cursor-default pb-2`}>
+                    Some of my favorites.
+                </p>
+                <div className="flex flex-col items-center text-textbrown md:mx-34 mx-8">
                     {projects.map((project) => {
                         // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
                         if (!project.miniDescription) return;
 
                         return (
-                            <div key={project.name}>
+                            <div key={project.name} className="w-full">
                                 <MiniProject
                                     name={project.name}
                                     githubLink={project.githubLink}
