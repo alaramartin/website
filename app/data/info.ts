@@ -18,6 +18,7 @@ export const projects: {
     name: string;
     githubLink: string;
     href?: string;
+    miniDescription?: string;
     description: string;
     tags: string[];
     display: boolean;
@@ -26,6 +27,8 @@ export const projects: {
         name: "PKL Viewer",
         githubLink: "https://github.com/alaramartin/pkl-viewer",
         href: "https://marketplace.visualstudio.com/items?itemName=alarm.pkl-viewer",
+        miniDescription:
+            "View Python pickle (.pkl) files directly in the VS Code editor.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
@@ -35,6 +38,7 @@ export const projects: {
         name: "DICOM Viewer",
         githubLink: "https://github.com/alaramartin/dicom-viewer",
         href: "https://marketplace.visualstudio.com/items?itemName=alarm.dicom-viewer",
+        miniDescription: "View DICOM images and edit metadata side-by-side.",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
@@ -44,6 +48,7 @@ export const projects: {
         name: "AP Score Reveal",
         githubLink: "https://github.com/alaramartin/ap-score-cover",
         href: "https://chromewebstore.google.com/detail/ap%C2%AE-exam-score-reveal/mhjggldhegkdodlneehpkhpjbgmpohak",
+        miniDescription: "Chrome extension to customize score reveals.",
         description:
             "Chrome extension that hides AP scores until clicked and plays custom sounds and animations for each reveal.",
         tags: [
@@ -58,6 +63,7 @@ export const projects: {
     {
         name: "HIPSTER-AI",
         githubLink: "https://github.com/stanfordaide/hipster-ai",
+        miniDescription: "Under 1mm MPJPE. Aura.",
         description:
             "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
         tags: ["PyTorch", "Python", "Git"],
@@ -67,6 +73,7 @@ export const projects: {
         name: "Website",
         githubLink: "https://github.com/alaramartin/website",
         href: "localhost:3000",
+        miniDescription: "ts (this) website",
         description: "ts (this) website",
         tags: [
             "React",

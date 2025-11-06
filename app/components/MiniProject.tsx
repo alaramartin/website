@@ -42,9 +42,9 @@ const MiniProject = ({
 
     return (
         <div
-            className={`${lato.className} antialiased flex flex-row items-center border border-lightred bg-pinkbeige rounded-2xl p-4 m-8 shadow-xl/10 shadow-lightred relative h-full place-content-center`}
+            className={`${lato.className} antialiased flex flex-row items-center  bg-pinkbeige rounded-2xl p-4 m-8 h-26 border border-lightred shadow-xl/10 shadow-lightred`}
         >
-            <div className="flex flex-col items-center text-center mx-3">
+            <div className="flex flex-col items-center text-center justify-center w-1/4">
                 <p className="text-lg font-bold py-2">{name}</p>
                 <div className="space-x-2">
                     <Link
@@ -53,7 +53,7 @@ const MiniProject = ({
                         aria-label="View the source code on GitHub!"
                         className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
                     >
-                        <GithubLogoIcon size={15} />
+                        <GithubLogoIcon size={16} />
                     </Link>
                     {href && (
                         <Link
@@ -62,36 +62,30 @@ const MiniProject = ({
                             aria-label="Check it out!"
                             className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
                         >
-                            <ArrowSquareOutIcon size={15} />
+                            <ArrowSquareOutIcon size={16} />
                         </Link>
                     )}
                 </div>
             </div>
-            <hr
-                className="border-r border-lightred h-10 mx-3 opacity-80 bg-transparent"
-                style={{ margin: "0 12px", borderRightWidth: "1px" }}
-            />
 
-            <p>{description}</p>
+            <div className="h-14 border-r border-lightred opacity-80 mx-4" />
 
-            {tags && (
-                <div className="mt-2 grid grid-cols-4">
-                    {tags.map((tag, index) => {
-                        // only show first three (most relevant) skill tags on homepage
-                        if (index < 3) {
+            <div className="flex-1 flex justify-center">
+                <p className="text-center">{description}</p>
+            </div>
+
+            <div className="flex justify-end w-1/12">
+                <div className="flex flex-row">
+                    {tags &&
+                        tags.slice(0, 3).map((tag) => {
                             const skillData = skills[tag];
                             if (!skillData) return null;
                             const IconComponent = skillData.icon;
-                            let colStart: number = 1;
-                            if (index === 2) {
-                                colStart = 2;
-                            }
-
                             return (
                                 <button
                                     key={tag}
                                     onClick={(e) => handleSkillClick(e, tag)}
-                                    className={`col-span-2 inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer col-start-${colStart}`}
+                                    className="inline-flex items-center border border-lightred rounded-lg mx-1 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
                                     title={`Skill: ${skillData.skillName}`}
                                 >
                                     <IconComponent
@@ -100,10 +94,9 @@ const MiniProject = ({
                                     />
                                 </button>
                             );
-                        }
-                    })}
+                        })}
                 </div>
-            )}
+            </div>
         </div>
     );
 };

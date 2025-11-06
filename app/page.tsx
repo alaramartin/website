@@ -40,7 +40,7 @@ export default function Home() {
                 <p className={`${lato.className} cursor-default pb-4`}>
                     Click on a skill to see related projects on projects page
                 </p>
-                <div className="grid grid-cols-4 text-textbrown mx-5 place-items-center">
+                <div className="text-textbrown mx-5 place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
                         <Link
                             key={skillKey}
@@ -54,20 +54,14 @@ export default function Home() {
             </div>
             <div className={`text-center pt-18 px-30`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
+                    className={`${italiana.className} cursor-default text-4xl pb-2 font-bold`}
                 >
                     Projects
                 </p>
-                <div className="text-textbrown items-stretch pt-8 mx-10">
-                    {projects.map((project, index) => {
-                        // let gridColumn = "";
-                        // const totalItems = projects.length;
-
-                        // if (totalItems - index === 1 && index % 2 === 0) {
-                        //     gridColumn = "col-span-2 col-start-2";
-                        // } else {
-                        //     gridColumn = "col-span-2";
-                        // }
+                <div className="text-textbrown items-stretch pt-8 mx-18">
+                    {projects.map((project) => {
+                        // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
+                        if (!project.miniDescription) return;
 
                         return (
                             <div key={project.name}>
@@ -75,7 +69,7 @@ export default function Home() {
                                     name={project.name}
                                     githubLink={project.githubLink}
                                     href={project.href}
-                                    description={project.description}
+                                    description={project.miniDescription}
                                     tags={project.tags}
                                 ></MiniProject>
                             </div>
