@@ -12,9 +12,13 @@ export default function generateMetadataBase(
         description: description ?? "",
         authors: [{ name: "Alara Martin", url: "https://alaramartin.vercel.app" }],
         keywords: keywords?.length ? keywords : ["Alara Martin", "dev", "developer", "portfolio", "website"],
-        metadataBase: new URL(url ?? "https://alaramartin.vercel.app"),
+        metadataBase: new URL("https://alaramartin.vercel.app"),
         alternates: {
             canonical: url,
+        },
+        robots: {
+            index: true,
+            follow: true,
         },
         openGraph: {
             title: title ? title + " | Alara Martin" : "Alara Martin",
@@ -24,7 +28,7 @@ export default function generateMetadataBase(
             url: url,
             images: [
                 {
-                    url: "/og",
+                    url: `https://alaramartin.vercel.app/og?title=${title || ""}`,
                     width: 1200,
                     height: 630,
                     alt: "preview img"

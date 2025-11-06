@@ -1,22 +1,14 @@
 import { ImageResponse } from "next/og";
+import { NextRequest } from "next/server";
 
 export const runtime = "edge";
-export const contentType = "image/png";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
-        const { searchParams, pathname } = new URL(request.url);
+        const urlParams = request.nextUrl.searchParams;
         // get the title
-        let title = "";
-        if (pathname.includes("/projects")) {
-            title = "Projects";
-        } else if (pathname.includes("/blog")) {
-            title = "Blog";
-        } else if (pathname.includes("/contact")) {
-            title = "Contact";
-        }
-        // to condntionally style based on if they're on homepage or not
-        const hasTitle = title.trim() !== "";
+        const title = decodeURIComponent(urlParams.get("title") || "");
+        const hasTitle = title?.trim() !== "";
 
         // get the fonts
         const lato = await fetch(

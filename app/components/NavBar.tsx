@@ -47,7 +47,7 @@ export default function NavBar() {
                                            opacity-0 pointer-events-none select-none
                                            whitespace-nowrap underline
                                            transition-opacity duration-200
-                                           peer-hover:opacity-95 peer-hover:pointer-events-auto"
+                                           lg:peer-hover:opacity-95 lg:peer-hover:pointer-events-auto"
                                 aria-hidden="true"
                             >
                                 {navLink.title}
