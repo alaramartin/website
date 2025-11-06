@@ -1,5 +1,4 @@
 import React from "react";
-import type { Metadata } from "next";
 import Link from "next/link";
 import { lato, italiana } from "./ui/fonts";
 import {
@@ -11,11 +10,12 @@ import {
 import BugCatcherGame from "./components/BugCatcherGame";
 import DarkModeToggle from "./components/DarkModeToggle";
 import NavBar from "./components/NavBar";
+import generateMetadataBase from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = generateMetadataBase({
     title: "404 Not Found",
-    description: "The page you are looking for does not exist :(",
-};
+    description: "Error :(",
+});
 
 const NotFound = () => {
     return (

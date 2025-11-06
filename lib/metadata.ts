@@ -22,6 +22,14 @@ export default function generateMetadataBase(
             type: "website",
             siteName: "Alara Martin",
             url: url,
+            images: [
+                {
+                    url: "/app/og",
+                    width: 1200,
+                    height: 630,
+                    alt: "preview img"
+                }
+            ]
         },
         twitter: {
             card: "summary_large_image",
