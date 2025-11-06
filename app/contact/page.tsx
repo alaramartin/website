@@ -52,11 +52,13 @@ export default function ContactPage() {
         <>
             <NavBar />
             <DarkModeToggle />
-            <div className="h-screen flex flex-col items-center justify-center select-none">
+            <div className="h-screen flex flex-col items-center text-center justify-center select-none">
                 <p className={`${italiana.className} text-2xl font-bold`}>
                     CONTACT ME
                 </p>
-                <div className={`inline-flex ${lato.className}`}>
+                <div
+                    className={`max-md:mt-6 flex flex-col lg:inline-flex lg:flex-row ${lato.className}`}
+                >
                     {contactLinks.map((contactLink) => (
                         <div key={contactLink.contactType}>
                             <ContactLink contact={contactLink} />

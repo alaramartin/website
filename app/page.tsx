@@ -24,14 +24,14 @@ export default function Home() {
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <LinksBar></LinksBar>
                 </div>
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-4 flex items-baseline cursor-default">
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-4 md:flex items-baseline cursor-default">
                     <p className="text-9xl whitespace-nowrap pr-5">ALARA</p>
-                    <p className="text-7xl whitespace-nowrap text-lightred">
+                    <p className="flex text-7xl whitespace-nowrap text-lightred justify-center">
                         MARTIN
                     </p>
                 </div>
             </div>
-            <div className={`text-center pt-18 px-30`}>
+            <div className={`text-center pt-18 md:px-30`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
                 >
@@ -52,13 +52,13 @@ export default function Home() {
                     ))}
                 </div>
             </div>
-            <div className={`text-center pt-18 px-30`}>
+            <div className={`text-center pt-18 md:px-30`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-2 font-bold`}
                 >
                     Projects
                 </p>
-                <div className="text-textbrown items-stretch pt-8 mx-18">
+                <div className="flex flex-col justify-center text-textbrown pt-8 md:mx-36 mx-8">
                     {projects.map((project) => {
                         // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
                         if (!project.miniDescription) return;

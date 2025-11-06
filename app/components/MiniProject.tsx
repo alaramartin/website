@@ -42,7 +42,7 @@ const MiniProject = ({
 
     return (
         <div
-            className={`${lato.className} antialiased flex flex-row items-center  bg-pinkbeige rounded-2xl p-4 m-8 h-26 border border-lightred shadow-xl/10 shadow-lightred`}
+            className={`${lato.className} antialiased flex flex-row items-center w-full bg-pinkbeige rounded-2xl md:p-4 md:m-8 h-26 border border-lightred shadow-xl/10 shadow-lightred`}
         >
             <div className="flex flex-col items-center text-center justify-center w-1/4">
                 <p className="text-lg font-bold py-2">{name}</p>

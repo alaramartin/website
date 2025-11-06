@@ -14,15 +14,15 @@ export default async function BlogText({ blogID }: BlogTextProps) {
 
     return (
         <>
-            <BlogsButton />
-            <div className={`text-center p-16 ${italiana.className}`}>
+            <div className={`text-center p-16 mt-10 ${italiana.className}`}>
                 <p className="font-extrabold text-3xl">{postData.title}</p>
                 <p className="text-md">{postData.date}</p>
             </div>
             <div
-                className="px-50 text-md text-textbrown"
+                className="px-12 md:px-50 text-md text-textbrown"
                 dangerouslySetInnerHTML={{ __html: thePostItself }}
             />
+            <BlogsButton />
         </>
     );
 }

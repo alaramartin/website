@@ -48,7 +48,7 @@ function ProjectsContent({ initialSkillFilter }: ProjectsContentProps) {
                 onFilterToggle={setFilteredProjects}
                 initialSkillFilter={initialSkillFilter}
             />
-            <div className="grid grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8 px-15">
+            <div className="md:grid md:grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8 md:px-15">
                 {visibleProjects.length === 0 && (
                     <div className="col-span-4 flex items-center justify-center py-10">
                         <p className="text-center italic opacity-65">
@@ -69,7 +69,7 @@ function ProjectsContent({ initialSkillFilter }: ProjectsContentProps) {
                         <div
                             id={project.name}
                             key={project.name}
-                            className={gridColumn}
+                            className={`${gridColumn} pb-16 md:pb-0`}
                         >
                             <Project
                                 name={project.name}

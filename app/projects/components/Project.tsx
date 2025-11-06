@@ -59,7 +59,7 @@ const Project = ({
                                 {tags
                                     .slice(rowIndex * 3, (rowIndex + 1) * 3)
                                     .map((tag) => {
-                                        // only show maximum of 3 tags per row
+                                        // only show maximum of 3 tags per row // todo: fix this to just flex anywhere for mobile
                                         const skillData = skills[tag];
                                         if (!skillData) return null;
                                         const IconComponent = skillData.icon;
@@ -67,13 +67,13 @@ const Project = ({
                                         return (
                                             <div
                                                 key={tag}
-                                                className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 transition-all duration-300 group overflow-hidden cursor-default select-none"
+                                                className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 md:transition-all md:duration-300 group md:overflow-hidden cursor-default select-none"
                                             >
                                                 <IconComponent
                                                     size={16}
                                                     className="mx-1"
                                                 />
-                                                <p className="max-w-0 group-hover:max-w-xs ml-0 group-hover:ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap">
+                                                <p className="md:max-w-0 md:group-hover:max-w-xs md:ml-0 md:group-hover:ml-2 md:transition-all md:duration-500 md:overflow-hidden md:whitespace-nowrap">
                                                     {skillData.skillName}
                                                 </p>
                                             </div>

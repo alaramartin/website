@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <div className="text-center mx-30 mt-60 px-30 pt-20 pb-16 border-t-2 border-t-lightred/80 cursor-default select-none">
+        <div className="text-center mx-16 md:mx-30 mt-60 md:px-30 pt-20 pb-16 border-t-2 border-t-lightred/80 cursor-default select-none">
             <LinksBar />
 
             <p className={`m-2 ${italiana.className} text-2xl`}>ALARA MARTIN</p>

@@ -85,7 +85,7 @@ const Filter = ({
     };
 
     return (
-        <div className="px-20 py-4 text-textbrown select-none">
+        <div className="md:px-20 py-4 text-textbrown select-none">
             <p>Filter by Skill</p>
             {Object.entries(skills).map(([skillKey, skill]) => {
                 const isChecked = checkedFilters[skill.skillName];

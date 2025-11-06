@@ -19,8 +19,8 @@ export default function NavBar() {
     const pathname = usePathname() || "/";
 
     return (
-        <div className="fixed top-0 left-0 w-full px-8 pt-4 pb-2 z-50 bg-inherit">
-            <div className="mx-auto flex items-center justify-start space-x-30">
+        <div className="fixed top-0 left-0 w-full px-4 md:px-8 pt-2.5 pb-2 z-50 bg-inherit">
+            <div className="mx-auto flex items-center justify-start md:space-x-30 space-x-8">
                 {navLinks.map((navLink) => {
                     const Icon = navLink.icon;
                     return (

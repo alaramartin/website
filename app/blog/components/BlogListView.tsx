@@ -42,7 +42,7 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                 search={search}
                 setSearch={setSearch}
             />
-            <div className={`text-left px-30 pt-10 flex flex-col`}>
+            <div className={`text-left md:px-30 pt-10 flex flex-col`}>
                 {visibleBlogPosts.length === 0 && (
                     <div className="col-span-4 flex items-center justify-center py-10">
                         <p className="text-center italic opacity-65">
@@ -54,7 +54,7 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                     <Link
                         key={id}
                         href={`/blog/${id}`}
-                        className="inline-block h-fit p-4 transition-all duration-100 group"
+                        className="inline-block h-fit p-2 md:p-4 transition-all duration-100 group"
                     >
                         <p className="group-hover:underline text-lg pb-1">
                             {title}

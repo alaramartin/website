@@ -4,6 +4,7 @@ import "@/app/ui/globals.css";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "next-themes";
 import ScrollAnimation from "./components/ScrollAnimation";
+import { Viewport } from "next";
 
 export const metadata: Metadata = {
     title: {
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
         default: "Alara Martin",
     },
     description: "My personal website.",
+};
+
+export const viewport: Viewport = {
+    viewportFit: "cover",
 };
 
 export default function RootLayout({
