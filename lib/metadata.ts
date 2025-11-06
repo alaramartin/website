@@ -24,7 +24,7 @@ export default function generateMetadataBase(
             url: url,
             images: [
                 {
-                    url: "/app/og",
+                    url: "/og",
                     width: 1200,
                     height: 630,
                     alt: "preview img"
