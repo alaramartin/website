@@ -8,11 +8,12 @@ import {
     GlobeIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import DarkModeToggle from "../components/DarkModeToggle";
-import generateMetadata from "@/lib/metadata";
+import generateMetadataBase from "@/lib/metadata";
 
-export const metadata = generateMetadata({
+export const metadata = generateMetadataBase({
     title: "Contact Me",
     description: "Contact me.",
+    url: "https://alaramartin.vercel.app/contact",
 });
 
 const contactLinks: {

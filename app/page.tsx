@@ -7,10 +7,11 @@ import DarkModeToggle from "./components/DarkModeToggle";
 import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
-import generateMetadata from "@/lib/metadata";
+import generateMetadataBase from "@/lib/metadata";
 
-export const metadata = generateMetadata({
+export const metadata = generateMetadataBase({
     description: "My personal website.",
+    url: "https://alaramartin.vercel.app",
 });
 
 export default function Home() {

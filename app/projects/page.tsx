@@ -2,11 +2,12 @@ import { italiana } from "@/app/ui/fonts";
 import ProjectsContent from "./components/ProjectsContent";
 import DarkModeToggle from "../components/DarkModeToggle";
 import NavBar from "../components/NavBar";
-import generateMetadata from "@/lib/metadata";
+import generateMetadataBase from "@/lib/metadata";
 
-export const metadata = generateMetadata({
+export const metadata = generateMetadataBase({
     title: "Projects",
     description: "My projects.",
+    url: "https://alaramartin.vercel.app/projects",
 });
 
 interface PageProps {

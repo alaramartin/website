@@ -4,11 +4,12 @@ import { getSortedBlogPosts } from "@/lib/posts.ts";
 import BlogListView from "./components/BlogListView";
 import { getPostData } from "@/lib/posts.ts";
 import DarkModeToggle from "../components/DarkModeToggle";
-import generateMetadata from "@/lib/metadata";
+import generateMetadataBase from "@/lib/metadata";
 
-export const metadata = generateMetadata({
+export const metadata = generateMetadataBase({
     title: "Blog",
     description: "My blog.",
+    url: "https://alaramartin.vercel.app/blog",
 });
 
 export default async function BlogPage() {
