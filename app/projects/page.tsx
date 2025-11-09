@@ -22,7 +22,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
         <>
             <NavBar />
             <DarkModeToggle />
-            <div className={`text-center pt-16 px-15`}>
+            <div className={`text-center pt-16 md:px-15`}>
                 <p
                     className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
                 >

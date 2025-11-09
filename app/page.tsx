@@ -62,7 +62,7 @@ export default function Home() {
                 <p className={`${lato.className} cursor-default pb-2`}>
                     Some of my favorites.
                 </p>
-                <div className="grid lg:auto-rows-fr grid-cols-1 lg:grid-cols-2 items-center text-textbrown lg:mx-34 mx-8">
+                <div className="grid lg:auto-rows-fr grid-cols-1 lg:grid-cols-2 items-center text-textbrown xl:mx-34 mx-3">
                     {projects.map((project) => {
                         // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
                         if (!project.miniDescription) return;

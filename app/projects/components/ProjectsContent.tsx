@@ -38,17 +38,20 @@ function ProjectsContent({ initialSkillFilter }: ProjectsContentProps) {
 
     return (
         <>
-            <SearchBar
-                placeholderText="Search by title and/or description"
-                search={search}
-                setSearch={setSearch}
-            />
-            <Filter
-                projects={projects}
-                onFilterToggle={setFilteredProjects}
-                initialSkillFilter={initialSkillFilter}
-            />
-            <div className="md:grid md:grid-cols-4 text-textbrown gap-x-20 gap-y-16 items-stretch pt-8 md:px-15">
+            <div className="mx-16 md:mx-15">
+                <SearchBar
+                    placeholderText="Search by title and/or description"
+                    search={search}
+                    setSearch={setSearch}
+                />
+                <Filter
+                    projects={projects}
+                    onFilterToggle={setFilteredProjects}
+                    initialSkillFilter={initialSkillFilter}
+                />
+            </div>
+
+            <div className="md:grid md:grid-cols-4 text-textbrown gap-x-6 lg:gap-x-20 gap-y-16 items-stretch pt-8 px-6 lg:px-15">
                 {visibleProjects.length === 0 && (
                     <div className="col-span-4 flex items-center justify-center py-10">
                         <p className="text-center italic opacity-65">
