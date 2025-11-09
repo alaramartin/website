@@ -1,18 +1,15 @@
-import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "@/app/ui/globals.css";
 import Footer from "./components/Footer";
 import { ThemeProvider } from "next-themes";
 import ScrollAnimation from "./components/ScrollAnimation";
 import { Viewport } from "next";
+import generateMetadataBase from "@/lib/metadata";
 
-export const metadata: Metadata = {
-    title: {
-        template: "%s | Alara Martin",
-        default: "Alara Martin",
-    },
+export const metadata = generateMetadataBase({
     description: "My personal website.",
-};
+    url: "https://alaramartin.vercel.app",
+});
 
 export const viewport: Viewport = {
     viewportFit: "cover",

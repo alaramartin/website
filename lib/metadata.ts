@@ -39,6 +39,14 @@ export default function generateMetadataBase(
             card: "summary_large_image",
             title: title ? title + " | Alara Martin" : "Alara Martin",
             description: description ?? "",
+            images: [
+                {
+                    url: `https://alaramartin.vercel.app/og?title=${title || ""}`,
+                    width: 1200,
+                    height: 630,
+                    alt: "preview img"
+                }
+            ]
         }
     };
 }

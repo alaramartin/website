@@ -41,7 +41,7 @@ export default function Home() {
                 <p className={`${lato.className} cursor-default pb-4`}>
                     Click on a skill to see related projects on projects page.
                 </p>
-                <div className="text-textbrown mx-5 place-items-center">
+                <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
                     {Object.entries(skills).map(([skillKey, skill]) => (
                         <Link
                             key={skillKey}
@@ -62,13 +62,16 @@ export default function Home() {
                 <p className={`${lato.className} cursor-default pb-2`}>
                     Some of my favorites.
                 </p>
-                <div className="flex flex-col items-center text-textbrown md:mx-34 mx-8">
+                <div className="grid lg:auto-rows-fr grid-cols-1 lg:grid-cols-2 items-center text-textbrown lg:mx-34 mx-8">
                     {projects.map((project) => {
                         // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
                         if (!project.miniDescription) return;
 
                         return (
-                            <div key={project.name} className="w-full">
+                            <div
+                                key={project.name}
+                                className="w-full px-6 py-3 h-full"
+                            >
                                 <MiniProject
                                     name={project.name}
                                     githubLink={project.githubLink}

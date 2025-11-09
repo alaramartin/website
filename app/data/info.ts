@@ -70,7 +70,7 @@ export const projects: {
         miniDescription: "Under 1mm MPJPE. Aura.",
         description:
             "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
-        notes: ["0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
+        notes: ["deployment in progress", "0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
         tags: ["PyTorch", "Python", "Git"],
         display: true,
     },
