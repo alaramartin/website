@@ -1,5 +1,5 @@
 import LinksBar from "./LinksBar";
-import { italiana } from "../ui/fonts";
+import { italiana, lato } from "../ui/fonts";
 import Link from "next/link";
 
 const Footer = () => {
@@ -8,7 +8,9 @@ const Footer = () => {
             <LinksBar />
 
             <p className={`m-2 ${italiana.className} text-2xl`}>ALARA MARTIN</p>
-            <span className="inline-block m-2 py-3 px-4 border-t border-lightred/80">
+            <span
+                className={`${lato.className} inline-block m-2 py-3 px-4 border-t border-lightred/80`}
+            >
                 <Link
                     className="hover:underline transition-all"
                     href="/contact"

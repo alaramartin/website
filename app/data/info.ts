@@ -58,7 +58,7 @@ export const projects: {
         tags: [
             "TypeScript",
             "React",
-            "Chrome_Extensions_API",
+            "Chrome_API",
             "HTMLCSS",
             "TailwindCSS",
         ],
@@ -104,8 +104,8 @@ export const skills: Record<
     NextJS: { skillName: "NextJS", icon: TriangleIcon },
     TailwindCSS: { skillName: "TailwindCSS", icon: WindIcon },
     VS_Code_API: { skillName: "VS Code API", icon: PuzzlePieceIcon },
-    Chrome_Extensions_API: {
-        skillName: "Chrome Extensions API",
+    Chrome_API: {
+        skillName: "Chrome API",
         icon: GoogleChromeLogoIcon,
     },
     PyTorch: { skillName: "PyTorch", icon: FireIcon },

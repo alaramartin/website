@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
-import { lato } from "@/app/ui/fonts";
+import { useState } from "react";
+import Link from "next/link";
+import { lato, garamond } from "@/app/ui/fonts";
 import {
     GithubLogoIcon,
     ArrowSquareOutIcon,
+    CaretRightIcon,
+    CaretDownIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 import { skills } from "@/app/data/info.ts";
 
 interface MiniProjectProps {
@@ -13,6 +15,7 @@ interface MiniProjectProps {
     githubLink: string;
     href?: string;
     description: string;
+    longDescription: string;
     tags?: string[];
 }
 
@@ -21,6 +24,7 @@ const MiniProject = ({
     githubLink,
     href,
     description,
+    longDescription,
     tags,
 }: MiniProjectProps) => {
     const handleSkillClick = (e: React.MouseEvent, skillKey: string) => {
@@ -40,54 +44,122 @@ const MiniProject = ({
         }
     };
 
+    // const [collapsed, setCollapsed] = useState(true);
+
     return (
-        <div
-            className={`${lato.className} antialiased border border-lightred bg-pinkbeige rounded-2xl p-4 shadow-lg/15 shadow-lightred relative h-full w-full place-content-center`}
-        >
-            <p className="text-xl font-extrabold py-2">{name}</p>
-            <div className="absolute top-3 right-3 space-x-2">
-                <Link
-                    href={githubLink}
-                    target="_blank"
-                    aria-label="View the source code on GitHub!"
-                    className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+        <div className="group text-textbrown">
+            {/* {collapsed ? <CaretRightIcon /> : <CaretDownIcon />} */}
+
+            <button
+                // onClick={() => setCollapsed(!collapsed)}
+                className={`flex items-center w-full md:px-4 py-2 text-left`}
+            >
+                <div
+                    className={`${garamond.className} hidden md:flex opacity-50 group-hover:opacity-60 text-md md:text-lg items-center gap-2 text-lg font-medium md:font-bold p-2 transition-all duration-150`}
                 >
-                    <div className="w-4 h-4">
-                        <GithubLogoIcon size="auto" />
+                    2025
+                </div>
+                <div className="flex md:opacity-75 md:group-hover:opacity-100 text-md md:text-lg items-center gap-2 text-lg font-semibold md:font-bold p-2 transition-all duration-150">
+                    {name}
+                </div>
+                <p className="pl-2 opacity-80 hover:opacity-90 text-md transition-all duration-150">
+                    {description}
+                </p>
+
+                <div className="ml-auto text-right space-x-3 inline-flex">
+                    <div className="flex-row hidden md:flex">
+                        {tags &&
+                            tags.slice(0, 3).map((tag) => {
+                                const skillData = skills[tag];
+                                if (!skillData) return null;
+                                const IconComponent = skillData.icon;
+                                return (
+                                    <div
+                                        key={tag}
+                                        onClick={(e) =>
+                                            handleSkillClick(e, tag)
+                                        }
+                                        className="items-center border border-lightred rounded-lg mx-1 p-1 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
+                                        title={`Skill: ${skillData.skillName}`}
+                                    >
+                                        <IconComponent
+                                            size={14}
+                                            className="m-0.5"
+                                        />
+                                    </div>
+                                );
+                            })}
                     </div>
-                </Link>
-                {href && (
+
                     <Link
-                        href={href}
+                        href={href || githubLink}
                         target="_blank"
+                        rel="noopener noreferrer"
                         aria-label="Check it out!"
-                        className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                        className={`flex items-center w-full ml-2 md:ml-0 p-0.5`}
                     >
-                        <div className="w-4 h-4">
-                            <ArrowSquareOutIcon size="auto" />
+                        <div className="opacity-80 group-hover:opacity-100 hover:transform hover:-translate-y-px duration-150">
+                            <ArrowSquareOutIcon size={20} />
                         </div>
                     </Link>
-                )}
-            </div>
-            <p className="md:px-12 px-4 mt-1">{description}</p>
-            <div className="flex flex-row justify-center mt-4">
-                {tags &&
-                    tags.slice(0, 3).map((tag) => {
-                        const skillData = skills[tag];
-                        if (!skillData) return null;
-                        const IconComponent = skillData.icon;
-                        return (
-                            <button
-                                key={tag}
-                                onClick={(e) => handleSkillClick(e, tag)}
-                                className="inline-flex items-center border border-lightred rounded-lg mx-1 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
-                                title={`Skill: ${skillData.skillName}`}
-                            >
-                                <IconComponent size={16} className="m-0.5" />
-                            </button>
-                        );
-                    })}
-            </div>
+
+                    <Link
+                        href={githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="View the source code on GitHub!"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                        className={`flex items-center w-full p-0.5`}
+                    >
+                        <div className="opacity-80 hover:opacity-100 hover:transform hover:-translate-y-px duration-150">
+                            <GithubLogoIcon size={20} />
+                        </div>
+                    </Link>
+                </div>
+            </button>
+
+            {/* <div
+                className={`overflow-hidden flex flex-row ${
+                    collapsed ? "max-h-0" : "max-h-[600px]"
+                }`}
+            >
+                <div className="flex-1 flex justify-center text-center">
+                    <p className="text-center">{longDescription}</p>
+                </div>
+                <div className="h-14 border-r border-lightred mx-2 mr-6" />
+                <div className="flex justify-start w-1/6">
+                    <div className="flex flex-col">
+                        <div className="flex flex-row">
+                            {tags &&
+                                tags.slice(0, 3).map((tag) => {
+                                    const skillData = skills[tag];
+                                    if (!skillData) return null;
+                                    const IconComponent = skillData.icon;
+                                    return (
+                                        <button
+                                            key={tag}
+                                            onClick={(e) =>
+                                                handleSkillClick(e, tag)
+                                            }
+                                            className="items-center border border-lightred rounded-lg mx-1 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
+                                            title={`Skill: ${skillData.skillName}`}
+                                        >
+                                            <IconComponent
+                                                size={16}
+                                                className="m-0.5"
+                                            />
+                                        </button>
+                                    );
+                                })}
+                        </div>
+                    </div>
+                </div>
+            </div> */}
         </div>
     );
 

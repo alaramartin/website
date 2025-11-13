@@ -1,4 +1,4 @@
-import { Roboto, Italiana, Poppins, Lato } from "next/font/google";
+import { Roboto, Italiana, Poppins, Lato, EB_Garamond } from "next/font/google";
 
 export const italiana = Italiana({
     subsets: ["latin"], weight: ['400']
@@ -14,5 +14,10 @@ export const roboto = Roboto({
 
 export const lato = Lato({
     subsets: ["latin"],
-    weight: ['400']
-})
+    weight: ['400', '700']
+});
+
+export const garamond = EB_Garamond({
+    subsets: ["latin"],
+    weight: ['400', '500', '700']
+});

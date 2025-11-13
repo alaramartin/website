@@ -64,7 +64,7 @@ export default function SkillTags({ tags }: SkillTagProps) {
                     return (
                         <div
                             key={tag}
-                            className="max-md:text-sm max-md:rounded-xl px-3 py-1.5 antialiased inline-flex items-center border border-lightred bg-pinkbeige rounded-2xl gap-2 m-1 transition-all duration-200"
+                            className="max-md:text-sm max-md:rounded-xl px-3 py-1.5 antialiased inline-flex items-center border border-lightred bg-pinkbeige rounded-2xl gap-2 m-1 transition-all duration-200 select-none cursor-default"
                         >
                             <div className="w-4 h-4 md:w-5 md:h-5">
                                 <IconComponent size="auto" />

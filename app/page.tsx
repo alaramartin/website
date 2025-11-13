@@ -1,4 +1,4 @@
-import { italiana, lato } from "@/app/ui/fonts";
+import { italiana, lato, garamond } from "@/app/ui/fonts";
 import NavBar from "./components/NavBar";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
@@ -32,37 +32,92 @@ export default function Home() {
                     </p>
                 </div>
             </div>
-            <div className={`text-center pt-18 md:px-30`}>
-                <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
-                >
-                    Skills
-                </p>
-                <p className={`${lato.className} cursor-default pb-4`}>
-                    Click on a skill to see related projects on projects page.
-                </p>
-                <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
-                    {Object.entries(skills).map(([skillKey, skill]) => (
-                        <Link
-                            key={skillKey}
-                            href={`/projects?skill=${skillKey}`}
-                            className="inline-block w-fit cursor-pointer"
+            <div className={`pt-18 lg:px-26`}>
+                <div className="flex flex-row select-none">
+                    <div className="flex flex-col pl-4 md:pl-14">
+                        <p
+                            className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
                         >
-                            <Skill id={skillKey} skill={skill} />
-                        </Link>
-                    ))}
+                            Skills
+                        </p>
+                        <p
+                            className={`${lato.className} cursor-default pb-2 inline-flex`}
+                        >
+                            Click on a skill to see related projects on projects
+                            page.
+                        </p>
+                    </div>
+                </div>
+                <div className="w-full text-center">
+                    {/* <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 px-4 pt-3 text-textbrown">
+                        {Object.entries(skills).map(([skillKey, skill]) => (
+                            <Link
+                                key={skillKey}
+                                href={`/projects?skill=${skillKey}`}
+                                className="inline-block cursor-pointer"
+                            >
+                                <Skill id={skillKey} skill={skill} />
+                            </Link>
+                        ))}
+                    </div> */}
+                    <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
+                        {Object.entries(skills).map(([skillKey, skill]) => (
+                            <Link
+                                key={skillKey}
+                                href={`/projects?skill=${skillKey}`}
+                                className="inline-block w-fit cursor-pointer"
+                            >
+                                <Skill id={skillKey} skill={skill} />
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
-            <div className={`text-center pt-18 md:px-30`}>
-                <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4 font-bold`}
-                >
-                    Projects
-                </p>
-                <p className={`${lato.className} cursor-default pb-2`}>
-                    Some of my favorites.
-                </p>
-                <div className="grid lg:auto-rows-fr grid-cols-1 lg:grid-cols-2 items-center text-textbrown xl:mx-34 mx-3">
+            <div className={`pt-18 lg:px-26`}>
+                <div className="flex flex-row select-none">
+                    <div className="flex flex-col pl-4 md:pl-14">
+                        <p
+                            className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
+                        >
+                            Projects
+                        </p>
+                        <p
+                            className={`${lato.className} cursor-default pb-2 inline-flex`}
+                        >
+                            Some of my favorites.
+                            {/* <Link
+                                className={`${lato.className} inline-flex group underline transition-all ml-1 items-center gap-0.5`}
+                                href="/projects"
+                            >
+                                View more <ArrowCircleRightIcon size={20} />
+                            </Link> */}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex flex-col px-6 md:px-16 w-full">
+                    {projects.map((project, index) => {
+                        // only show the ones that have a miniDescription or playable URL-- those are the ones that are meant to be displayed on the homepage
+                        if (!project.miniDescription) return;
+
+                        return (
+                            <div key={project.name} className="">
+                                <MiniProject
+                                    name={project.name}
+                                    githubLink={project.githubLink}
+                                    href={project.href}
+                                    description={project.miniDescription}
+                                    longDescription={project.description}
+                                    tags={project.tags}
+                                ></MiniProject>
+                                {index != projects.length - 1 && (
+                                    <div className="border-t border-lightred/65 my-1"></div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+                {/* <div className="grid lg:auto-rows-fr grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-center text-textbrown xl:mx-8 mx-3">
                     {projects.map((project) => {
                         // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
                         if (!project.miniDescription) return;
@@ -82,13 +137,16 @@ export default function Home() {
                             </div>
                         );
                     })}
+                </div> */}
+                <div className="w-full text-center">
+                    <Link
+                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/20  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 underline transition-all`}
+                        href="/projects"
+                    >
+                        See all of my projects{" "}
+                        <ArrowCircleRightIcon size={20} />{" "}
+                    </Link>
                 </div>
-                <Link
-                    className={`${lato.className} text-lg inline-flex items-center text-textbrown hover:bg-lightred/30 rounded-lg m-6 p-2 gap-1 underline transition-colors`}
-                    href="/projects"
-                >
-                    View more of my projects <ArrowCircleRightIcon size={20} />{" "}
-                </Link>
             </div>
         </div>
     );

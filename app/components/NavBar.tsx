@@ -5,13 +5,13 @@ import {
     HouseIcon,
     AddressBookIcon,
     FolderOpenIcon,
-    QuotesIcon,
+    // QuotesIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
 const navLinks = [
     { icon: HouseIcon, title: "Home", link: "/" },
     { icon: FolderOpenIcon, title: "Projects", link: "/projects" },
-    { icon: QuotesIcon, title: "Blog", link: "/blog" },
+    // { icon: QuotesIcon, title: "Blog", link: "/blog" },
     { icon: AddressBookIcon, title: "Contact", link: "/contact" },
 ];
 
