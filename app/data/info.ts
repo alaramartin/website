@@ -22,7 +22,7 @@ export const projects: {
     description: string;
     notes?: string[];
     tags: string[];
-    display: boolean;
+    year: number;
 }[] = [
     {
         name: "PKL Viewer",
@@ -34,7 +34,7 @@ export const projects: {
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
         notes: ["3000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
-        display: true,
+        year: 2025,
     },
     {
         name: "DICOM Viewer",
@@ -45,7 +45,7 @@ export const projects: {
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
         notes: ["250+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
-        display: true,
+        year: 2025,
     },
     {
         name: "AP Score Reveal",
@@ -62,7 +62,7 @@ export const projects: {
             "HTMLCSS",
             "TailwindCSS",
         ],
-        display: true,
+        year: 2025,
     },
     {
         name: "HIPSTER-AI",
@@ -72,7 +72,7 @@ export const projects: {
             "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
         notes: ["deployment in progress", "0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
         tags: ["PyTorch", "Python", "Git"],
-        display: true,
+        year: 2025,
     },
     {
         name: "Website",
@@ -89,7 +89,7 @@ export const projects: {
             "HTMLCSS",
             "whimsy",
         ],
-        display: true,
+        year: 2025,
     },
 ];
 

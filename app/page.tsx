@@ -48,19 +48,23 @@ export default function Home() {
                         </p>
                     </div>
                 </div>
-                <div className="w-full text-center">
-                    {/* <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 px-4 pt-3 text-textbrown">
-                        {Object.entries(skills).map(([skillKey, skill]) => (
-                            <Link
-                                key={skillKey}
-                                href={`/projects?skill=${skillKey}`}
-                                className="inline-block cursor-pointer"
-                            >
-                                <Skill id={skillKey} skill={skill} />
-                            </Link>
-                        ))}
-                    </div> */}
-                    <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
+                <div className="w-full text-center place-items-center">
+                    <div className="grid grid-cols-2 xl:grid-cols-7 gap-x-10 gap-y-4 px-4 pt-3 text-textbrown">
+                        {Object.entries(skills).map(
+                            ([skillKey, skill], index) => (
+                                <div>
+                                    <Link
+                                        key={skillKey}
+                                        href={`/projects?skill=${skillKey}`}
+                                        className="inline-block w-max cursor-pointer"
+                                    >
+                                        <Skill id={skillKey} skill={skill} />
+                                    </Link>
+                                </div>
+                            )
+                        )}
+                    </div>
+                    {/* <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
                         {Object.entries(skills).map(([skillKey, skill]) => (
                             <Link
                                 key={skillKey}
@@ -70,7 +74,7 @@ export default function Home() {
                                 <Skill id={skillKey} skill={skill} />
                             </Link>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className={`pt-18 lg:px-26`}>
@@ -107,7 +111,7 @@ export default function Home() {
                                     githubLink={project.githubLink}
                                     href={project.href}
                                     description={project.miniDescription}
-                                    longDescription={project.description}
+                                    year={project.year}
                                     tags={project.tags}
                                 ></MiniProject>
                                 {index != projects.length - 1 && (
