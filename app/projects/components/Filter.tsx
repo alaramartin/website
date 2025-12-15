@@ -103,7 +103,7 @@ const Filter = ({
                     onClick={() => setCollapsed(!collapsed)}
                     className="cursor-pointer flex justify-between items-center w-full px-4 py-2 text-left hover:bg-lightred/10 transition-colors duration-150"
                 >
-                    <div className="flex items-center gap-2 font-medium p-1">
+                    <div className="flex items-center gap-2 font-medium text-[15px]">
                         Filter by Skill
                         {collapsed ? <CaretDownIcon /> : <CaretUpIcon />}
                     </div>

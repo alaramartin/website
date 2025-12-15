@@ -14,5 +14,5 @@ made to learn nextjs and get better at react
 -   blog page using dynamic routing
 -   random little css animations throughout (learned for the first time!)
 -   inverted color mode
--   cross-platform compatible (mobile in-progress)
+-   cross-platform compatible
 -   metadata for good SEO (in-progress)
