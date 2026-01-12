@@ -9,7 +9,7 @@ import generateMetadataBase from "@/lib/metadata";
 export const metadata = generateMetadataBase({
     title: "Blog",
     description: "My blog.",
-    url: "https://alaramartin.vercel.app/blog",
+    url: "https://alaramartin.com/blog",
 });
 
 export default async function BlogPage() {

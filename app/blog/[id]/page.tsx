@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps) {
     return generateMetadataBase({
         title: post.title,
         description: post.description ?? "A blog post.",
-        url: `https://alaramartin.vercel.app/blog/${params.id}`,
+        url: `https://alaramartin.com/blog/${params.id}`,
     });
 }
 

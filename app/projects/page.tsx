@@ -7,7 +7,7 @@ import generateMetadataBase from "@/lib/metadata";
 export const metadata = generateMetadataBase({
     title: "Projects",
     description: "My projects.",
-    url: "https://alaramartin.vercel.app/projects",
+    url: "https://alaramartin.com/projects",
 });
 
 interface PageProps {

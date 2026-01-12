@@ -77,7 +77,7 @@ export const projects: {
     {
         name: "Website",
         githubLink: "https://github.com/alaramartin/website",
-        href: "https://alaramartin.vercel.app",
+        href: "https://alaramartin.com",
         miniDescription: "ts (this) website",
         description: "ts (this) website",
         notes: ["i still don't know how to make it nicer :(", "someone pls teach me ui/ux design"],

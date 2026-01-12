@@ -13,7 +13,7 @@ import generateMetadataBase from "@/lib/metadata";
 export const metadata = generateMetadataBase({
     title: "Contact Me",
     description: "Contact me.",
-    url: "https://alaramartin.vercel.app/contact",
+    url: "https://alaramartin.com/contact",
 });
 
 const contactLinks: {
@@ -42,8 +42,8 @@ const contactLinks: {
     },
     {
         contactType: "Website",
-        href: "https://alaramartin.vercel.app",
-        username: "alaramartin.vercel.app",
+        href: "https://alaramartin.com",
+        username: "alaramartin.com",
         icon: GlobeIcon,
     },
 ];

@@ -10,9 +10,9 @@ export default function generateMetadataBase(
     return {
         title: title ? title + " | Alara Martin" : "Alara Martin",
         description: description ?? "",
-        authors: [{ name: "Alara Martin", url: "https://alaramartin.vercel.app" }],
+        authors: [{ name: "Alara Martin", url: "https://alaramartin.com" }],
         keywords: keywords?.length ? keywords : ["Alara Martin", "dev", "developer", "portfolio", "website"],
-        metadataBase: new URL("https://alaramartin.vercel.app"),
+        metadataBase: new URL("https://alaramartin.com"),
         alternates: {
             canonical: url,
         },
@@ -28,7 +28,7 @@ export default function generateMetadataBase(
             url: url,
             images: [
                 {
-                    url: `https://alaramartin.vercel.app/og?title=${title || ""}`,
+                    url: `https://alaramartin.com/og?title=${title || ""}`,
                     width: 1200,
                     height: 630,
                     alt: "preview img"
@@ -41,7 +41,7 @@ export default function generateMetadataBase(
             description: description ?? "",
             images: [
                 {
-                    url: `https://alaramartin.vercel.app/og?title=${title || ""}`,
+                    url: `https://alaramartin.com/og?title=${title || ""}`,
                     width: 1200,
                     height: 630,
                     alt: "preview img"

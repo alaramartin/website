@@ -8,7 +8,7 @@ import generateMetadataBase from "@/lib/metadata";
 
 export const metadata = generateMetadataBase({
     description: "My personal website.",
-    url: "https://alaramartin.vercel.app",
+    url: "https://alaramartin.com",
 });
 
 export const viewport: Viewport = {
