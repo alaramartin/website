@@ -32,7 +32,7 @@ export const projects: {
             "View Python pickle (.pkl) files directly in the VS Code editor.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
-        notes: ["3000+ users :)"],
+        notes: ["7000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         year: 2025,
     },
@@ -43,7 +43,7 @@ export const projects: {
         miniDescription: "View DICOM images and edit metadata side-by-side.",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
-        notes: ["250+ users :)", "first vscode extension"],
+        notes: ["600+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         year: 2025,
     },
@@ -81,6 +81,23 @@ export const projects: {
         miniDescription: "ts (this) website",
         description: "ts (this) website",
         notes: ["i still don't know how to make it nicer :(", "someone pls teach me ui/ux design"],
+        tags: [
+            "React",
+            "NextJS",
+            "TailwindCSS",
+            "TypeScript",
+            "HTMLCSS",
+            "whimsy",
+        ],
+        year: 2025,
+    },
+    {
+        name: "Alternate Website",
+        githubLink: "https://github.com/alaramartin/alarming-clock",
+        href: "https://clock.alaramartin.com",
+        miniDescription: "a sillier (in-progress) version of a personal website",
+        description: "a sillier (in-progress) version of a personal website",
+        notes: ["experimenting"],
         tags: [
             "React",
             "NextJS",

@@ -38,6 +38,28 @@ export default function Home() {
                         <p
                             className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
                         >
+                            About
+                        </p>
+                    </div>
+                </div>
+                <div className="w-full text-textbrown md:pl-20 px-8">
+                    I&apos;m a high schooler learning how to code. Read on to
+                    see my skills and projects. Feel free to{" "}
+                    <span>
+                        <Link
+                            href="/contact"
+                            className="underline decoration-lightred/70"
+                        >
+                            contact me
+                        </Link>
+                    </span>
+                    !
+                </div>
+                <div className="pt-18 flex flex-row select-none">
+                    <div className="flex flex-col pl-4 md:pl-14">
+                        <p
+                            className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
+                        >
                             Skills
                         </p>
                         <p
@@ -60,7 +82,7 @@ export default function Home() {
                                         <Skill id={skillKey} skill={skill} />
                                     </Link>
                                 </div>
-                            )
+                            ),
                         )}
                     </div>
                     {/* <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
