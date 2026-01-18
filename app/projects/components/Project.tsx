@@ -38,7 +38,7 @@ const Project = ({
                     className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
                 >
                     <div className="w-4 h-4">
-                        <GithubLogoIcon size="auto" />
+                        <GithubLogoIcon />
                     </div>
                 </Link>
                 {href && (
@@ -49,7 +49,7 @@ const Project = ({
                         className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
                     >
                         <div className="w-4 h-4">
-                            <ArrowSquareOutIcon size="auto" />
+                            <ArrowSquareOutIcon />
                         </div>
                     </Link>
                 )}

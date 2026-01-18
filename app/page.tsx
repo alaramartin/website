@@ -46,10 +46,7 @@ export default function Home() {
                     I&apos;m a high schooler learning how to code. Read on to
                     see my skills and projects. Feel free to{" "}
                     <span>
-                        <Link
-                            href="/contact"
-                            className="underline decoration-lightred/70"
-                        >
+                        <Link href="/contact" className="link">
                             contact me
                         </Link>
                     </span>
@@ -123,7 +120,7 @@ export default function Home() {
                 </div>
                 <div className="w-full text-center">
                     <Link
-                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/15  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 underline decoration-lightred/70 transition-all`}
+                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/15  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 link transition-all`}
                         href="/projects"
                     >
                         See all of my projects{" "}

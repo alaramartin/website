@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import {
     GithubLogoIcon,
@@ -8,14 +7,14 @@ import {
 
 const links: { name: string; href: string; icon: any }[] = [
     {
-        name: "GitHub",
-        href: "https://github.com/alaramartin",
-        icon: GithubLogoIcon,
-    },
-    {
         name: "LinkedIn",
         href: "https://linkedin.com/in/alara-martin",
         icon: LinkedinLogoIcon,
+    },
+    {
+        name: "GitHub",
+        href: "https://github.com/alaramartin",
+        icon: GithubLogoIcon,
     },
     {
         name: "VS Code Marketplace",

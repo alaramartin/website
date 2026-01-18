@@ -16,15 +16,13 @@ const Skill = ({ id, skill }: SkillProps) => {
             className="inline-flex items-center gap-x-1 group p-1 rounded-xl"
         >
             <div className="w-4 h-4 group-hover:hidden transition-all duration-200">
-                <IconComponent size="auto" />
+                <IconComponent />
             </div>
             <div className="w-4 h-4 hidden group-hover:inline-flex transition-all duration-200">
-                <CaretDoubleRightIcon size="auto" />
+                <CaretDoubleRightIcon />
             </div>
 
-            <p className="underline decoration-lightred/70">
-                {skill.skillName}
-            </p>
+            <p className="link">{skill.skillName}</p>
         </div>
         // <div
         //     id={id}

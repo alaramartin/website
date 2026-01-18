@@ -119,3 +119,7 @@ body {
     background: var(--color-pinkbeige);
     color: var(--foreground);
 }
+
+.link {
+    text-decoration: rgba(var(--color-lightred-rgb), 0.7) underline;
+}
