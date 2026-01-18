@@ -42,11 +42,12 @@
     --color-darkburgundy: #a3002c;
     --color-pinkbeige: #fff8f6;
     --color-lightred: #ed8c91;
+    --color-lightred-rgb: 237, 140, 145;
     --color-textbrown: #0c1844;
 }
 
-html {
-    scroll-behavior: smooth;
+::selection {
+    background: rgba(var(--color-lightred-rgb), 0.4);
 }
 
 @keyframes shadow-pulse {

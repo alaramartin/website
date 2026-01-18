@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
-import { lato, garamond } from "@/app/ui/fonts";
+import { garamond } from "@/app/ui/fonts";
 import {
     GithubLogoIcon,
     ArrowSquareOutIcon,

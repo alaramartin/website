@@ -16,7 +16,7 @@ export const metadata = generateMetadataBase({
 
 export default function Home() {
     return (
-        <div className="change-bg">
+        <div className="change-bg scroll-smooth">
             <NavBar />
             <DarkModeToggle />
             <div
@@ -33,10 +33,10 @@ export default function Home() {
                 </div>
             </div>
             <div className={`pt-18 lg:px-26`}>
-                <div className="flex flex-row select-none">
+                <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
+                            className={`${garamond.className} text-4xl pb-4 font-medium`}
                         >
                             About
                         </p>
@@ -55,23 +55,21 @@ export default function Home() {
                     </span>
                     !
                 </div>
-                <div className="pt-18 flex flex-row select-none">
+                <div className="pt-18 flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
+                            className={`${garamond.className} text-4xl pb-4 font-medium`}
                         >
                             Skills
                         </p>
-                        <p
-                            className={`${lato.className} cursor-default pb-2 inline-flex`}
-                        >
+                        <p className={`${lato.className} pb-2 inline-flex`}>
                             Click on a skill to see related projects on projects
                             page.
                         </p>
                     </div>
                 </div>
                 <div className="w-full text-center place-items-center">
-                    <div className="grid grid-cols-2 xl:grid-cols-7 gap-x-10 gap-y-4 px-4 pt-3 text-textbrown">
+                    <div className="grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-textbrown">
                         {Object.entries(skills).map(
                             ([skillKey, skill], index) => (
                                 <div key={skillKey}>
@@ -85,37 +83,18 @@ export default function Home() {
                             ),
                         )}
                     </div>
-                    {/* <div className="flex flex-wrap justify-center gap-2 px-4 pt-3 text-textbrown place-items-center">
-                        {Object.entries(skills).map(([skillKey, skill]) => (
-                            <Link
-                                key={skillKey}
-                                href={`/projects?skill=${skillKey}`}
-                                className="inline-block w-fit cursor-pointer"
-                            >
-                                <Skill id={skillKey} skill={skill} />
-                            </Link>
-                        ))}
-                    </div> */}
                 </div>
             </div>
             <div className={`pt-18 lg:px-26`}>
-                <div className="flex flex-row select-none">
+                <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${garamond.className} cursor-default text-4xl pb-4 font-medium`}
+                            className={`${garamond.className} text-4xl pb-4 font-medium`}
                         >
                             Projects
                         </p>
-                        <p
-                            className={`${lato.className} cursor-default pb-2 inline-flex`}
-                        >
+                        <p className={`${lato.className} pb-2 inline-flex`}>
                             Some of my favorites.
-                            {/* <Link
-                                className={`${lato.className} inline-flex group underline transition-all ml-1 items-center gap-0.5`}
-                                href="/projects"
-                            >
-                                View more <ArrowCircleRightIcon size={20} />
-                            </Link> */}
                         </p>
                     </div>
                 </div>
@@ -142,30 +121,9 @@ export default function Home() {
                         );
                     })}
                 </div>
-                {/* <div className="grid lg:auto-rows-fr grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-center text-textbrown xl:mx-8 mx-3">
-                    {projects.map((project) => {
-                        // only show the ones that have a miniDescription -- those are the ones that are meant to be displayed on the homepage
-                        if (!project.miniDescription) return;
-
-                        return (
-                            <div
-                                key={project.name}
-                                className="w-full px-6 py-3 h-full"
-                            >
-                                <MiniProject
-                                    name={project.name}
-                                    githubLink={project.githubLink}
-                                    href={project.href}
-                                    description={project.miniDescription}
-                                    tags={project.tags}
-                                ></MiniProject>
-                            </div>
-                        );
-                    })}
-                </div> */}
                 <div className="w-full text-center">
                     <Link
-                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/20  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 underline transition-all`}
+                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/15  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 underline decoration-lightred/70 transition-all`}
                         href="/projects"
                     >
                         See all of my projects{" "}
