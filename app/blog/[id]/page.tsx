@@ -6,21 +6,23 @@ import DarkModeToggle from "@/app/components/DarkModeToggle";
 import generateMetadataBase from "@/lib/metadata";
 
 interface PageProps {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const post = await getPostData(params.id);
+    const { id } = await params;
+    const post = await getPostData(id);
 
     return generateMetadataBase({
         title: post.title,
         description: post.description ?? "A blog post.",
-        url: `https://alaramartin.com/blog/${params.id}`,
+        url: `https://alaramartin.com/blog/${id}`,
     });
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-    const id = params.id;
+    // const id = params.id;
+    const { id } = await params;
     if (!id) {
         notFound();
     }
