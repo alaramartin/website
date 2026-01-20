@@ -120,7 +120,7 @@ export default function Home() {
                 </div>
                 <div className="w-full text-center">
                     <Link
-                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/15  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 link transition-all`}
+                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/15  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 transition-all`}
                         href="/projects"
                     >
                         See all of my projects{" "}

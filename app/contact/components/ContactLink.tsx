@@ -22,7 +22,7 @@ const ContactLink = ({ contact }: ContactLinkProps) => {
             <div className="flex max-lg:justify-start max-lg:w-3/4">
                 <Link
                     href={contact.href}
-                    className="underline text-center"
+                    className="link text-center"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

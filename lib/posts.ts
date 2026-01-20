@@ -18,12 +18,13 @@ export async function getSortedBlogPosts() {
 
         // get file metadata (title, date)
         const matterResult = matter(fileContents);
-        const data = matterResult.data as { date?: string; title?: string; [key: string]: any };
+        const data = matterResult.data as { date?: string; title?: string; description?: string; [key: string]: any };
 
         return {
             id,
             date: data.date ?? '',
-            title: data.title ?? ''
+            title: data.title ?? '',
+            description: data.description ?? ''
         };
     }));
 

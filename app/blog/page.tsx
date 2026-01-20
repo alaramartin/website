@@ -21,6 +21,7 @@ export default async function BlogPage() {
                 id: post.id,
                 title: post.title,
                 date: post.date,
+                description: post.description,
                 // send only the important text stuff (for searching purposes) and not all of the html tags n stuff
                 contentHTML: fullData?.contentHTML
                     ? fullData.contentHTML
@@ -29,7 +30,7 @@ export default async function BlogPage() {
                           .trim()
                     : "",
             };
-        })
+        }),
     );
 
     return (
@@ -43,7 +44,7 @@ export default async function BlogPage() {
                     Blog
                 </p>
                 <p
-                    className={`${lato.className} cursor-default text-md pb-4 select-none`}
+                    className={`${lato.className} cursor-default text-md pb-4 select-none text-textbrown`}
                 >
                     my thoughts :&#41;
                 </p>

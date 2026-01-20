@@ -120,6 +120,25 @@ body {
     color: var(--foreground);
 }
 
-.link {
+/* .link {
     text-decoration: rgba(var(--color-lightred-rgb), 0.7) underline;
+} */
+
+/* link underline that slides up on hover */
+.link {
+    color: black;
+    background-image: linear-gradient(
+        rgba(var(--color-lightred-rgb), 0.4),
+        rgba(var(--color-lightred-rgb), 0.4)
+    );
+    background-size: 100% 0.1em;
+    background-position-y: 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.15s ease-in-out;
+}
+
+.link:hover,
+.link:focus,
+.link:active {
+    background-size: 100% 90%;
 }

@@ -7,6 +7,7 @@ interface Post {
     id: string;
     date: string;
     title: string;
+    description: string;
     contentHTML: string;
 }
 
@@ -50,16 +51,21 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                         </p>
                     </div>
                 )}
-                {visibleBlogPosts.map(({ id, date, title }) => (
+                {visibleBlogPosts.map(({ id, date, description, title }) => (
                     <Link
                         key={id}
                         href={`/blog/${id}`}
                         className="inline-block h-fit p-2 md:p-4 transition-all duration-100 group"
                     >
-                        <p className="group-hover:underline text-lg pb-1">
+                        <p className="group-hover:underline group-hover:decoration-lightred/70 text-lg pb-0.5 text-textbrown">
                             {title}
                         </p>
-                        <p className="text-sm font-light">{date}</p>
+                        <p className="text-md font-light pb-1 text-textbrown">
+                            {description}
+                        </p>
+                        <p className="text-sm font-light text-textbrown">
+                            {date}
+                        </p>
                     </Link>
                 ))}
             </div>{" "}
