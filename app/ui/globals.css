@@ -126,7 +126,7 @@ body {
 
 /* link underline that slides up on hover */
 .link {
-    color: black;
+    color: var(--color-textbrown);
     background-image: linear-gradient(
         rgba(var(--color-lightred-rgb), 0.4),
         rgba(var(--color-lightred-rgb), 0.4)

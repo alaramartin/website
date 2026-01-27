@@ -30,11 +30,9 @@ export default function MostRecentCommit() {
         }
 
         fetchLatestCommit();
-        const id = setInterval(fetchLatestCommit, 120000);
 
         return () => {
             controller.abort();
-            clearInterval(id);
         };
     }, []);
 
