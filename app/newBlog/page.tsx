@@ -1,9 +1,17 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
-import Link from "next/link";
+import generateMetadataBase from "@/lib/metadata";
+import { italiana, lato } from "@/app/ui/fonts";
+import NavBar from "../components/NavBar";
+import BlogListView from "./components/BlogListView";
+import DarkModeToggle from "../components/DarkModeToggle";
 
-const filenames = await fs.readdir(path.join(process.cwd(), "/newBlog"));
+export const metadata = generateMetadataBase({
+    title: "Blog",
+    description: "My blog.",
+    url: "https://alaramartin.com/blog",
+});
 
 interface Frontmatter {
     title: string;
@@ -11,36 +19,51 @@ interface Frontmatter {
     description: string;
 }
 
-const projects = await Promise.all(
-    filenames.map(async (filename) => {
-        const content = await fs.readFile(
-            path.join(process.cwd(), "/newBlog", filename),
-            "utf-8",
-        );
-        const { frontmatter } = await compileMDX<Frontmatter>({
-            source: content,
-            options: {
-                parseFrontmatter: true,
-            },
-        });
-        return {
-            filename,
-            slug: filename.replace(".mdx", ""),
-            ...frontmatter,
-        };
-    }),
-);
+export default async function Page() {
+    const filenames = await fs.readdir(path.join(process.cwd(), "/newBlog"));
 
-export default function Page() {
+    const posts = await Promise.all(
+        filenames.map(async (filename) => {
+            const content = await fs.readFile(
+                path.join(process.cwd(), "/newBlog", filename),
+                "utf-8",
+            );
+            const { frontmatter } = await compileMDX<Frontmatter>({
+                source: content,
+                options: {
+                    parseFrontmatter: true,
+                },
+            });
+            return {
+                slug: filename.replace(".mdx", ""),
+                title: frontmatter.title,
+                date: frontmatter.date,
+                description: frontmatter.description,
+                content: content
+                    .replace(/<[^>]+>/g, " ")
+                    .replace(/\s+/g, " ")
+                    .trim(),
+            };
+        }),
+    );
+
     return (
-        <ul>
-            {projects.map(({ title, slug }, index) => {
-                return (
-                    <li key={index}>
-                        <Link href={`/newBlog/${slug}`}>{title}</Link>
-                    </li>
-                );
-            })}
-        </ul>
+        <>
+            <NavBar />
+            <DarkModeToggle />
+            <div className={`text-center pt-18 px-15`}>
+                <p
+                    className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
+                >
+                    Blog
+                </p>
+                <p
+                    className={`${lato.className} cursor-default text-md pb-4 select-none text-textbrown`}
+                >
+                    my thoughts :&#41;
+                </p>
+                <BlogListView posts={posts} />
+            </div>
+        </>
     );
 }
