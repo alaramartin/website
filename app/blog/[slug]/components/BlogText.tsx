@@ -17,7 +17,7 @@ interface Frontmatter {
 
 export default async function BlogText({ blogSlug }: BlogTextProps) {
     const content = await fs.readFile(
-        path.join(process.cwd(), "/newBlog", `${blogSlug}.mdx`),
+        path.join(process.cwd(), "/posts", `${blogSlug}.mdx`),
         "utf-8",
     );
 

@@ -4,11 +4,11 @@ import SearchBar from "../../components/SearchBar";
 import { useState, useEffect } from "react";
 
 interface Post {
-    id: string;
-    date: string;
+    slug: string;
     title: string;
+    date: string;
     description: string;
-    contentHTML: string;
+    content: string;
 }
 
 interface BlogListViewProps {
@@ -24,9 +24,7 @@ export default function BlogListView({ posts }: BlogListViewProps) {
             const filteredBlogPosts = posts.filter((post) => {
                 return (
                     post.title.toLowerCase().includes(search.toLowerCase()) ||
-                    post.contentHTML
-                        .toLowerCase()
-                        .includes(search.toLowerCase())
+                    post.content.toLowerCase().includes(search.toLowerCase())
                 );
             });
             setVisibleBlogPosts(filteredBlogPosts);
@@ -51,10 +49,10 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                         </p>
                     </div>
                 )}
-                {visibleBlogPosts.map(({ id, date, description, title }) => (
+                {visibleBlogPosts.map(({ slug, date, description, title }) => (
                     <Link
-                        key={id}
-                        href={`/blog/${id}`}
+                        key={slug}
+                        href={`/blog/${slug}`}
                         className="inline-block h-fit p-2 md:p-4 transition-all duration-100 group"
                     >
                         <p className="group-hover:underline group-hover:decoration-lightred/70 text-lg pb-0.5 text-textbrown">

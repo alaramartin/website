@@ -20,7 +20,7 @@ interface Frontmatter {
 export async function generateMetadata({ params }: PageProps) {
     const { slug } = await params;
     const content = await fs.readFile(
-        path.join(process.cwd(), "/newBlog", slug + ".mdx"),
+        path.join(process.cwd(), "/posts", slug + ".mdx"),
         "utf-8",
     );
     const { frontmatter } = await compileMDX<Frontmatter>({
@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     try {
         await fs.readFile(
-            path.join(process.cwd(), "/newBlog", `${slug}.mdx`),
+            path.join(process.cwd(), "/posts", `${slug}.mdx`),
             "utf-8",
         );
 
