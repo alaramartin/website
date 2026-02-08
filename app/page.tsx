@@ -36,13 +36,15 @@ export default function Home() {
                 <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${garamond.className} text-4xl pb-4 font-medium`}
+                            className={`${lato.className} text-4xl pb-4 font-bold`}
                         >
-                            About
+                            ABOUT
                         </p>
                     </div>
                 </div>
-                <div className="w-full text-textbrown md:pl-20 px-8">
+                <div
+                    className={`w-full text-textbrown md:pl-20 px-8 ${garamond.className}`}
+                >
                     I&apos;m a high schooler learning how to code. Read on to
                     see my skills and projects. Feel free to{" "}
                     <span>
