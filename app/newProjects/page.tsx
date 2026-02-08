@@ -1,8 +1,9 @@
-import { italiana } from "@/app/ui/fonts";
+import { mono, garamond } from "@/app/ui/fonts";
 import DarkModeToggle from "../components/DarkModeToggle";
 import NavBar from "../components/NavBar";
 import generateMetadataBase from "@/lib/metadata";
 import Timeline from "./components/Timeline";
+import TextScramble from "../components/TextScramble";
 
 export const metadata = generateMetadataBase({
     title: "Projects",
@@ -17,11 +18,11 @@ export default function ProjectsPage() {
             <DarkModeToggle />
             <div className={`text-center pt-16 md:px-15`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
+                    className={`${mono.className} cursor-default text-4xl pb-4 select-none`}
                 >
-                    PROJECTS
+                    <TextScramble textToScramble="PROJECTS" />
                 </p>
-                <p className="text-black">
+                <p className={`text-black ${garamond.className}`}>
                     I&apos;ve made a few things over the years...
                 </p>
             </div>

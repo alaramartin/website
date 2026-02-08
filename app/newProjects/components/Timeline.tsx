@@ -55,9 +55,11 @@ export default function Timeline() {
                                     <span className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-textbrown bg-background" />
 
                                     <div
-                                        className={`md:col-start-${
-                                            isLeft ? "1" : "2"
-                                        } ${isLeft ? "md:pr-10 md:justify-self-end" : "md:pl-10 md:justify-self-start"} md:self-center w-full`}
+                                        className={`${
+                                            isLeft
+                                                ? "md:col-start-1 md:pr-10 md:justify-self-end"
+                                                : "md:col-start-2 md:pl-10 md:justify-self-start"
+                                        } md:self-center w-full`}
                                     >
                                         <Project {...project} />
                                     </div>

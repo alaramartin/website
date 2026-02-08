@@ -1,4 +1,4 @@
-import { italiana, lato, garamond } from "@/app/ui/fonts";
+import { italiana, lato, garamond, mono, serif } from "@/app/ui/fonts";
 import NavBar from "./components/NavBar";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
+import TextScramble from "./components/TextScramble";
 
 export const metadata = generateMetadataBase({
     description: "My personal website.",
@@ -36,14 +37,14 @@ export default function Home() {
                 <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${lato.className} text-4xl pb-4 font-bold`}
+                            className={`${mono.className} text-4xl pb-4 font-medium`}
                         >
                             ABOUT
                         </p>
                     </div>
                 </div>
                 <div
-                    className={`w-full text-textbrown md:pl-20 px-8 ${garamond.className}`}
+                    className={`w-full text-textbrown md:pl-20 px-8 font-[Sentient-Light]`}
                 >
                     I&apos;m a high schooler learning how to code. Read on to
                     see my skills and projects. Feel free to{" "}
@@ -57,9 +58,9 @@ export default function Home() {
                 <div className="pt-18 flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${garamond.className} text-4xl pb-4 font-medium`}
+                            className={`${mono.className} text-4xl pb-4 font-medium`}
                         >
-                            Skills
+                            SKILLS
                         </p>
                         <p className={`${lato.className} pb-2 inline-flex`}>
                             Click on a skill to see related projects on projects
@@ -69,18 +70,16 @@ export default function Home() {
                 </div>
                 <div className="w-full text-center place-items-center">
                     <div className="grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-textbrown">
-                        {Object.entries(skills).map(
-                            ([skillKey, skill], index) => (
-                                <div key={skillKey}>
-                                    <Link
-                                        href={`/projects?skill=${skillKey}`}
-                                        className="inline-block w-max cursor-pointer"
-                                    >
-                                        <Skill id={skillKey} skill={skill} />
-                                    </Link>
-                                </div>
-                            ),
-                        )}
+                        {Object.entries(skills).map(([skillKey, skill]) => (
+                            <div key={skillKey}>
+                                <Link
+                                    href={`/projects?skill=${skillKey}`}
+                                    className="inline-block w-max cursor-pointer"
+                                >
+                                    <Skill id={skillKey} skill={skill} />
+                                </Link>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -88,9 +87,9 @@ export default function Home() {
                 <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${garamond.className} text-4xl pb-4 font-medium`}
+                            className={`${mono.className} text-4xl pb-4 font-medium`}
                         >
-                            Projects
+                            PROJECTS
                         </p>
                         <p className={`${lato.className} pb-2 inline-flex`}>
                             Some of my favorites.
