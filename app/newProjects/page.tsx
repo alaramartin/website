@@ -1,4 +1,4 @@
-import { mono, garamond } from "@/app/ui/fonts";
+import { mono, serif } from "@/app/ui/fonts";
 import DarkModeToggle from "../components/DarkModeToggle";
 import NavBar from "../components/NavBar";
 import generateMetadataBase from "@/lib/metadata";
@@ -20,9 +20,9 @@ export default function ProjectsPage() {
                 <p
                     className={`${mono.className} cursor-default text-4xl pb-4 select-none`}
                 >
-                    <TextScramble textToScramble="PROJECTS" />
+                    <TextScramble textToScramble="Projects" />
                 </p>
-                <p className={`text-black ${garamond.className}`}>
+                <p className={`text-black ${serif.className}`}>
                     I&apos;ve made a few things over the years...
                 </p>
             </div>

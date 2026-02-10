@@ -1,6 +1,6 @@
 import ContactLink from "./components/ContactLink";
 import NavBar from "../components/NavBar";
-import { italiana, lato } from "../ui/fonts";
+import { italiana, mono, serif } from "../ui/fonts";
 import {
     EnvelopeIcon,
     LinkedinLogoIcon,
@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import DarkModeToggle from "../components/DarkModeToggle";
 import generateMetadataBase from "@/lib/metadata";
+import TextScramble from "../components/TextScramble";
 
 export const metadata = generateMetadataBase({
     title: "Contact Me",
@@ -54,11 +55,11 @@ export default function ContactPage() {
             <NavBar />
             <DarkModeToggle />
             <div className="h-screen flex flex-col items-center text-center justify-center select-none">
-                <p className={`${italiana.className} text-2xl font-bold`}>
-                    CONTACT ME
+                <p className={`${mono.className} text-3xl font-bold`}>
+                    <TextScramble textToScramble="Contact Me" />
                 </p>
                 <div
-                    className={`max-md:mt-6 flex flex-col lg:inline-flex lg:flex-row ${lato.className}`}
+                    className={`max-md:mt-6 flex flex-col lg:inline-flex lg:flex-row ${serif.className}`}
                 >
                     {contactLinks.map((contactLink) => (
                         <div key={contactLink.contactType}>

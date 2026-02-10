@@ -3,11 +3,12 @@
 :root {
     --background: #fff8f6;
     --foreground: #a3002c;
-    --secondary: #0c1844;
+    --secondary: #070002;
     --color-darkburgundy: #a3002c;
     --color-pinkbeige: #fff8f6;
     --color-lightred: #ed8c91;
-    --color-textbrown: #0c1844;
+    --color-taupe: #d4a0a7;
+    --color-textbrown: #070002;
 
     /* rgb values of the background andn foreground for the scroll animation */
     --bg-r: 163;
@@ -22,7 +23,7 @@
 .dark {
     --background: #a3002c;
     --foreground: #fff8f6;
-    --secondary: #0c1844;
+    --secondary: #070002;
     --color-darkburgundy: #fff8f6;
     --color-pinkbeige: #a3002c;
     --color-lightred: #ed8c91;
@@ -126,7 +127,7 @@ body {
 
 /* link underline that slides up on hover */
 .link {
-    color: var(--color-textbrown);
+    /* color: var(--color-textbrown); */
     background-image: linear-gradient(
         rgba(var(--color-lightred-rgb), 0.4),
         rgba(var(--color-lightred-rgb), 0.4)
@@ -278,4 +279,21 @@ body {
     font-weight: 200 700;
     font-display: swap;
     font-style: italic;
+}
+
+@font-face {
+    font-family: "Optima";
+    src: url("./optima/OPTIMA.TTF") format("opentype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "StoneSerif";
+    src: url("./stone-serif-itc-pro/StoneSerifITCProMedium.OTF")
+        format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
 }

@@ -2,10 +2,11 @@ import { promises as fs } from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import generateMetadataBase from "@/lib/metadata";
-import { italiana, lato } from "@/app/ui/fonts";
+import { italiana, mono, serif } from "@/app/ui/fonts";
 import NavBar from "../components/NavBar";
 import BlogListView from "./components/BlogListView";
 import DarkModeToggle from "../components/DarkModeToggle";
+import TextScramble from "../components/TextScramble";
 
 export const metadata = generateMetadataBase({
     title: "Blog",
@@ -53,16 +54,18 @@ export default async function Page() {
             <DarkModeToggle />
             <div className={`text-center pt-18 px-15`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
+                    className={`${mono.className} cursor-default text-4xl pb-4 select-none`}
                 >
-                    Blog
+                    <TextScramble textToScramble="Blog" />
                 </p>
                 <p
-                    className={`${lato.className} cursor-default text-md pb-4 select-none text-textbrown`}
+                    className={`${serif.className} cursor-default text-md pb-4 select-none text-textbrown`}
                 >
                     my thoughts :&#41;
                 </p>
-                <BlogListView posts={posts} />
+                <div className={`${serif.className}`}>
+                    <BlogListView posts={posts} />
+                </div>
             </div>
         </>
     );

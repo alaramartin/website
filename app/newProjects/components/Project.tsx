@@ -1,5 +1,5 @@
 "use client";
-import { lato } from "@/app/ui/fonts";
+import { serif } from "@/app/ui/fonts";
 import {
     GithubLogoIcon,
     ArrowSquareOutIcon,
@@ -30,7 +30,7 @@ const Project = ({
 
     return (
         <div
-            className={`${lato.className} text-black antialiased border border-lightred/50 hover:border-lightred bg-pinkbeige rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lightred relative h-full w-full place-content-center transition-all duration-150`}
+            className={`${serif.className} text-black antialiased border border-lightred/50 hover:border-lightred bg-pinkbeige rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lightred relative h-full w-full place-content-center transition-all duration-150`}
         >
             <div>
                 <p className="text-xl font-extrabold py-2">{name}</p>

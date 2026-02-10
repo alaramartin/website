@@ -1,4 +1,4 @@
-import { italiana, lato, garamond, mono, serif } from "@/app/ui/fonts";
+import { italiana, mono, serif } from "@/app/ui/fonts";
 import NavBar from "./components/NavBar";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
@@ -8,7 +8,6 @@ import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
-import TextScramble from "./components/TextScramble";
 
 export const metadata = generateMetadataBase({
     description: "My personal website.",
@@ -39,12 +38,12 @@ export default function Home() {
                         <p
                             className={`${mono.className} text-4xl pb-4 font-medium`}
                         >
-                            ABOUT
+                            About
                         </p>
                     </div>
                 </div>
                 <div
-                    className={`w-full text-textbrown md:pl-20 px-8 font-[Sentient-Light]`}
+                    className={`w-full text-textbrown md:pl-20 px-8 font-[Optima] ${serif.className}`}
                 >
                     I&apos;m a high schooler learning how to code. Read on to
                     see my skills and projects. Feel free to{" "}
@@ -57,19 +56,15 @@ export default function Home() {
                 </div>
                 <div className="pt-18 flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
-                        <p
-                            className={`${mono.className} text-4xl pb-4 font-medium`}
-                        >
-                            SKILLS
-                        </p>
-                        <p className={`${lato.className} pb-2 inline-flex`}>
-                            Click on a skill to see related projects on projects
-                            page.
+                        <p className={`${mono.className} text-4xl font-medium`}>
+                            Skills
                         </p>
                     </div>
                 </div>
                 <div className="w-full text-center place-items-center">
-                    <div className="grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-textbrown">
+                    <div
+                        className={`grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-textbrown ${serif.className}`}
+                    >
                         {Object.entries(skills).map(([skillKey, skill]) => (
                             <div key={skillKey}>
                                 <Link
@@ -89,9 +84,11 @@ export default function Home() {
                         <p
                             className={`${mono.className} text-4xl pb-4 font-medium`}
                         >
-                            PROJECTS
+                            Projects
                         </p>
-                        <p className={`${lato.className} pb-2 inline-flex`}>
+                        <p
+                            className={`${serif.className} pb-2 inline-flex text-textbrown`}
+                        >
                             Some of my favorites.
                         </p>
                     </div>
@@ -103,7 +100,10 @@ export default function Home() {
                         if (!project.miniDescription) return;
 
                         return (
-                            <div key={project.name} className="">
+                            <div
+                                key={project.name}
+                                className={`${serif.className}`}
+                            >
                                 <MiniProject
                                     name={project.name}
                                     githubLink={project.githubLink}
@@ -121,11 +121,11 @@ export default function Home() {
                 </div>
                 <div className="w-full text-center">
                     <Link
-                        className={`${lato.className} text-md justify-center inline-flex items-center text-textbrown hover:bg-lightred/15  hover:transform hover:-translate-y-px rounded-lg m-6 p-2 gap-1 transition-all`}
+                        className={`${serif.className} text-md justify-center inline-flex items-center text-textbrown border border-lightred shadow-sm shadow-lightred/30 hover:shadow-lg hover:shadow-lightred/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
                         href="/projects"
                     >
                         See all of my projects{" "}
-                        <ArrowCircleRightIcon size={20} />{" "}
+                        <ArrowCircleRightIcon size={20} />
                     </Link>
                 </div>
             </div>

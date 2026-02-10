@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { lato, italiana } from "./ui/fonts";
+import { serif, italiana } from "./ui/fonts";
 import {
     SmileySadIcon,
     HouseIcon,
@@ -21,7 +21,7 @@ const NotFound = () => {
     return (
         <>
             <main
-                className={`${lato.className} h-screen relative flex flex-col items-center justify-center gap-8 select-none bg-pinkbeige dark:bg-darkburgundy`}
+                className={`${serif.className} h-screen relative flex flex-col items-center justify-center gap-8 select-none bg-pinkbeige dark:bg-darkburgundy`}
             >
                 <NavBar />
                 <DarkModeToggle />

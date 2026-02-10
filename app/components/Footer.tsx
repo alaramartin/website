@@ -1,6 +1,6 @@
 import LinksBar from "./LinksBar";
 import MostRecentCommit from "./MostRecentCommit";
-import { italiana, lato } from "../ui/fonts";
+import { italiana, serif } from "../ui/fonts";
 // import Link from "next/link";
 // import {
 //     HouseIcon,
@@ -43,7 +43,7 @@ const Footer = () => {
 
             <p className={`m-2 ${italiana.className} text-2xl`}>ALARA MARTIN</p>
             <span
-                className={`${lato.className} inline-block m-2 py-3 px-4 border-t border-lightred/80`}
+                className={`${serif.className} inline-block m-2 py-3 px-4 border-t border-lightred/80`}
             >
                 {/* <Link
                     className="hover:underline transition-all"

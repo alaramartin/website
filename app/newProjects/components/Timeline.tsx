@@ -23,7 +23,32 @@ export default function Timeline() {
         restDelta: 0.001,
     });
 
-    if (isDesktop) {
+    if (!isDesktop) {
+        // if it's not desktop, don't alternate sides
+        return (
+            <section className="relative mx-auto max-w-6xl px-4 py-12 mt-4">
+                {/* vertical timeline */}
+                <div className="absolute left-4 top-0 h-full w-[3px] rounded-full -translate-x-1/2 bg-textbrown/30" />
+
+                <div className="space-y-12">
+                    {projects.map((project, index) => {
+                        return (
+                            <div
+                                key={project.name ?? index}
+                                className="relative grid grid-cols-1 md:grid-cols-2 items-center"
+                            >
+                                <span className="absolute left-0 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-textbrown bg-background" />
+
+                                <div className={`pl-8 w-full`}>
+                                    <Project {...project} />
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </section>
+        );
+    } else {
         return (
             <>
                 <section className="relative mx-auto max-w-6xl px-4 py-12 mt-6">
@@ -69,31 +94,6 @@ export default function Timeline() {
                     </div>
                 </section>
             </>
-        );
-        // if it's not desktop, don't alternate sides
-    } else {
-        return (
-            <section className="relative mx-auto max-w-6xl px-4 py-12 mt-4">
-                {/* vertical timeline */}
-                <div className="absolute left-4 top-0 h-full w-[3px] rounded-full -translate-x-1/2 bg-textbrown/30" />
-
-                <div className="space-y-12">
-                    {projects.map((project, index) => {
-                        return (
-                            <div
-                                key={project.name ?? index}
-                                className="relative grid grid-cols-1 md:grid-cols-2 items-center"
-                            >
-                                <span className="absolute left-0 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-textbrown bg-background" />
-
-                                <div className={`pl-8 w-full`}>
-                                    <Project {...project} />
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </section>
         );
     }
 }

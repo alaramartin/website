@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { garamond } from "@/app/ui/fonts";
+import { serif, mono } from "@/app/ui/fonts";
 import {
     GithubLogoIcon,
     ArrowSquareOutIcon,
@@ -54,7 +54,7 @@ const MiniProject = ({
                 className={`flex items-center w-full md:px-4 py-2 text-left`}
             >
                 <div
-                    className={`${garamond.className} hidden md:flex opacity-50 group-hover:opacity-60 text-md md:text-lg items-center gap-2 text-lg font-medium md:font-bold p-2 transition-all duration-150`}
+                    className={`${mono.className} hidden md:flex opacity-50 group-hover:opacity-60 text-md md:text-[0.95rem] items-center gap-2 text-lg font-medium md:font-bold p-2 transition-all duration-150`}
                 >
                     {year}
                 </div>
@@ -121,106 +121,8 @@ const MiniProject = ({
                     </Link>
                 </div>
             </button>
-
-            {/* <div
-                className={`overflow-hidden flex flex-row ${
-                    collapsed ? "max-h-0" : "max-h-[600px]"
-                }`}
-            >
-                <div className="flex-1 flex justify-center text-center">
-                    <p className="text-center">{longDescription}</p>
-                </div>
-                <div className="h-14 border-r border-lightred mx-2 mr-6" />
-                <div className="flex justify-start w-1/6">
-                    <div className="flex flex-col">
-                        <div className="flex flex-row">
-                            {tags &&
-                                tags.slice(0, 3).map((tag) => {
-                                    const skillData = skills[tag];
-                                    if (!skillData) return null;
-                                    const IconComponent = skillData.icon;
-                                    return (
-                                        <button
-                                            key={tag}
-                                            onClick={(e) =>
-                                                handleSkillClick(e, tag)
-                                            }
-                                            className="items-center border border-lightred rounded-lg mx-1 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
-                                            title={`Skill: ${skillData.skillName}`}
-                                        >
-                                            <IconComponent
-                                                size={16}
-                                                className="m-0.5"
-                                            />
-                                        </button>
-                                    );
-                                })}
-                        </div>
-                    </div>
-                </div>
-            </div> */}
         </div>
     );
-
-    // return (
-    //     <div
-    //         className={`${lato.className} antialiased flex flex-row items-center bg-pinkbeige rounded-2xl md:p-3 md:mx-8 md:my-2 h-26 border border-lightred shadow-lg/10 shadow-lightred`}
-    //     >
-    //         <div className="flex flex-col items-center text-center justify-center w-1/4">
-    //             <p className="text-lg font-semibold py-2">{name}</p>
-    //             <div className="space-x-2">
-    //                 <Link
-    //                     href={githubLink}
-    //                     target="_blank"
-    //                     aria-label="View the source code on GitHub!"
-    //                     className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
-    //                 >
-    //                     <GithubLogoIcon size={16} />
-    //                 </Link>
-    //                 {href && (
-    //                     <Link
-    //                         href={href}
-    //                         target="_blank"
-    //                         aria-label="Check it out!"
-    //                         className="inline-block border border-lightred rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
-    //                     >
-    //                         <ArrowSquareOutIcon size={16} />
-    //                     </Link>
-    //                 )}
-    //             </div>
-    //         </div>
-
-    //         <div className="h-14 border-r border-lightred opacity-80 mx-2" />
-
-    //         <div className="flex-1 flex justify-center text-center">
-    //             <p className="text-center">{description}</p>
-    //         </div>
-
-    //         <div className="flex justify-end w-1/8">
-    //             <div className="flex flex-row">
-    //                 {tags &&
-    //                     tags.slice(0, 3).map((tag) => {
-    //                         const skillData = skills[tag];
-    //                         if (!skillData) return null;
-    //                         const IconComponent = skillData.icon;
-    //                         return (
-    //                             <button
-    //                                 key={tag}
-    //                                 onClick={(e) => handleSkillClick(e, tag)}
-    //                                 className="inline-flex items-center border border-lightred rounded-lg mx-1 p-2 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
-    //                                 title={`Skill: ${skillData.skillName}`}
-    //                             >
-    //                                 <IconComponent
-    //                                     size={16}
-    //                                     className="m-0.5"
-    //                                 />
-    //                             </button>
-    //                         );
-    //                     })}
-    //             </div>
-    //         </div>
-    //     </div>
-    // );
 };
 
 export default MiniProject;

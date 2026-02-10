@@ -2,7 +2,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { promises as fs } from "fs";
 import path from "path";
 import LinksBar from "@/app/components/LinksBar";
-import { italiana } from "@/app/ui/fonts";
+import { italiana, mono, serif } from "@/app/ui/fonts";
 import BlogsButton from "./BlogsButton";
 
 interface BlogTextProps {
@@ -35,13 +35,17 @@ export default async function BlogText({ blogSlug }: BlogTextProps) {
 
     return (
         <>
-            <div className={`text-center p-16 mt-10 ${italiana.className}`}>
+            <div className={`text-center p-16 mt-10 ${mono.className}`}>
                 <p className="font-extrabold text-3xl">
                     {data.frontmatter.title}
                 </p>
-                <p className="text-md">{data.frontmatter.date}</p>
+                <p className={`text-md ${serif.className}`}>
+                    {data.frontmatter.date}
+                </p>
             </div>
-            <div className="px-12 md:px-50 text-md text-textbrown">
+            <div
+                className={`px-12 md:px-50 text-md text-textbrown ${serif.className}`}
+            >
                 {data.content}
             </div>
             <BlogsButton />
