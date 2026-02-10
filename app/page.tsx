@@ -43,7 +43,7 @@ export default function Home() {
                     </div>
                 </div>
                 <div
-                    className={`w-full text-textbrown md:pl-20 px-8 font-[Optima] ${serif.className}`}
+                    className={`w-full text-textbrown md:pl-20 px-8 ${serif.className}`}
                 >
                     I&apos;m a high schooler learning how to code. Read on to
                     see my skills and projects. Feel free to{" "}
