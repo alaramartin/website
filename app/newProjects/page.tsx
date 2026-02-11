@@ -22,7 +22,7 @@ export default function ProjectsPage() {
                 >
                     <TextScramble textToScramble="Projects" />
                 </p>
-                <p className={`text-black ${serif.className}`}>
+                <p className={`text-textbrown ${serif.className}`}>
                     I&apos;ve made a few things over the years...
                 </p>
             </div>

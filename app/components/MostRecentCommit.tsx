@@ -15,7 +15,7 @@ export default function MostRecentCommit() {
 
         async function fetchLatestCommit() {
             try {
-                const res = await fetch("/api/github", {
+                const res = await fetch("/api/github/commits", {
                     cache: "no-store",
                     signal: controller.signal,
                 });

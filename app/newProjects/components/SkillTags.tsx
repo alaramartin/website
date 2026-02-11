@@ -39,9 +39,9 @@ export default function SkillTags({ tags }: SkillTagProps) {
                                         >
                                             <IconComponent
                                                 size={16}
-                                                className="mx-0.5"
+                                                className="ml-0.5"
                                             />
-                                            <p className="md:max-w-0 md:text-sm md:group-hover:max-w-xs md:ml-0 md:group-hover:ml-2 md:transition-all md:duration-500 md:overflow-hidden md:whitespace-nowrap">
+                                            <p className="md:max-w-0 md:text-sm md:group-hover:max-w-xs md:ml-0 md:group-hover:ml-1.5 md:transition-all md:duration-500 md:overflow-hidden md:whitespace-nowrap">
                                                 {skillData.skillName}
                                             </p>
                                         </div>
