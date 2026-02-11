@@ -11,8 +11,8 @@ export async function GET(request: NextRequest) {
         const hasTitle = title?.trim() !== "";
 
         // get the fonts
-        const serif = await fetch(
-            new URL("./serif-Regular.ttf", import.meta.url),
+        const lato = await fetch(
+            new URL("./Lato-Regular.ttf", import.meta.url),
         ).then((res) => res.arrayBuffer());
         const italiana = await fetch(
             new URL("./Italiana-Regular.ttf", import.meta.url),
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
                             color: "#fff8f6",
                             fontSize: 56,
                             paddingTop: "200px",
-                            fontFamily: "serif",
+                            fontFamily: "Lato",
                         }}
                     >
                         {title}
@@ -91,8 +91,8 @@ export async function GET(request: NextRequest) {
                 height: 630,
                 fonts: [
                     {
-                        name: "serif",
-                        data: await serif,
+                        name: "Lato",
+                        data: await lato,
                         style: "normal",
                         weight: 400,
                     },
