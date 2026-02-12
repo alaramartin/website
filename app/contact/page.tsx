@@ -7,7 +7,6 @@ import {
     GithubLogoIcon,
     GlobeIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import DarkModeToggle from "../components/DarkModeToggle";
 import generateMetadataBase from "@/lib/metadata";
 import TextScramble from "../components/TextScramble";
 
@@ -53,9 +52,10 @@ export default function ContactPage() {
     return (
         <>
             <NavBar />
-            <DarkModeToggle />
             <div className="h-screen flex flex-col items-center text-center justify-center select-none">
-                <p className={`${mono.className} text-3xl font-bold`}>
+                <p
+                    className={`${mono.className} text-3xl font-bold text-accent`}
+                >
                     <TextScramble textToScramble="Contact Me" />
                 </p>
                 <div

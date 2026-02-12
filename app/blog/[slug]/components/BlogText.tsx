@@ -35,7 +35,9 @@ export default async function BlogText({ blogSlug }: BlogTextProps) {
 
     return (
         <>
-            <div className={`text-center p-16 mt-10 ${mono.className}`}>
+            <div
+                className={`text-center p-16 mt-10 ${mono.className} text-accent`}
+            >
                 <p className="font-extrabold text-3xl">
                     {data.frontmatter.title}
                 </p>
@@ -44,7 +46,7 @@ export default async function BlogText({ blogSlug }: BlogTextProps) {
                 </p>
             </div>
             <div
-                className={`px-12 md:px-50 text-md text-textbrown ${serif.className}`}
+                className={`px-12 md:px-50 text-md text-bodytext ${serif.className}`}
             >
                 {data.content}
             </div>

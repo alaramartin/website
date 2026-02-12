@@ -59,18 +59,22 @@ export default function BugCatcherGame() {
     useEffect(() => {
         if (gameOver) return;
 
-        const spawn = setInterval(() => {
-            const newSpawnedBug: Bug = {
-                id:
-                    typeof crypto !== "undefined" && (crypto as any).randomUUID
-                        ? (crypto as any).randomUUID()
-                        : Math.random().toString(36).slice(2, 9), // unique id with fallback
-                x: Math.random() * 90,
-                y: 0,
-                type: Math.random() < 0.8 ? "warning" : "fatal",
-            };
-            setBugs((bugs) => [...bugs, newSpawnedBug]);
-        }, 1200 + Math.random() * 800);
+        const spawn = setInterval(
+            () => {
+                const newSpawnedBug: Bug = {
+                    id:
+                        typeof crypto !== "undefined" &&
+                        (crypto as any).randomUUID
+                            ? (crypto as any).randomUUID()
+                            : Math.random().toString(36).slice(2, 9), // unique id with fallback
+                    x: Math.random() * 90,
+                    y: 0,
+                    type: Math.random() < 0.8 ? "warning" : "fatal",
+                };
+                setBugs((bugs) => [...bugs, newSpawnedBug]);
+            },
+            1200 + Math.random() * 800,
+        );
 
         // cleanup
         return () => clearInterval(spawn);
@@ -167,7 +171,7 @@ export default function BugCatcherGame() {
         <div className="mt-10">
             <div className="flex flex-col items-center justify-center">
                 <div
-                    className="relative border-2 border-lightred-80 rounded-lg bg-white"
+                    className="relative border-2 border-lighthighlight-80 rounded-lg bg-white"
                     style={{
                         width: "400px",
                         height: "500px",
@@ -215,7 +219,7 @@ export default function BugCatcherGame() {
                             </div>
 
                             <div
-                                className="inline-flex cursor-pointer items-center border-2 border-lightred rounded-xl p-3 gap-2 bg-lightred/10 hover:bg-lightred/20 transition-all duration-200"
+                                className="inline-flex cursor-pointer items-center border-2 border-lighthighlight rounded-xl p-3 gap-2 bg-lighthighlight/10 hover:bg-lighthighlight/20 transition-all duration-200"
                                 onClick={() => {
                                     setFirstGame(false);
                                     setGameOver(false);

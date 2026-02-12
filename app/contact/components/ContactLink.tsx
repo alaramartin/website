@@ -15,17 +15,17 @@ const ContactLink = ({ contact }: ContactLinkProps) => {
     const IconComponent = contact.icon;
     return (
         <div className="my-6 md:my-10 lg:m-10 flex lg:flex-row items-center w-full">
-            <div className="flex flex-col items-center text-center justify-center mx-3 max-lg:w-1/8">
+            <div className="flex flex-col items-center text-center justify-center mx-3 max-lg:w-1/8 text-accent">
                 <IconComponent size={24} className="mb-1" />
                 <p className={`text-sm ${mono.className}`}>
                     {contact.contactType}
                 </p>
             </div>
-            <div className="h-12 border-r border-lightred opacity-80 mx-4" />
+            <div className="h-12 border-r border-lighthighlight opacity-80 mx-4" />
             <div className="flex max-lg:justify-start max-lg:w-3/4">
                 <Link
                     href={contact.href}
-                    className="link text-center text-textbrown"
+                    className="link text-center text-bodytext"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

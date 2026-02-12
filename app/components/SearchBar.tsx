@@ -19,20 +19,20 @@ export default function SearchBar({
                 maxLength={100}
                 placeholder={placeholderText}
                 aria-label={placeholderText}
-                className="text-textbrown border-2 border-lightred/50 focus:border-darkburgundy focus:outline-none p-1 rounded-xl transition-all duration-50 w-xl text-center"
+                className="text-bodytext border-2 border-lighthighlight/50 focus:border-accent focus:outline-none p-1 rounded-xl transition-all duration-50 w-xl text-center"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 autoComplete="off"
             />
             <label
                 htmlFor="searchbar"
-                className="text-textbrown cursor-pointer inline-flex items-center p-1"
+                className="text-bodytext cursor-pointer inline-flex items-center p-1"
             >
                 <MagnifyingGlassIcon size={18} weight="bold" />
             </label>
             <button
                 onClick={() => setSearch("")}
-                className={`text-textbrown text-sm inline-flex cursor-pointer m-2 hover:underline rounded-xl`}
+                className={`text-bodytext text-sm inline-flex cursor-pointer m-2 hover:underline rounded-xl`}
             >
                 Clear Search
             </button>

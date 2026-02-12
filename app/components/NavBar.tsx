@@ -8,6 +8,7 @@ import {
     // QuotesIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { serif } from "../ui/fonts";
+import DarkModeToggle from "./DarkModeToggle";
 
 const navLinks = [
     { icon: HouseIcon, title: "Home", link: "/" },
@@ -18,10 +19,11 @@ const navLinks = [
 
 export default function NavBar() {
     const pathname = usePathname() || "/";
+    const isHomePage = pathname === "/";
 
     return (
         <div
-            className={`fixed top-0 left-0 w-full px-4 md:px-8 pt-2.5 pb-2 z-50 bg-inherit ${serif.className}`}
+            className={`fixed top-0 left-0 w-full px-4 md:px-8 pt-2.5 pb-2 z-50 bg-inherit ${serif.className} ${isHomePage ? "text-(--scroll-nav)" : "text-accent"}`}
         >
             <div className="mx-auto flex items-center justify-start md:space-x-30 space-x-8">
                 {navLinks.map((navLink) => {
@@ -59,6 +61,7 @@ export default function NavBar() {
                     );
                 })}
             </div>
+            <DarkModeToggle />
         </div>
     );
 }

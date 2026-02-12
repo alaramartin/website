@@ -46,7 +46,7 @@ const MiniProject = ({
     // const [collapsed, setCollapsed] = useState(true);
 
     return (
-        <div className="group text-textbrown">
+        <div className="group text-bodytext">
             {/* {collapsed ? <CaretRightIcon /> : <CaretDownIcon />} */}
 
             <button
@@ -78,7 +78,7 @@ const MiniProject = ({
                                         onClick={(e) =>
                                             handleSkillClick(e, tag)
                                         }
-                                        className="items-center border border-lightred rounded-lg mx-1 p-1 hover:bg-lightred/20 transition-all duration-300 cursor-pointer"
+                                        className="items-center border border-lighthighlight rounded-lg mx-1 p-1 hover:bg-lighthighlight/20 transition-all duration-300 cursor-pointer"
                                         title={`Skill: ${skillData.skillName}`}
                                     >
                                         <IconComponent

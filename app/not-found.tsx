@@ -21,11 +21,11 @@ const NotFound = () => {
     return (
         <>
             <main
-                className={`${serif.className} h-screen relative flex flex-col items-center justify-center gap-8 select-none bg-pinkbeige dark:bg-darkburgundy`}
+                className={`${serif.className} h-screen relative flex flex-col items-center justify-center gap-8 select-none`}
             >
                 <NavBar />
                 <DarkModeToggle />
-                <div className="text-center">
+                <div className="text-center text-accent">
                     <h1
                         className={`${italiana.className} font-extrabold text-9xl`}
                     >
@@ -37,22 +37,22 @@ const NotFound = () => {
                 </div>
                 <Link
                     href="/"
-                    className="flex items-center border-2 border-lightred rounded-xl p-3 gap-2 hover:bg-lightred/20 transition-all duration-200"
+                    className="flex items-center border-2 border-lighthighlight text-bodytext rounded-xl p-3 gap-2 hover:bg-lighthighlight/20 transition-all duration-200"
                 >
                     <HouseIcon size={22} />
                     Return to Homepage
                 </Link>
-                <div className="text-center italic">
+                <div className="text-center italic text-bodytext">
                     <p>If you think this was a mistake, feel free to </p>
                     <Link
                         href="/contact"
-                        className="underline hover:bg-lightred/30 p-2 rounded-lg inline-flex items-center transition-all duration-200"
+                        className="underline hover:bg-lighthighlight/30 p-2 rounded-lg inline-flex items-center transition-all duration-200"
                     >
                         contact me{" "}
                         <ArrowSquareInIcon className="p-1" size={20} />
                     </Link>
                 </div>
-                <div className="mt-4 bottom-0 absolute">
+                <div className="mt-4 bottom-0 absolute text-bodytext">
                     <p className="text-center mb-6 inline-flex items-center gap-1">
                         or... play a game!{" "}
                         <ArrowFatLineDownIcon

@@ -38,7 +38,7 @@ export default function MostRecentCommit() {
 
     if (!commit) return null;
     return (
-        <div className="text-sm text-textbrown/80">
+        <div className="text-sm text-bodytext/80">
             on commit{" "}
             <span className="link">
                 <Link

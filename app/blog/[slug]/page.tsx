@@ -4,7 +4,6 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import BlogText from "./components/BlogText";
 import NavBar from "@/app/components/NavBar";
 import { notFound } from "next/navigation";
-import DarkModeToggle from "@/app/components/DarkModeToggle";
 import generateMetadataBase from "@/lib/metadata";
 
 interface PageProps {
@@ -52,7 +51,6 @@ export default async function BlogPostPage({ params }: PageProps) {
         return (
             <>
                 <NavBar />
-                <DarkModeToggle />
                 <BlogText blogSlug={slug} />
             </>
         );

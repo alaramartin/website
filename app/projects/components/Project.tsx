@@ -60,11 +60,11 @@ export default function Project({
 
     return (
         <div
-            className={`${serif.className} text-textbrown antialiased border border-lightred/50 hover:border-lightred bg-pinkbeige rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lightred relative h-full w-full place-content-center transition-all duration-150`}
+            className={`${serif.className} text-bodytext antialiased border border-lighthighlight/50 hover:border-lighthighlight rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lighthighlight relative h-full w-full place-content-center transition-all duration-150`}
         >
             <div>
                 <p
-                    className={`${mono.className} text-textbrown/50 pt-0.5 pb-1 text-sm`}
+                    className={`${mono.className} text-bodytext/50 pt-0.5 pb-1 text-sm`}
                 >
                     {date?.toLocaleDateString("en-US", {
                         year: "numeric",
@@ -78,7 +78,7 @@ export default function Project({
                         href={githubLink}
                         target="_blank"
                         aria-label="View the source code on GitHub!"
-                        className="inline-block border border-lightred/50 rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                        className="inline-block border border-lighthighlight/50 rounded-lg p-2 hover:bg-lighthighlight/20 transition-colors cursor-pointer"
                     >
                         <div className="w-4 h-4">
                             <GithubLogoIcon />
@@ -89,7 +89,7 @@ export default function Project({
                             href={href}
                             target="_blank"
                             aria-label="Check it out!"
-                            className="inline-block border border-lightred/50 rounded-lg p-2 hover:bg-lightred/20 transition-colors cursor-pointer"
+                            className="inline-block border border-lighthighlight/50 rounded-lg p-2 hover:bg-lighthighlight/20 transition-colors cursor-pointer"
                         >
                             <div className="w-4 h-4">
                                 <ArrowSquareOutIcon />
@@ -103,7 +103,7 @@ export default function Project({
             <div className="text-center mt-1">
                 {!viewExtra && (
                     <div
-                        className="inline-flex justify-center text-center px-3.5 py-1 rounded-lg cursor-pointer hover:bg-lightred/15"
+                        className="inline-flex justify-center text-center px-3.5 py-1 rounded-lg cursor-pointer hover:bg-lighthighlight/15"
                         onClick={() => setViewExtra(true)}
                         title="see more"
                     >
@@ -117,7 +117,7 @@ export default function Project({
 
                 {viewExtra && (
                     <div
-                        className="inline-flex mt-1 justify-center text-center px-3.5 py-1 rounded-lg cursor-pointer hover:bg-lightred/15"
+                        className="inline-flex mt-1 justify-center text-center px-3.5 py-1 rounded-lg cursor-pointer hover:bg-lighthighlight/15"
                         onClick={() => setViewExtra(false)}
                         title="see less"
                     >

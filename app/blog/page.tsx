@@ -5,7 +5,6 @@ import generateMetadataBase from "@/lib/metadata";
 import { italiana, mono, serif } from "@/app/ui/fonts";
 import NavBar from "../components/NavBar";
 import BlogListView from "./components/BlogListView";
-import DarkModeToggle from "../components/DarkModeToggle";
 import TextScramble from "../components/TextScramble";
 
 export const metadata = generateMetadataBase({
@@ -51,15 +50,14 @@ export default async function Page() {
     return (
         <>
             <NavBar />
-            <DarkModeToggle />
             <div className={`text-center pt-18 px-15`}>
                 <p
-                    className={`${mono.className} cursor-default text-4xl pb-4 select-none`}
+                    className={`${mono.className} cursor-default text-4xl pb-4 select-none text-accent`}
                 >
                     <TextScramble textToScramble="Blog" />
                 </p>
                 <p
-                    className={`${serif.className} cursor-default text-md pb-4 select-none text-textbrown`}
+                    className={`${serif.className} cursor-default text-md pb-4 select-none text-bodytext`}
                 >
                     my thoughts :&#41;
                 </p>

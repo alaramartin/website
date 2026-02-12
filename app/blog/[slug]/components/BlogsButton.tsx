@@ -4,7 +4,7 @@ import { serif } from "@/app/ui/fonts";
 
 export default function BlogsButton() {
     return (
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-16 text-accent">
             <Link
                 href="/blog"
                 className="inline-flex items-center group gap-1 m-4 select-none"

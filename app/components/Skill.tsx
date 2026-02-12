@@ -25,7 +25,7 @@ const Skill = ({ id, skill }: SkillProps) => {
             <div className="w-4 h-4 transition-all duration-200">
                 <IconComponent />
             </div>
-            <p className="underline decoration-lightred/40 underline-offset-3">
+            <p className="underline decoration-lighthighlight/40 underline-offset-3">
                 {skill.skillName}
             </p>
         </div>

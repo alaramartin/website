@@ -29,7 +29,7 @@ export default function Timeline() {
         return (
             <section className="relative mx-auto max-w-6xl px-4 py-12 mt-4">
                 {/* vertical timeline */}
-                <div className="absolute left-4 top-0 h-full w-[3px] rounded-full -translate-x-1/2 bg-textbrown/30" />
+                <div className="absolute left-4 top-0 h-full w-[3px] rounded-full -translate-x-1/2 bg-bodytext/30" />
 
                 <div className="space-y-12">
                     {projects.map((project, index) => {
@@ -38,7 +38,7 @@ export default function Timeline() {
                                 key={project.name ?? index}
                                 className="relative grid grid-cols-1 md:grid-cols-2 items-center"
                             >
-                                <span className="absolute left-0 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-textbrown bg-background" />
+                                <span className="absolute left-0 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-bodytext" />
 
                                 <div className={`pl-8 w-full`}>
                                     <Project {...project} />
@@ -54,7 +54,7 @@ export default function Timeline() {
             <>
                 <section className="relative mx-auto max-w-6xl px-4 py-12 mt-6">
                     {/* vertical timeline that fills in with scroll */}
-                    <div className="absolute left-1/2 top-0 h-full w-[3px] rounded-full -translate-x-1/2 bg-lightred/30">
+                    <div className="absolute left-1/2 top-0 h-full w-[3px] rounded-full -translate-x-1/2 bg-lighthighlight/30">
                         <motion.div
                             id="scroll-indicator"
                             style={{
@@ -78,7 +78,7 @@ export default function Timeline() {
                                     key={project.name ?? index}
                                     className="relative grid grid-cols-1 md:grid-cols-2 items-center"
                                 >
-                                    <span className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-darkburgundy/80 bg-background" />
+                                    <span className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-accent/80" />
 
                                     <div
                                         className={`${

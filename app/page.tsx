@@ -3,7 +3,6 @@ import NavBar from "./components/NavBar";
 import LinksBar from "./components/LinksBar";
 import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
-import DarkModeToggle from "./components/DarkModeToggle";
 import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
@@ -18,7 +17,6 @@ export default function Home() {
     return (
         <div className="change-bg scroll-smooth">
             <NavBar />
-            <DarkModeToggle />
             <div
                 className={`h-screen ${italiana.className} antialiased relative select-none`}
             >
@@ -26,8 +24,10 @@ export default function Home() {
                     <LinksBar></LinksBar>
                 </div>
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-4 md:flex items-baseline cursor-default">
-                    <p className="text-9xl whitespace-nowrap pr-5">ALARA</p>
-                    <p className="flex text-7xl whitespace-nowrap text-lightred justify-center">
+                    <p className="text-9xl whitespace-nowrap pr-5 text-(--scroll-text)">
+                        ALARA
+                    </p>
+                    <p className="flex text-7xl whitespace-nowrap text-lightpink justify-center">
                         MARTIN
                     </p>
                 </div>
@@ -36,14 +36,14 @@ export default function Home() {
                 <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${mono.className} text-4xl pb-4 font-medium`}
+                            className={`${mono.className} text-4xl pb-4 font-medium text-accent`}
                         >
                             About
                         </p>
                     </div>
                 </div>
                 <div
-                    className={`w-full text-textbrown md:pl-20 px-8 ${serif.className}`}
+                    className={`w-full text-bodytext md:pl-20 px-8 ${serif.className}`}
                 >
                     I&apos;m a high schooler learning how to code. Read on to
                     see my skills and projects. Feel free to{" "}
@@ -56,14 +56,16 @@ export default function Home() {
                 </div>
                 <div className="pt-18 flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
-                        <p className={`${mono.className} text-4xl font-medium`}>
+                        <p
+                            className={`${mono.className} text-4xl font-medium text-accent`}
+                        >
                             Skills
                         </p>
                     </div>
                 </div>
                 <div className="w-full text-center place-items-center">
                     <div
-                        className={`grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-textbrown ${serif.className}`}
+                        className={`grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-bodytext ${serif.className}`}
                     >
                         {Object.entries(skills).map(([skillKey, skill]) => (
                             <div key={skillKey} className="inline-block w-max">
@@ -77,12 +79,12 @@ export default function Home() {
                 <div className="flex flex-row">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
-                            className={`${mono.className} text-4xl pb-4 font-medium`}
+                            className={`${mono.className} text-4xl pb-4 font-medium text-accent`}
                         >
                             Projects
                         </p>
                         <p
-                            className={`${serif.className} pb-2 inline-flex text-textbrown`}
+                            className={`${serif.className} pb-2 inline-flex text-bodytext`}
                         >
                             Some of my favorites.
                         </p>
@@ -108,7 +110,7 @@ export default function Home() {
                                     tags={project.tags}
                                 ></MiniProject>
                                 {index != projects.length - 1 && (
-                                    <div className="border-t border-lightred/65 my-1"></div>
+                                    <div className="border-t border-lighthighlight/65 my-1"></div>
                                 )}
                             </div>
                         );
@@ -116,7 +118,7 @@ export default function Home() {
                 </div>
                 <div className="w-full text-center">
                     <Link
-                        className={`${serif.className} text-md justify-center inline-flex items-center text-textbrown border border-lightred shadow-sm shadow-lightred/30 hover:shadow-lg hover:shadow-lightred/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
+                        className={`${serif.className} text-md justify-center inline-flex items-center text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
                         href="/projects"
                     >
                         See all of my projects{" "}

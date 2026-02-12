@@ -55,13 +55,13 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                         href={`/blog/${slug}`}
                         className="inline-block h-fit p-2 md:p-4 transition-all duration-100 group"
                     >
-                        <p className="group-hover:underline group-hover:decoration-lightred/70 underline-offset-2 text-lg pb-0.5 text-textbrown">
+                        <p className="group-hover:underline group-hover:decoration-lighthighlight/70 underline-offset-2 text-lg pb-0.5 text-bodytext">
                             {title}
                         </p>
-                        <p className="text-base font-light pb-1 text-textbrown/70">
+                        <p className="text-base font-light pb-1 text-bodytext/70">
                             {description}
                         </p>
-                        <p className="text-sm font-light text-textbrown/70">
+                        <p className="text-sm font-light text-bodytext/70">
                             {date}
                         </p>
                     </Link>
