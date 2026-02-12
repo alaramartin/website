@@ -1,35 +1,32 @@
-import { italiana } from "@/app/ui/fonts";
-import ProjectsContent from "./components/ProjectsContent";
+import { mono, serif } from "@/app/ui/fonts";
 import DarkModeToggle from "../components/DarkModeToggle";
 import NavBar from "../components/NavBar";
 import generateMetadataBase from "@/lib/metadata";
+import Timeline from "./components/Timeline";
+import TextScramble from "../components/TextScramble";
 
 export const metadata = generateMetadataBase({
     title: "Projects",
-    description: "My projects.",
+    description: "A timeline of my projects.",
     url: "https://alaramartin.com/projects",
 });
 
-interface PageProps {
-    searchParams: Promise<{ skill?: string }>;
-}
-
-export default async function ProjectsPage({ searchParams }: PageProps) {
-    const resolvedSearchParams = await searchParams;
-    const skillFilter = resolvedSearchParams.skill || null;
-
+export default function ProjectsPage() {
     return (
         <>
             <NavBar />
             <DarkModeToggle />
             <div className={`text-center pt-16 md:px-15`}>
                 <p
-                    className={`${italiana.className} cursor-default text-4xl pb-4 select-none`}
+                    className={`${mono.className} cursor-default text-4xl pb-4 select-none`}
                 >
-                    Projects
+                    <TextScramble textToScramble="Projects" />
                 </p>
-                <ProjectsContent initialSkillFilter={skillFilter} />
+                <p className={`text-textbrown ${serif.className}`}>
+                    I&apos;ve made a few things over the years...
+                </p>
             </div>
+            <Timeline />
         </>
     );
 }

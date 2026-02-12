@@ -66,13 +66,8 @@ export default function Home() {
                         className={`grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-textbrown ${serif.className}`}
                     >
                         {Object.entries(skills).map(([skillKey, skill]) => (
-                            <div key={skillKey}>
-                                <Link
-                                    href={`/projects?skill=${skillKey}`}
-                                    className="inline-block w-max cursor-pointer"
-                                >
-                                    <Skill id={skillKey} skill={skill} />
-                                </Link>
+                            <div key={skillKey} className="inline-block w-max">
+                                <Skill id={skillKey} skill={skill} />
                             </div>
                         ))}
                     </div>

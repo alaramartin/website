@@ -21,11 +21,11 @@ export default function SkillTags({ tags }: SkillTagProps) {
         return (
             <div className="mt-2 flex justify-center flex-nowrap flex-col">
                 {Array.from(
-                    { length: Math.ceil(tags.length / 3) },
+                    { length: Math.ceil(tags.length / 6) },
                     (_, rowIndex) => (
                         <div key={rowIndex} className="flex justify-center">
                             {tags
-                                .slice(rowIndex * 3, (rowIndex + 1) * 3)
+                                .slice(rowIndex * 6, (rowIndex + 1) * 6)
                                 .map((tag) => {
                                     // only show maximum of 3 tags per row
                                     const skillData = skills[tag];
@@ -35,13 +35,13 @@ export default function SkillTags({ tags }: SkillTagProps) {
                                     return (
                                         <div
                                             key={tag}
-                                            className="inline-flex items-center border border-lightred rounded-lg mx-2 my-1.5 p-2 md:transition-all md:duration-300 group md:overflow-hidden cursor-default select-none"
+                                            className="inline-flex items-center border border-lightred/50 rounded-lg mx-2 my-1.5 p-1.5 md:transition-all md:duration-300 group md:overflow-hidden cursor-default select-none"
                                         >
                                             <IconComponent
                                                 size={16}
-                                                className="mx-1"
+                                                className="ml-0.5"
                                             />
-                                            <p className="md:max-w-0 md:group-hover:max-w-xs md:ml-0 md:group-hover:ml-2 md:transition-all md:duration-500 md:overflow-hidden md:whitespace-nowrap">
+                                            <p className="md:max-w-0 md:text-sm md:group-hover:max-w-xs md:ml-0 md:group-hover:ml-1.5 md:transition-all md:duration-500 md:overflow-hidden md:whitespace-nowrap">
                                                 {skillData.skillName}
                                             </p>
                                         </div>
