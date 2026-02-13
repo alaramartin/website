@@ -31,8 +31,6 @@ export default async function BlogText({ blogSlug }: BlogTextProps) {
         },
     });
 
-    console.log(data);
-
     return (
         <>
             <div

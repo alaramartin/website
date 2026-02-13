@@ -1,7 +1,3 @@
-import React from "react";
-
-const PopupLink = () => {
-    return <div>PopupLink</div>;
-};
-
-export default PopupLink;
+export default function PopupLink() {
+    return <div>Popup link</div>;
+}

@@ -34,7 +34,7 @@ export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
             // color transitions here
             const colors = isDark()
                 ? {
-                      bg: { start: "#a3002c", end: "#070002" },
+                      bg: { start: "#a3002c", end: "#1a1819" },
                       text: { start: "#fff8f6", end: "#a3002c" },
                       nav: { start: "#fff8f6", end: "#ed8c91" },
                   }
