@@ -5,6 +5,12 @@ interface SkillTagProps {
     tags: string[];
 }
 
+const getSkillById = new Map(
+    skills
+        .flatMap((section) => section.items)
+        .map((skill) => [skill.id, skill]),
+);
+
 export default function SkillTags({ tags }: SkillTagProps) {
     // keep track of whether or not they're on desktop for the purposes of resizing the project card view
     const [isDesktop, setIsDesktop] = useState(false);
@@ -28,7 +34,7 @@ export default function SkillTags({ tags }: SkillTagProps) {
                                 .slice(rowIndex * 6, (rowIndex + 1) * 6)
                                 .map((tag) => {
                                     // only show maximum of 3 tags per row
-                                    const skillData = skills[tag];
+                                    const skillData = getSkillById.get(tag);
                                     if (!skillData) return null;
                                     const IconComponent = skillData.icon;
 
@@ -57,7 +63,7 @@ export default function SkillTags({ tags }: SkillTagProps) {
             <div className="mt-2 flex flex-wrap justify-center">
                 {tags.map((tag) => {
                     // only show maximum of 3 tags per row
-                    const skillData = skills[tag];
+                    const skillData = getSkillById.get(tag);
                     if (!skillData) return null;
                     const IconComponent = skillData.icon;
 

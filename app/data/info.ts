@@ -32,7 +32,7 @@ export const projects: {
             "View Python pickle (.pkl) files directly in the VS Code editor.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
-        notes: ["7000+ users :)"],
+        notes: ["10000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         year: 2025,
     },
@@ -43,7 +43,7 @@ export const projects: {
         miniDescription: "View DICOM images and edit metadata side-by-side.",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
-        notes: ["600+ users :)", "first vscode extension"],
+        notes: ["800+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         year: 2025,
     },
@@ -110,24 +110,35 @@ export const projects: {
     },
 ];
 
-export const skills: Record<
-    string,
-    { skillName: string; icon: React.ElementType }
-> = {
-    TypeScript: { skillName: "TypeScript", icon: FileTsIcon },
-    Python: { skillName: "Python", icon: FilePyIcon },
-    JavaScript: { skillName: "JavaScript", icon: FileJsIcon },
-    React: { skillName: "React", icon: AtomIcon },
-    NextJS: { skillName: "NextJS", icon: TriangleIcon },
-    TailwindCSS: { skillName: "TailwindCSS", icon: WindIcon },
-    VS_Code_API: { skillName: "VS Code API", icon: PuzzlePieceIcon },
-    Chrome_API: {
-        skillName: "Chrome API",
-        icon: GoogleChromeLogoIcon,
+export const skills: {
+    label: string;
+        items: {
+        id: string;
+        skillName: string;
+        icon: React.ElementType;
+    }[];
+}[] = [
+    {
+        label: "LANGUAGES (and markup)",
+        items: [
+            { id: "TypeScript", skillName: "TypeScript", icon: FileTsIcon },
+            { id: "JavaScript", skillName: "JavaScript", icon: FileJsIcon },
+            { id: "Python", skillName: "Python", icon: FilePyIcon },
+            { id: "Java", skillName: "Java", icon: CoffeeIcon },
+            { id: "HTMLCSS", skillName: "HTML/CSS", icon: CodeIcon },
+        ],
     },
-    PyTorch: { skillName: "PyTorch", icon: FireIcon },
-    Git: { skillName: "Git", icon: GitMergeIcon },
-    Java: { skillName: "Java", icon: CoffeeIcon },
-    HTMLCSS: { skillName: "HTML/CSS", icon: CodeIcon },
-    whimsy: { skillName: "whimsy :)", icon: FlowerIcon },
-};
+    {
+        label: "TOOLS, LIBRARIES, AND FRAMEWORKS",
+        items: [
+            { id: "React", skillName: "React", icon: AtomIcon },
+            { id: "NextJS", skillName: "NextJS", icon: TriangleIcon },
+            { id: "TailwindCSS", skillName: "TailwindCSS", icon: WindIcon },
+            { id: "VS_Code_API", skillName: "VS Code API", icon: PuzzlePieceIcon },
+            { id: "Chrome_API", skillName: "Chrome API", icon: GoogleChromeLogoIcon },
+            { id: "PyTorch", skillName: "PyTorch", icon: FireIcon },
+            { id: "Git", skillName: "Git", icon: GitMergeIcon },
+            { id: "whimsy", skillName: "whimsy :)", icon: FlowerIcon },
+        ],
+    },
+];

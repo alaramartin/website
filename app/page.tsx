@@ -54,29 +54,8 @@ export default function Home() {
                     </span>
                     !
                 </div>
-                <div className="pt-18 flex flex-row">
-                    <div className="flex flex-col pl-4 md:pl-14">
-                        <p
-                            className={`${mono.className} text-4xl font-medium text-accent`}
-                        >
-                            Skills
-                        </p>
-                    </div>
-                </div>
-                <div className="w-full text-center place-items-center">
-                    <div
-                        className={`grid grid-cols-2 xl:grid-cols-7 gap-x-9 gap-y-3 px-4 pt-3 text-bodytext ${serif.className}`}
-                    >
-                        {Object.entries(skills).map(([skillKey, skill]) => (
-                            <div key={skillKey} className="inline-block w-max">
-                                <Skill id={skillKey} skill={skill} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className={`pt-18 lg:px-26`}>
-                <div className="flex flex-row">
+
+                <div className="flex flex-row pt-18">
                     <div className="flex flex-col pl-4 md:pl-14">
                         <p
                             className={`${mono.className} text-4xl pb-4 font-medium text-accent`}
@@ -90,7 +69,6 @@ export default function Home() {
                         </p>
                     </div>
                 </div>
-
                 <div className="flex flex-col px-6 md:px-16 w-full">
                     {projects.map((project, index) => {
                         // only show the ones that have a miniDescription or playable URL-- those are the ones that are meant to be displayed on the homepage
@@ -124,6 +102,36 @@ export default function Home() {
                         See all of my projects{" "}
                         <ArrowCircleRightIcon size={20} />
                     </Link>
+                </div>
+
+                <div className="pt-18 flex flex-row pb-4">
+                    <div className="flex flex-col pl-4 md:pl-14">
+                        <p
+                            className={`${mono.className} text-4xl font-medium text-accent`}
+                        >
+                            Skills
+                        </p>
+                    </div>
+                </div>
+                <div className={`w-full px-6 md:px-16 ${serif.className}`}>
+                    {skills.map((section) => (
+                        <div key={section.label} className="mb-6">
+                            <p className="text-sm tracking-wide text-bodytext/80 mb-3">
+                                {section.label}
+                            </p>
+
+                            <div className="flex flex-row text-bodytext px-4 flex-wrap max-md:justify-center">
+                                {section.items.map((skill) => (
+                                    <div
+                                        key={skill.id}
+                                        className="inline-block w-max px-4"
+                                    >
+                                        <Skill id={skill.id} skill={skill} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

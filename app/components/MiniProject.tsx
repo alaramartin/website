@@ -18,6 +18,12 @@ interface MiniProjectProps {
     tags?: string[];
 }
 
+const getSkillById = new Map(
+    skills
+        .flatMap((section) => section.items)
+        .map((skill) => [skill.id, skill]),
+);
+
 const MiniProject = ({
     name,
     githubLink,
@@ -43,16 +49,9 @@ const MiniProject = ({
         }
     };
 
-    // const [collapsed, setCollapsed] = useState(true);
-
     return (
         <div className="group text-bodytext">
-            {/* {collapsed ? <CaretRightIcon /> : <CaretDownIcon />} */}
-
-            <button
-                // onClick={() => setCollapsed(!collapsed)}
-                className={`flex items-center w-full md:px-4 py-2 text-left`}
-            >
+            <div className={`flex items-center w-full md:px-4 py-2 text-left`}>
                 <div
                     className={`${mono.className} hidden md:flex opacity-50 group-hover:opacity-60 text-md md:text-[0.95rem] items-center gap-2 text-lg font-medium md:font-bold p-2 transition-all duration-150`}
                 >
@@ -69,7 +68,7 @@ const MiniProject = ({
                     <div className="flex-row hidden md:flex">
                         {tags &&
                             tags.slice(0, 3).map((tag) => {
-                                const skillData = skills[tag];
+                                const skillData = getSkillById.get(tag);
                                 if (!skillData) return null;
                                 const IconComponent = skillData.icon;
                                 return (
@@ -120,7 +119,7 @@ const MiniProject = ({
                         </div>
                     </Link>
                 </div>
-            </button>
+            </div>
         </div>
     );
 };
