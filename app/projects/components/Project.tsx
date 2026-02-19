@@ -18,6 +18,21 @@ interface ProjectProps {
     tags?: string[];
 }
 
+const DEFAULT_DATE = "August 23, 2025";
+
+function formatDateString(dateStr: string): string {
+    if (dateStr == "DEFAULT") {
+        return DEFAULT_DATE;
+    } else {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    }
+}
+
 export default function Project({
     name,
     githubLink,
@@ -27,36 +42,34 @@ export default function Project({
     tags,
 }: ProjectProps) {
     const [viewExtra, setViewExtra] = useState(false);
-    const [date, setDate] = useState<Date | null>(null);
+    const [date, setDate] = useState<string>(DEFAULT_DATE);
 
     useEffect(() => {
         const controller = new AbortController();
 
         async function fetchDate() {
             try {
-                const res = await fetch(
-                    `/api/github/dates/${githubLink.split("/").pop()}`,
-                    {
-                        cache: "no-store",
-                        signal: controller.signal,
-                    },
-                );
+                const repo = githubLink.split("/").pop();
+                if (!repo) return;
+
+                const res = await fetch(`/api/github/dates/${repo}`, {
+                    signal: controller.signal,
+                });
+
                 if (!res.ok || controller.signal.aborted) return;
-                const data = await res.json().catch(() => null);
-                if (controller.signal.aborted) return;
-                setDate(data.date ? new Date(data.date) : null);
+
+                const data = await res.json();
+                if (data.date && !controller.signal.aborted) {
+                    setDate(formatDateString(data.date));
+                }
             } catch {
                 if (controller.signal.aborted) return;
-                setDate(null);
             }
         }
 
         fetchDate();
-
-        return () => {
-            controller.abort();
-        };
-    }, []);
+        return () => controller.abort();
+    }, [githubLink]);
 
     return (
         <div
@@ -66,14 +79,10 @@ export default function Project({
                 <p
                     className={`${mono.className} text-bodytext/50 pt-0.5 pb-1 text-sm`}
                 >
-                    {date?.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                    }) ?? "August 23, 2025"}
+                    {date}
                 </p>
                 <p className="text-xl font-extrabold pb-2">{name}</p>
-                <div className="absolute top-3 right-3 space-x-2">
+                <div className="absolute top-4 right-4 space-x-2">
                     <Link
                         href={githubLink}
                         target="_blank"

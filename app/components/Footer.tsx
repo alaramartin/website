@@ -4,7 +4,7 @@ import { italiana, serif } from "../ui/fonts";
 
 const Footer = () => {
     return (
-        <div
+        <footer
             className="text-center mx-16 md:mx-30 mt-60 md:px-30 pt-20 pb-16 border-t-2 border-t-lighthighlight/80 cursor-default select-none"
             style={{ color: "var(--color-footertext)" }}
         >
@@ -15,7 +15,7 @@ const Footer = () => {
             >
                 <MostRecentCommit />
             </span>
-        </div>
+        </footer>
     );
 };
 

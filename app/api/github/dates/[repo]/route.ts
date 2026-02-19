@@ -37,6 +37,6 @@ export async function GET(
         const date = await getCachedDate(repo);
         return NextResponse.json({ date });
     } catch {
-        return NextResponse.json({error: "github api dates error"}, {status: 500});
+        return NextResponse.json({ date: "DEFAULT" }, { status: 200 });
     }
 }

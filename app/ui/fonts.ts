@@ -20,7 +20,7 @@ export const lato = Lato({
 // export const mono = PT_Mono({weight: "400"});
 
 
-export const mono = Space_Mono({weight: "400"});
+export const mono = Space_Mono({weight: "400", display: "swap"});
 
 // export const garamond = EB_Garamond({
 //     subsets: ["latin"],
@@ -35,4 +35,4 @@ export const mono = Space_Mono({weight: "400"});
 
 // export const lit = Literata({weight: "300"});
 
-export const serif = PT_Serif({weight: ["400", "700"]});
+export const serif = PT_Serif({weight: ["400", "700"], display: "swap"});

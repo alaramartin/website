@@ -9,6 +9,7 @@ type Commit = {
 
 export default function MostRecentCommit() {
     const [commit, setCommit] = useState<Commit>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -16,7 +17,9 @@ export default function MostRecentCommit() {
         async function fetchLatestCommit() {
             try {
                 const res = await fetch("/api/github/commits", {
-                    cache: "no-store",
+                    headers: {
+                        "Cache-Control": "public, s-maxage=3600",
+                    },
                     signal: controller.signal,
                 });
                 if (!res.ok || controller.signal.aborted) return;
@@ -26,6 +29,8 @@ export default function MostRecentCommit() {
             } catch {
                 if (controller.signal.aborted) return;
                 setCommit(null);
+            } finally {
+                setIsLoading(false);
             }
         }
 
@@ -36,18 +41,25 @@ export default function MostRecentCommit() {
         };
     }, []);
 
-    if (!commit) return null;
+    // if (isLoading || !commit) {
+    //     return <div className="text-sm text-bodytext/80">loading...</div>;
+    // }
+
     return (
         <div className="text-sm text-bodytext/80">
             on commit{" "}
             <span className="link">
                 <Link
-                    href={commit.url}
+                    href={
+                        commit
+                            ? commit.url
+                            : "https://github.com/alaramartin/website"
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="see most recent commit"
                 >
-                    {commit.sha.substring(0, 7)}
+                    {commit ? commit.sha.substring(0, 7) : "abc123"}
                 </Link>
             </span>
         </div>
