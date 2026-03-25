@@ -7,6 +7,7 @@ import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
+import NameCircle from "./components/NameCircle";
 
 export const metadata = generateMetadataBase({
     description: "My personal website.",
@@ -15,12 +16,18 @@ export const metadata = generateMetadataBase({
 
 export default function Home() {
     return (
+        // todo: for the change-bg scroll color switch, fix. idrk how
         <div className="change-bg scroll-smooth">
             <NavBar />
+            {/* <div className="h-[50vh]" /> */}
+            {/* <div className="fixed top-4 left-1/2 -translate-x-1/2 z-1000 w-fit justify-center">
+                <LinksBar />{" "}
+                /* todo: potentially in the linksbar component, check if homepage and if so, change size based on scroll to fit into the navbar*
+            </div> */}
             <div
-                className={`h-screen ${italiana.className} antialiased relative select-none`}
+                className={`h-[350vh] ${italiana.className} antialiased relative select-none`}
             >
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <LinksBar></LinksBar>
                 </div>
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-4 md:flex items-baseline cursor-default">
@@ -30,6 +37,10 @@ export default function Home() {
                     <p className="flex text-7xl whitespace-nowrap text-lightpink justify-center">
                         MARTIN
                     </p>
+                </div> */}
+                <div className="h-[40vh]" />
+                <div className="sticky top-1/2 -translate-y-1/2 flex justify-center">
+                    <NameCircle />
                 </div>
             </div>
             <div className={`pt-18 lg:px-26`}>

@@ -7,10 +7,12 @@
     --color-accent: #a3002c;
     --color-footertext: #a3002c;
     --color-lighthighlight: #ed8c91;
+    --color-verylightpink: #ffacbf;
     --color-taupe: #d4a0a7;
     --color-bodytext: #070002;
 
     --scroll-bg: #a3002c;
+    /* --scroll-bg: #770020; */
     --scroll-text: #fff8f6;
     --scroll-nav: #fff8f6;
 }

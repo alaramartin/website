@@ -2,7 +2,8 @@
 import { useEffect } from "react";
 
 type ScrollProps = {
-    rangeVH?: number;
+    holdVH?: number; // amount of VH that it stays at the original color
+    rangeVH?: number; // the range of VH that it actually makes the transition of color
 };
 
 function lerp(a: number, b: number, t: number) {
@@ -20,13 +21,23 @@ function hexToRgb(hex: string) {
         : { r: 0, g: 0, b: 0 };
 }
 
-export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
+export default function ScrollAnimation({
+    holdVH = 2.75,
+    rangeVH = 0.5,
+}: ScrollProps) {
     useEffect(() => {
         const root = document.documentElement;
         const isDark = () => root.classList.contains("dark");
 
         let ticking = false;
-        let maxScroll = Math.max(1, window.innerHeight * rangeVH);
+        let holdScroll = Math.max(0, window.innerHeight * holdVH);
+        let fadeScroll = Math.max(1, window.innerHeight * rangeVH);
+
+        const getProgress = () => {
+            const y = window.scrollY;
+            if (y <= holdScroll) return 0;
+            return Math.max(0, Math.min(1, (y - holdScroll) / fadeScroll));
+        };
 
         const updateColors = (progress: number) => {
             const t = Math.max(0, Math.min(1, progress));
@@ -83,21 +94,22 @@ export default function ScrollAnimation({ rangeVH = 0.75 }: ScrollProps) {
             if (ticking) return;
             ticking = true;
             requestAnimationFrame(() => {
-                updateColors(window.scrollY / maxScroll);
+                updateColors(getProgress());
                 ticking = false;
             });
         };
 
         const onResize = () => {
-            maxScroll = Math.max(1, window.innerHeight * rangeVH);
-            updateColors(window.scrollY / maxScroll);
+            holdScroll = Math.max(0, window.innerHeight * holdVH);
+            fadeScroll = Math.max(1, window.innerHeight * rangeVH);
+            updateColors(getProgress());
         };
 
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", onResize);
 
         const observer = new MutationObserver(() => {
-            updateColors(window.scrollY / maxScroll);
+            updateColors(getProgress());
         });
         observer.observe(root, {
             attributes: true,
