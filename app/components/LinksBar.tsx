@@ -5,7 +5,7 @@ import {
     WindowsLogoIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
-const links: { name: string; href: string; icon: any }[] = [
+const links = [
     {
         name: "LinkedIn",
         href: "https://linkedin.com/in/alara-martin",
@@ -21,13 +21,19 @@ const links: { name: string; href: string; icon: any }[] = [
         href: "https://marketplace.visualstudio.com/publishers/alarm",
         icon: WindowsLogoIcon,
     },
-];
+] as const;
 
-const LinksBar = () => {
+interface LinkProps {
+    direction?: "col" | "row";
+}
+
+export default function LinksBar({ direction = "row" }: LinkProps) {
+    const directionClass = direction === "col" ? "flex-col" : "flex-row";
+
     return (
-        <div className="flex justify-center m-auto">
+        <div className={`flex ${directionClass} justify-center m-auto`}>
             {links.map((link) => (
-                <div className="p-2" key={link.name}>
+                <div className="p-2 inline-flex" key={link.name}>
                     <Link
                         href={link.href}
                         target="_blank"
@@ -39,6 +45,4 @@ const LinksBar = () => {
             ))}
         </div>
     );
-};
-
-export default LinksBar;
+}

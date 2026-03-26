@@ -17,13 +17,14 @@ export const metadata = generateMetadataBase({
 
 export default function Home() {
     return (
-        // todo: find a way to incorporate linksbar into the homepage or all pages
         <div className="change-bg scroll-smooth">
             <NavBar />
             <div className="absolute h-screen">
                 <ScrollForMore />
             </div>
-
+            {/* todo: didn't work <div className="max-md:hidden fixed bottom-1/2 translate-y-1/2 right-2 scale-85 z-20 border border-lightpink/60 px-1 py-2 rounded-full shadow-[0_0_22px_4px_rgba(255,182,193,0.25)]">
+                <LinksBar direction="col" />
+            </div> */}
             <div
                 className={`h-[350vh] ${italiana.className} antialiased relative select-none`}
             >

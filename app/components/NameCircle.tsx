@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 const TITLES = [
     "LARA MARTIN",
     "programmer",
-    "boyfriend lover",
+    "rock climber",
     "girl who codes",
     "cat petter",
     "n academic weapon",
