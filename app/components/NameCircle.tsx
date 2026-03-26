@@ -27,7 +27,7 @@ const angularDistance = (a: number, b: number) => {
 
 export default function NameCircle() {
     const { scrollYProgress } = useScroll();
-    const rotate = useTransform(scrollYProgress, [0, 0.5], [0, 360]);
+    const rotate = useTransform(scrollYProgress, [0, 0.53], [0, 360]);
 
     const [rotationDeg, setRotationDeg] = useState(0);
     useMotionValueEvent(rotate, "change", (v) =>

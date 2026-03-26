@@ -8,6 +8,7 @@ import { projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
 import NameCircle from "./components/NameCircle";
+import ScrollForMore from "./components/ScrollForMore";
 
 export const metadata = generateMetadataBase({
     description: "My personal website.",
@@ -16,30 +17,18 @@ export const metadata = generateMetadataBase({
 
 export default function Home() {
     return (
-        // todo: for the change-bg scroll color switch, fix. idrk how
+        // todo: find a way to incorporate linksbar into the homepage or all pages
         <div className="change-bg scroll-smooth">
             <NavBar />
-            {/* <div className="h-[50vh]" /> */}
-            {/* <div className="fixed top-4 left-1/2 -translate-x-1/2 z-1000 w-fit justify-center">
-                <LinksBar />{" "}
-                /* todo: potentially in the linksbar component, check if homepage and if so, change size based on scroll to fit into the navbar*
-            </div> */}
+            <div className="absolute h-screen">
+                <ScrollForMore />
+            </div>
+
             <div
                 className={`h-[350vh] ${italiana.className} antialiased relative select-none`}
             >
-                {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <LinksBar></LinksBar>
-                </div>
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 pb-4 md:flex items-baseline cursor-default">
-                    <p className="text-9xl whitespace-nowrap pr-5 text-(--scroll-text)">
-                        ALARA
-                    </p>
-                    <p className="flex text-7xl whitespace-nowrap text-lightpink justify-center">
-                        MARTIN
-                    </p>
-                </div> */}
                 <div className="h-[40vh]" />
-                <div className="sticky top-1/2 -translate-y-1/2 flex justify-center">
+                <div className="sticky top-1/2 -translate-y-1/2 md:-translate-x-1/24 sm:-translate-x-1/7 -translate-x-2/5 flex justify-center">
                     <NameCircle />
                 </div>
             </div>
