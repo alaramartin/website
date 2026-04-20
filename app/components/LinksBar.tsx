@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+    DiscordLogoIcon,
     GithubLogoIcon,
     LinkedinLogoIcon,
     WindowsLogoIcon,
@@ -16,10 +17,15 @@ const links = [
         href: "https://github.com/alaramartin",
         icon: GithubLogoIcon,
     },
+    // {
+    //     name: "VS Code Marketplace",
+    //     href: "https://marketplace.visualstudio.com/publishers/alarm",
+    //     icon: WindowsLogoIcon,
+    // },
     {
-        name: "VS Code Marketplace",
-        href: "https://marketplace.visualstudio.com/publishers/alarm",
-        icon: WindowsLogoIcon,
+        name: "Discord",
+        href: "https://discord.com/users/808795298587213824",
+        icon: DiscordLogoIcon,
     },
 ] as const;
 

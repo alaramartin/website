@@ -66,6 +66,7 @@ export default function NameCircle() {
                     color: "var(--scroll-nav)",
                     letterSpacing: "0.05em",
                 }}
+                className="[text-shadow:2px_2px_4px_rgba(0,0,0,0.3)]"
             >
                 {PIVOT}
             </span>
@@ -133,6 +134,7 @@ export default function NameCircle() {
                                     transition:
                                         "font-size 120ms ease-out, font-weight 120ms ease-out, opacity 120ms ease-out",
                                 }}
+                                className="[text-shadow:2px_2px_4px_rgba(0,0,0,0.3)]"
                             >
                                 {title}
                             </span>
