@@ -32,7 +32,7 @@ export const projects: {
             "View Python pickle (.pkl) files directly in the VS Code editor.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
-        notes: ["10000+ users :)"],
+        notes: ["15000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         year: 2025,
     },
@@ -43,7 +43,7 @@ export const projects: {
         miniDescription: "View DICOM images and edit metadata side-by-side.",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
-        notes: ["800+ users :)", "first vscode extension"],
+        notes: ["1000+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         year: 2025,
     },

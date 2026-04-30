@@ -5,7 +5,8 @@ import {
     EnvelopeIcon,
     LinkedinLogoIcon,
     GithubLogoIcon,
-    GlobeIcon,
+    // GlobeIcon,
+    DiscordLogoIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
 import TextScramble from "../components/TextScramble";
@@ -40,11 +41,17 @@ const contactLinks: {
         username: "alaramartin",
         icon: GithubLogoIcon,
     },
+    // {
+    //     contactType: "Website",
+    //     href: "https://alaramartin.com",
+    //     username: "alaramartin.com",
+    //     icon: GlobeIcon,
+    // },
     {
-        contactType: "Website",
-        href: "https://alaramartin.com",
-        username: "alaramartin.com",
-        icon: GlobeIcon,
+        contactType: "Discord",
+        href: "https://discord.com/users/808795298587213824",
+        username: "alarm",
+        icon: DiscordLogoIcon,
     },
 ];
 
