@@ -46,8 +46,9 @@ export default function Home() {
                 <div
                     className={`w-full text-bodytext md:pl-20 px-8 ${serif.className}`}
                 >
-                    I&apos;m a high schooler learning how to code. Read on to
-                    see my skills and projects. Feel free to{" "}
+                    I&apos;m a student at UC Berkeley studying Applied Math and
+                    learning how to code. Read on to see my skills and projects.
+                    Feel free to{" "}
                     <span>
                         <Link href="/contact" className="link">
                             contact me
