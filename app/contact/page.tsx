@@ -25,8 +25,8 @@ const contactLinks: {
 }[] = [
     {
         contactType: "Email",
-        href: "mailto:alara.martin@gmail.com",
-        username: "alara.martin@gmail.com",
+        href: "mailto:alaram@berkeley.edu",
+        username: "alaram@berkeley.edu",
         icon: EnvelopeIcon,
     },
     {
