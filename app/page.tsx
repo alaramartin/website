@@ -22,6 +22,7 @@ export default function Home() {
         <ScrollForMore />
       </div>
       <div
+        data-scroll-hero="350"
         className={`h-[350vh] ${italiana.className} antialiased relative select-none`}
       >
         <div className="sticky top-0 h-screen">

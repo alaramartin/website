@@ -379,8 +379,11 @@ export default function NameCircle() {
                         // The name ray must appear instantly at
                         // handoff (the mover hides the same frame);
                         // a fade here leaves a 1-frame gap/flash.
+                        // Keep the smooth font-size "bounce" (so LARA MARTIN grows
+                        // like every other adjective), but no opacity transition on the
+                        // name ray so the handoff doesn't flash.
                         transition: isName
-                          ? "none"
+                          ? "font-size 120ms ease-out"
                           : "font-size 120ms ease-out, opacity 120ms ease-out",
                       }}
                     >
