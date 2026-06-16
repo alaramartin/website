@@ -32,26 +32,9 @@ const MiniProject = ({
     year,
     tags,
 }: MiniProjectProps) => {
-    const handleSkillClick = (e: React.MouseEvent, skillKey: string) => {
-        e.preventDefault();
-        const element = document.getElementById(skillKey);
-        if (element) {
-            element.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-            });
-
-            element.classList.add("shadow-pulse");
-
-            setTimeout(() => {
-                element.classList.remove("shadow-pulse");
-            }, 1500);
-        }
-    };
-
     return (
         <div className="group text-bodytext">
-            <div className={`flex items-center w-full md:px-4 py-2 text-left`}>
+            <div className={`flex items-center w-full md:px-2 py-2 text-left`}>
                 <div
                     className={`${mono.className} hidden md:flex opacity-50 group-hover:opacity-60 text-md md:text-[0.95rem] items-center gap-2 text-lg font-medium md:font-bold p-2 transition-all duration-150`}
                 >
@@ -65,7 +48,7 @@ const MiniProject = ({
                 </p>
 
                 <div className="ml-auto text-right space-x-3 inline-flex">
-                    <div className="flex-row hidden md:flex">
+                    {/* <div className="flex-row hidden md:flex">
                         {tags &&
                             tags.slice(0, 3).map((tag) => {
                                 const skillData = getSkillById.get(tag);
@@ -74,10 +57,7 @@ const MiniProject = ({
                                 return (
                                     <div
                                         key={tag}
-                                        onClick={(e) =>
-                                            handleSkillClick(e, tag)
-                                        }
-                                        className="items-center border border-lighthighlight rounded-lg mx-1 p-1 hover:bg-lighthighlight/20 transition-all duration-300 cursor-pointer"
+                                        className="items-center border border-lighthighlight rounded-lg mx-1 p-1"
                                         title={`Skill: ${skillData.skillName}`}
                                     >
                                         <IconComponent
@@ -87,7 +67,7 @@ const MiniProject = ({
                                     </div>
                                 );
                             })}
-                    </div>
+                    </div> */}
 
                     <Link
                         href={href || githubLink}

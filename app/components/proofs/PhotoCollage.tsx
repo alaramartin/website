@@ -5,8 +5,6 @@ import { CameraIcon } from "@phosphor-icons/react/dist/ssr";
 const TILES = [
     "aspect-[3/4]",
     "aspect-square",
-    "aspect-[4/3]",
-    "aspect-[3/4]",
     "aspect-square",
     "aspect-[4/3]",
 ];
@@ -14,19 +12,21 @@ const TILES = [
 export default function PhotoCollage() {
     return (
         <div className="w-full max-w-md">
-            <div className="columns-2 gap-3 [&>*]:mb-3">
+            <div className="columns-2 gap-3 *:mb-3">
                 {TILES.map((aspect, i) => (
                     <div
                         key={i}
-                        className={`${aspect} w-full break-inside-avoid rounded-lg border border-lighthighlight/50 bg-lighthighlight/10 flex items-center justify-center text-bodytext/30`}
+                        className={`aspect-6/7 w-full break-inside-avoid flex items-center justify-center`}
                     >
-                        <CameraIcon size={28} />
+                        <img
+                            src={`/photography/photo${i + 1}.png`}
+                            alt="Photo placeholder"
+                            className="w-full h-full object-cover rounded-lg border border-lighthighlight/50"
+                            draggable="false"
+                        />
                     </div>
                 ))}
             </div>
-            <p className="pt-2 text-xs text-bodytext/40 text-center">
-                photos coming soon
-            </p>
         </div>
     );
 }

@@ -44,40 +44,48 @@ const proofs: Record<string, ReactNode> = {
             <ProofHeading>About</ProofHeading>
             <p>
                 I&apos;m a student at UC Berkeley studying Applied Math and
-                learning how to code. Keep scrolling to see my skills and
-                projects. Feel free to{" "}
-                <Link href="/contact" className="link">
-                    contact me
-                </Link>
-                !
+                learning how to code. Keep scrolling to learn more about me!
             </p>
         </div>
     ),
     programmer: (
-        <div className={`${serif.className} text-bodytext`}>
+        <div className={`${serif.className} text-bodytext flex flex-col`}>
             <ProofHeading>Projects</ProofHeading>
-            <div className="flex flex-col">
-                {miniProjects.map((project, index) => (
-                    <div key={project.name}>
-                        <MiniProject
-                            name={project.name}
-                            githubLink={project.githubLink}
-                            href={project.href}
-                            description={project.miniDescription!}
-                            year={project.year}
-                            tags={project.tags}
-                        />
-                        {index !== miniProjects.length - 1 && (
-                            <div className="border-t border-lighthighlight/65 my-1" />
-                        )}
-                    </div>
-                ))}
+            <div className="-mt-2 mb-2">Some of my favorites.</div>
+            <div className="flex flex-col -ml-6">
+                {miniProjects.map(
+                    (project, index) =>
+                        project.miniDescription && (
+                            <div key={project.name}>
+                                <MiniProject
+                                    name={project.name}
+                                    githubLink={project.githubLink}
+                                    href={project.href}
+                                    description={project.miniDescription!}
+                                    year={project.year}
+                                    tags={project.tags}
+                                />
+                                {index !== miniProjects.length - 1 && (
+                                    <div className="border-t border-lighthighlight/65 my-1" />
+                                )}
+                            </div>
+                        ),
+                )}
             </div>
+            <Link
+                className={`${serif.className} text-md self-center justify-center inline-flex items-center text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
+                href="/projects"
+            >
+                See all of my projects <ArrowCircleRightIcon size={20} />
+            </Link>
         </div>
     ),
     learner: (
         <div className={`${serif.className}`}>
             <ProofHeading>Skills</ProofHeading>
+            <div className="-mt-2 mb-4 text-bodytext">
+                I neither know nor think I know.
+            </div>
             {skills.map((section) => (
                 <div key={section.label} className="mb-5">
                     <p className="text-sm tracking-wide text-bodytext/80 mb-2">
@@ -105,17 +113,25 @@ const proofs: Record<string, ReactNode> = {
         />
     ),
     photographer: (
-        <div>
-            <ProofHeading>Photography</ProofHeading>
+        <div className={`${serif.className} translate-y-2`}>
+            <ProofHeading>My Photography</ProofHeading>
+            <div className="text-bodytext -mt-2 mb-2">Need bigger lens.</div>
             <PhotoCollage />
         </div>
     ),
-    "rock climber": (
-        <ProofPlaceholder
-            icon={<MountainsIcon size={28} />}
-            title="Rock Climbing"
-            blurb="Bouldering and top-rope — projects on the wall, sends in progress."
-        />
+    reader: (
+        <div className={`${serif.className}`}>
+            <ProofHeading>Books I've Read</ProofHeading>
+            <div className="text-bodytext -mt-2 mb-2">
+                I read. Then I write.{" "}
+                <span>
+                    <Link href="/blog" className="link">
+                        See my informal log
+                    </Link>
+                </span>{" "}
+                of books I've read, my thoughts on them, and my recommendations.
+            </div>
+        </div>
     ),
     "cat petter": (
         <ProofPlaceholder
@@ -136,15 +152,17 @@ const proofs: Record<string, ReactNode> = {
 // Shown beside the lingering final ALARA MARTIN (after the circle has made its full rotation).
 const outro = (
     <div className={`${serif.className} text-bodytext`}>
-        <p className="text-2xl">you&apos;ve seen the whole circle now :)</p>
+        <p className={`text-2xl ${mono.className} text-accent`}>
+            that&apos;s me :)
+        </p>
         <p className="pt-3">
-            if you scrolled this far, we&apos;re practically friends.{" "}
+            feel free to{" "}
             <Link href="/contact" className="link">
-                come say hi
+                say hi
             </Link>{" "}
             or{" "}
             <Link href="/projects" className="link">
-                poke around my projects
+                see my projects
             </Link>
             .
         </p>
@@ -162,59 +180,6 @@ export default function Home() {
             {/* The hero (tall scroll container + sticky circle + proof stage) now lives inside
           NameCircle so it can own its own scroll source and snap markers. */}
             <NameCircle proofs={proofs} outro={outro} />
-
-            {/* Currently — placeholder for now; fill in later. */}
-            <div className="pt-24 lg:px-26">
-                <div className="flex flex-col pl-4 md:pl-14">
-                    <p
-                        className={`${mono.className} text-4xl pb-4 font-medium text-accent`}
-                    >
-                        Currently
-                    </p>
-                </div>
-                <div
-                    className={`w-full text-bodytext md:pl-20 px-8 ${serif.className}`}
-                >
-                    <ul className="space-y-1">
-                        <li>
-                            <span className="opacity-60">building:</span>{" "}
-                            [coming soon]
-                        </li>
-                        <li>
-                            <span className="opacity-60">reading:</span> [coming
-                            soon]
-                        </li>
-                        <li>
-                            <span className="opacity-60">listening to:</span>{" "}
-                            [coming soon]
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            {/* Closing CTA card */}
-            <div className="w-full flex justify-center px-8 py-20">
-                <div
-                    className={`${serif.className} text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 rounded-2xl px-8 py-8 max-w-xl text-center`}
-                >
-                    <p className="text-lg pb-5">like what you see?</p>
-                    <div className="flex flex-wrap gap-3 justify-center">
-                        <Link
-                            href="/projects"
-                            className="inline-flex items-center gap-1 border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:-translate-y-px rounded-lg py-2 px-3 transition-all"
-                        >
-                            See all my projects{" "}
-                            <ArrowCircleRightIcon size={20} />
-                        </Link>
-                        <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-1 border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:-translate-y-px rounded-lg py-2 px-3 transition-all"
-                        >
-                            Say hi
-                        </Link>
-                    </div>
-                </div>
-            </div>
 
             {/* ---------------------------------------------------------------------------
           Old static About / Projects / Skills section — commented out for now (its

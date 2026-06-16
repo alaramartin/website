@@ -31,22 +31,20 @@ import { italiana } from "@/app/ui/fonts";
 //   [ADJ_END, ROTATE_END] -> the circle rotates a full 360deg (one pass through every
 //                            adjective), and each adjective's "proof" rises into focus on
 //                            the right exactly as that adjective snaps to focus in the circle.
-// These are fractions of the hero's own scroll progress (see useScroll target below), so they
-// only depend on HERO_VH, not on the content below. Rotation speed = (ROTATE_END - ADJ_END) *
-// SCROLL_VH spread over 360°; raise HERO_VH or widen that range to make it more forgiving.
-const MORPH_END = 0.06; // name morph done — A at center, LARA MARTIN in ray slot
-const ADJ_END = 0.09; // adjectives finish extending (quick)
-const ROTATE_END = 0.92; // one slow full rotation; short linger after (1 - ROTATE_END)
+// The MORPH_END / ADJ_END / ROTATE_END fractions are DERIVED from a per-phase vh budget below
+// (after TITLES), so the rotation length auto-scales with however many adjectives you list.
 
 // Order around the circle == order each adjective passes through focus (rotation is negative,
 // so array order matches focus order). LARA MARTIN leads (about-me proof), then programmer.
+// To add / remove / reorder: just edit this list (and the matching `proofs` map in page.tsx).
+// Keep "LARA MARTIN" FIRST — the morph lands it in focus at the start.
 const TITLES = [
     "LARA MARTIN",
     "programmer",
     "learner",
     "girl who codes",
     "photographer",
-    "rock climber",
+    "reader",
     "cat petter",
     "sweet treat lover",
 ];
@@ -61,12 +59,22 @@ const PLATEAU = 0.55;
 const PIVOT = "A";
 const NAME = "LARA MARTIN";
 
-// Hero geometry: the tall scroll container (vh) and the sticky viewport inside it. The usable
-// scroll distance (and so the snap-marker offsets) is HERO_VH - STICKY_VH. Taller = slower,
-// more forgiving rotation (you don't have to crawl to experience it).
-const HERO_VH = 1000;
-const STICKY_VH = 100;
-const SCROLL_VH = HERO_VH - STICKY_VH;
+// Hero geometry, fully derived from the adjective count so adding/removing/reordering TITLES
+// "just works": every adjective gets the SAME scroll budget (VH_PER_STOP) as it passes through
+// focus, and the hero grows/shrinks to fit. Tune pacing with the per-phase budgets below.
+const STICKY_VH = 100; // the sticky viewport height inside the hero
+const MORPH_VH = 54; // scroll spent on the name morph
+const ADJ_VH = 27; // scroll spent on the adjectives bursting out
+const VH_PER_STOP = 95; // scroll per adjective passing through focus (rotation pacing)
+const LINGER_VH = 72; // scroll the final ALARA MARTIN lingers before the footer
+// One full 360° rotation passes every title through focus exactly once → one stop per title.
+const ROTATE_VH = TITLES.length * VH_PER_STOP;
+const SCROLL_VH = MORPH_VH + ADJ_VH + ROTATE_VH + LINGER_VH;
+const HERO_VH = SCROLL_VH + STICKY_VH;
+// Phase boundaries as fractions of the hero's own scroll progress (what useScroll reports).
+const MORPH_END = MORPH_VH / SCROLL_VH;
+const ADJ_END = (MORPH_VH + ADJ_VH) / SCROLL_VH;
+const ROTATE_END = (MORPH_VH + ADJ_VH + ROTATE_VH) / SCROLL_VH;
 
 // MARTIN recolors from the resting pink straight to the final nav color (red in light, pink in
 // dark) — no white in the middle, so it never blends into the lightening background, and it
@@ -348,215 +356,242 @@ export default function NameCircle({
 
             <div className="sticky top-0 h-svh">
                 <div ref={stageRef} className="relative h-svh w-full">
-            {/* Rest anchor: invisible, only used to measure the resting name layout.
+                    {/* Rest anchor: invisible, only used to measure the resting name layout.
                 Sized in vw (clamped) so it scales with the window and never overflows;
                 the movers read these measured sizes, so the visible name scales too. */}
-            <div
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 pb-4 flex items-baseline pointer-events-none"
-                style={{ opacity: 0, fontSize: "clamp(2.25rem, 12vw, 8rem)" }}
-                aria-hidden
-            >
-                <p
-                    className="whitespace-nowrap leading-none"
-                    style={{ fontSize: "1em", paddingRight: "0.16em" }}
-                >
-                    <span ref={restARef}>A</span>
-                    <span ref={restLaraRef}>LARA</span>
-                    <span
-                        ref={restBLRef}
-                        style={{ display: "inline-block", width: 0 }}
-                    />
-                </p>
-                <p
-                    className="whitespace-nowrap leading-none"
-                    style={{ fontSize: "0.5625em" }}
-                >
-                    <span ref={restMartinRef}>MARTIN</span>
-                </p>
-            </div>
+                    <div
+                        className="absolute bottom-0 left-1/2 -translate-x-1/2 pb-4 flex items-baseline pointer-events-none"
+                        style={{
+                            opacity: 0,
+                            fontSize: "clamp(2.25rem, 12vw, 8rem)",
+                        }}
+                        aria-hidden
+                    >
+                        <p
+                            className="whitespace-nowrap leading-none"
+                            style={{ fontSize: "1em", paddingRight: "0.16em" }}
+                        >
+                            <span ref={restARef}>A</span>
+                            <span ref={restLaraRef}>LARA</span>
+                            <span
+                                ref={restBLRef}
+                                style={{ display: "inline-block", width: 0 }}
+                            />
+                        </p>
+                        <p
+                            className="whitespace-nowrap leading-none"
+                            style={{ fontSize: "0.5625em" }}
+                        >
+                            <span ref={restMartinRef}>MARTIN</span>
+                        </p>
+                    </div>
 
-            {/* Movers: the visible, morphing name pieces (crisp — font-size + translate).
+                    {/* Movers: the visible, morphing name pieces (crisp — font-size + translate).
           Always mounted (moverStyle self-hides via display:none until measured) so the
           rendered children set never changes while scrolling. */}
-            <span style={moverStyle(rects?.a, "var(--scroll-nav)", "0.05em")}>
-                A
-            </span>
-            <span style={moverStyle(rects?.l, "var(--scroll-nav)", "0.02em")}>
-                LARA
-            </span>
-            <span
-                style={moverStyle(
-                    rects?.m,
-                    lerpColor(
-                        MARTIN_START,
-                        isDark ? MARTIN_END_DARK : MARTIN_END_LIGHT,
-                        morph,
-                    ),
-                    "0.02em",
-                )}
-            >
-                MARTIN
-            </span>
+                    <span
+                        style={moverStyle(
+                            rects?.a,
+                            "var(--scroll-nav)",
+                            "0.05em",
+                        )}
+                    >
+                        A
+                    </span>
+                    <span
+                        style={moverStyle(
+                            rects?.l,
+                            "var(--scroll-nav)",
+                            "0.02em",
+                        )}
+                    >
+                        LARA
+                    </span>
+                    <span
+                        style={moverStyle(
+                            rects?.m,
+                            lerpColor(
+                                MARTIN_START,
+                                isDark ? MARTIN_END_DARK : MARTIN_END_LIGHT,
+                                morph,
+                            ),
+                            "0.02em",
+                        )}
+                    >
+                        MARTIN
+                    </span>
 
-            {/* Social links: centered on screen, clickable only at the very top (scroll 0),
+                    {/* Social links: centered on screen, clickable only at the very top (scroll 0),
           then fade out as the morph begins. */}
-            <motion.div
-                style={{
-                    opacity: linksOpacity,
-                    pointerEvents: morph > 0 ? "none" : "auto",
-                    color: "var(--scroll-nav)",
-                }}
-                className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
-            >
-                <LinksBar />
-            </motion.div>
+                    <motion.div
+                        style={{
+                            opacity: linksOpacity,
+                            pointerEvents: morph > 0 ? "none" : "auto",
+                            color: "var(--scroll-nav)",
+                        }}
+                        className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+                    >
+                        <LinksBar />
+                    </motion.div>
 
-            {/* The circle: centered on mobile (graceful fallback, no proof stage there), moved
+                    {/* The circle: centered on mobile (graceful fallback, no proof stage there), moved
           to the left half on md+ so the proofs have room on the right. The morph retargets
           automatically because the movers read the live pivot/ray positions. Decorative —
           must not capture clicks meant for the LinksBar underneath it. */}
-            <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:left-[12%] md:translate-x-0 lg:left-[16%]">
-                <div>
-                    <div
-                        style={{
-                            position: "relative",
-                            width: 320,
-                            height: 320,
-                            margin: "0 auto",
-                        }}
-                    >
-                        <span
-                            ref={pivotRef}
-                            style={{
-                                position: "absolute",
-                                left: "50%",
-                                top: "50%",
-                                transform: "translate(-50%, -50%)",
-                                lineHeight: 1,
-                                zIndex: 1,
-                                fontSize: "3.6rem",
-                                fontWeight: 400,
-                                WebkitTextStrokeWidth: STROKE,
-                                WebkitTextStrokeColor: "currentColor",
-                                color: "var(--scroll-nav)",
-                                letterSpacing: "0.05em",
-                                opacity: handedOff ? 1 : 0,
-                            }}
-                        >
-                            {PIVOT}
-                        </span>
+                    <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:left-[12%] md:translate-x-0 lg:left-[16%]">
+                        <div>
+                            <div
+                                style={{
+                                    position: "relative",
+                                    width: 320,
+                                    height: 320,
+                                    margin: "0 auto",
+                                }}
+                            >
+                                <span
+                                    ref={pivotRef}
+                                    style={{
+                                        position: "absolute",
+                                        left: "50%",
+                                        top: "50%",
+                                        transform: "translate(-50%, -50%)",
+                                        lineHeight: 1,
+                                        zIndex: 1,
+                                        fontSize: "3.6rem",
+                                        fontWeight: 400,
+                                        WebkitTextStrokeWidth: STROKE,
+                                        WebkitTextStrokeColor: "currentColor",
+                                        color: "var(--scroll-nav)",
+                                        letterSpacing: "0.05em",
+                                        opacity: handedOff ? 1 : 0,
+                                    }}
+                                >
+                                    {PIVOT}
+                                </span>
 
-                        <motion.div
-                            style={{
-                                position: "absolute",
-                                inset: 0,
-                                rotate,
-                                transformOrigin: "center",
-                                willChange: "transform",
-                            }}
-                        >
-                            {rays.map(({ title, angle }) => {
-                                const isName = title === NAME;
-                                const worldAngle = normalizeDeg(
-                                    angle + rotationDeg,
-                                );
-                                const distance = angularDistance(worldAngle, 0);
-                                const isActive = distance <= activeWindow;
+                                <motion.div
+                                    style={{
+                                        position: "absolute",
+                                        inset: 0,
+                                        rotate,
+                                        transformOrigin: "center",
+                                        willChange: "transform",
+                                    }}
+                                >
+                                    {rays.map(({ title, angle }) => {
+                                        const isName = title === NAME;
+                                        const worldAngle = normalizeDeg(
+                                            angle + rotationDeg,
+                                        );
+                                        const distance = angularDistance(
+                                            worldAngle,
+                                            0,
+                                        );
+                                        const isActive =
+                                            distance <= activeWindow;
 
-                                const minRadius = isName ? 20 : 45;
-                                const fullRadius =
-                                    minRadius +
-                                    (Math.min(distance, activeWindow) /
-                                        activeWindow) *
-                                        (70 - minRadius);
-                                // Adjectives stay at center until the name morph finishes, then
-                                // extend out from the middle during the `adj` burst. The name ray
-                                // stays at its final radius (the mover represents it until handoff).
-                                const currentRadius = isName
-                                    ? fullRadius
-                                    : fullRadius * adj;
+                                        const minRadius = isName ? 20 : 45;
+                                        const fullRadius =
+                                            minRadius +
+                                            (Math.min(distance, activeWindow) /
+                                                activeWindow) *
+                                                (70 - minRadius);
+                                        // Adjectives stay at center until the name morph finishes, then
+                                        // extend out from the middle during the `adj` burst. The name ray
+                                        // stays at its final radius (the mover represents it until handoff).
+                                        const currentRadius = isName
+                                            ? fullRadius
+                                            : fullRadius * adj;
 
-                                const baseOpacity =
-                                    distance <= activeWindow ? 1 : 0.7;
-                                const opacity = isName
-                                    ? handedOff
-                                        ? baseOpacity
-                                        : 0
-                                    : baseOpacity * adj;
+                                        const baseOpacity =
+                                            distance <= activeWindow ? 1 : 0.7;
+                                        const opacity = isName
+                                            ? handedOff
+                                                ? baseOpacity
+                                                : 0
+                                            : baseOpacity * adj;
 
-                                const fontSize =
-                                    isName && isActive
-                                        ? "3.2rem"
-                                        : isActive
-                                          ? "1.7rem"
-                                          : "1.3rem";
-                                const color = isActive
-                                    ? "var(--scroll-nav)"
-                                    : "var(--color-verylightpink)";
+                                        const fontSize =
+                                            isName && isActive
+                                                ? "3.2rem"
+                                                : isActive
+                                                  ? "1.7rem"
+                                                  : "1.3rem";
+                                        const color = isActive
+                                            ? "var(--scroll-nav)"
+                                            : "var(--color-verylightpink)";
 
-                                return (
-                                    <span
-                                        key={title}
-                                        style={{
-                                            position: "absolute",
-                                            left: "50%",
-                                            top: "50%",
-                                            width: 0,
-                                            height: 0,
-                                            transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(${currentRadius}px)`,
-                                            transformOrigin: "center",
-                                        }}
-                                    >
-                                        <span
-                                            style={{
-                                                position: "absolute",
-                                                left: 0,
-                                                top: 0,
-                                                transform: "translateY(-50%)",
-                                                transformOrigin: "left center",
-                                                display: "inline-block",
-                                                whiteSpace: "nowrap",
-                                                lineHeight: 1,
-                                                letterSpacing: "0.02em",
-                                                fontSize,
-                                                fontWeight: 400,
-                                                WebkitTextStrokeWidth: STROKE,
-                                                WebkitTextStrokeColor:
-                                                    "currentColor",
-                                                color,
-                                                opacity,
-                                                // The name ray must appear instantly at
-                                                // handoff (the mover hides the same frame);
-                                                // a fade here leaves a 1-frame gap/flash.
-                                                // Keep the smooth font-size "bounce" (so LARA MARTIN grows
-                                                // like every other adjective), but no opacity transition on the
-                                                // name ray so the handoff doesn't flash.
-                                                transition: isName
-                                                    ? "font-size 120ms ease-out"
-                                                    : "font-size 120ms ease-out, opacity 120ms ease-out",
-                                            }}
-                                        >
-                                            {isName ? (
-                                                <>
-                                                    <span ref={rayLaraRef}>
-                                                        LARA&nbsp;
-                                                    </span>
-                                                    <span ref={rayMartinRef}>
-                                                        MARTIN
-                                                    </span>
-                                                </>
-                                            ) : (
-                                                title
-                                            )}
-                                        </span>
-                                    </span>
-                                );
-                            })}
-                        </motion.div>
+                                        return (
+                                            <span
+                                                key={title}
+                                                style={{
+                                                    position: "absolute",
+                                                    left: "50%",
+                                                    top: "50%",
+                                                    width: 0,
+                                                    height: 0,
+                                                    transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(${currentRadius}px)`,
+                                                    transformOrigin: "center",
+                                                }}
+                                            >
+                                                <span
+                                                    style={{
+                                                        position: "absolute",
+                                                        left: 0,
+                                                        top: 0,
+                                                        transform:
+                                                            "translateY(-50%)",
+                                                        transformOrigin:
+                                                            "left center",
+                                                        display: "inline-block",
+                                                        whiteSpace: "nowrap",
+                                                        lineHeight: 1,
+                                                        letterSpacing: "0.02em",
+                                                        fontSize,
+                                                        fontWeight: 400,
+                                                        WebkitTextStrokeWidth:
+                                                            STROKE,
+                                                        WebkitTextStrokeColor:
+                                                            "currentColor",
+                                                        color,
+                                                        opacity,
+                                                        // The name ray must appear instantly at
+                                                        // handoff (the mover hides the same frame);
+                                                        // a fade here leaves a 1-frame gap/flash.
+                                                        // Keep the smooth font-size "bounce" (so LARA MARTIN grows
+                                                        // like every other adjective), but no opacity transition on the
+                                                        // name ray so the handoff doesn't flash.
+                                                        transition: isName
+                                                            ? "font-size 120ms ease-out"
+                                                            : "font-size 120ms ease-out, opacity 120ms ease-out",
+                                                    }}
+                                                >
+                                                    {isName ? (
+                                                        <>
+                                                            <span
+                                                                ref={rayLaraRef}
+                                                            >
+                                                                LARA&nbsp;
+                                                            </span>
+                                                            <span
+                                                                ref={
+                                                                    rayMartinRef
+                                                                }
+                                                            >
+                                                                MARTIN
+                                                            </span>
+                                                        </>
+                                                    ) : (
+                                                        title
+                                                    )}
+                                                </span>
+                                            </span>
+                                        );
+                                    })}
+                                </motion.div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
 
                     {/* Proof stage: isolated + memoized so it is NOT re-rendered on every scroll
               frame (the circle above is). It drives opacity/position with motion values, so the

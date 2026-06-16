@@ -59,7 +59,7 @@ export default async function Page() {
                 <p
                     className={`${serif.className} cursor-default text-md pb-4 select-none text-bodytext`}
                 >
-                    my thoughts :&#41;
+                    [this page is under construction]
                 </p>
                 <div className={`${serif.className}`}>
                     <BlogListView posts={posts} />

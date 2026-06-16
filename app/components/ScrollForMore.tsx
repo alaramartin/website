@@ -29,7 +29,7 @@ export default function ScrollForMore() {
             <p
                 className={`${serif.className} pb-2 inline-flex items-center gap-1.5 opacity-70 text-(--color-verylightpink)`}
             >
-                Scroll for more
+                Scroll
                 <ArrowFatLineDownIcon size={24} className="arrow-bounce" />
             </p>
         </div>
