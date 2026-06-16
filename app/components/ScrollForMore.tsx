@@ -27,7 +27,7 @@ export default function ScrollForMore() {
             style={{ opacity, transition: "opacity 100ms" }}
         >
             <p
-                className={`${serif.className} pb-4 inline-flex items-center gap-1.5 opacity-70 text-(--color-verylightpink)`}
+                className={`${serif.className} pb-2 inline-flex items-center gap-1.5 opacity-70 text-(--color-verylightpink)`}
             >
                 Scroll for more
                 <ArrowFatLineDownIcon size={24} className="arrow-bounce" />
