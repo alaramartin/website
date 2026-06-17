@@ -76,23 +76,28 @@ const ADJ_END = (MORPH_VH + ADJ_VH) / SCROLL_VH;
 const ROTATE_END = (MORPH_VH + ADJ_VH + ROTATE_VH) / SCROLL_VH;
 
 // On mobile the proof stage is hidden (the circle shows adjectives only), so there's nothing
-// to read while the circle rotates — shorten the per-adjective budget + final linger so the
-// content stack below is reached faster.
-const MOBILE_VH_PER_STOP = 55;
-const MOBILE_LINGER_VH = 40;
+// to read while the circle rotates — scale EVERY phase's scroll budget down by this factor so
+// the whole sequence takes less scrolling (faster progression) while keeping the exact same
+// phase ratios as desktop. Lower = faster. Tune to taste.
+const MOBILE_SCALE = 0.35;
 
 // Same scroll geometry as the constants above, but parameterized so mobile can re-derive it
-// with a shorter rotation/linger. Called with the desktop constants it reproduces SCROLL_VH /
+// with shorter phase budgets. Called with the desktop constants it reproduces SCROLL_VH /
 // HERO_VH / *_END exactly, so desktop is unchanged.
-function heroGeometry(vhPerStop: number, lingerVh: number) {
+function heroGeometry(
+    morphVh: number,
+    adjVh: number,
+    vhPerStop: number,
+    lingerVh: number,
+) {
     const rotateVh = TITLES.length * vhPerStop;
-    const scrollVh = MORPH_VH + ADJ_VH + rotateVh + lingerVh;
+    const scrollVh = morphVh + adjVh + rotateVh + lingerVh;
     return {
         scrollVh,
         heroVh: scrollVh + STICKY_VH,
-        morphEnd: MORPH_VH / scrollVh,
-        adjEnd: (MORPH_VH + ADJ_VH) / scrollVh,
-        rotateEnd: (MORPH_VH + ADJ_VH + rotateVh) / scrollVh,
+        morphEnd: morphVh / scrollVh,
+        adjEnd: (morphVh + adjVh) / scrollVh,
+        rotateEnd: (morphVh + adjVh + rotateVh) / scrollVh,
     };
 }
 
@@ -176,14 +181,23 @@ export default function NameCircle({
     const { scrollVh, heroVh, morphEnd, adjEnd, rotateEnd } = useMemo(
         () =>
             isMobile
-                ? heroGeometry(MOBILE_VH_PER_STOP, MOBILE_LINGER_VH)
-                : heroGeometry(VH_PER_STOP, LINGER_VH),
+                ? heroGeometry(
+                      MORPH_VH * MOBILE_SCALE,
+                      ADJ_VH * MOBILE_SCALE,
+                      VH_PER_STOP * MOBILE_SCALE,
+                      LINGER_VH * MOBILE_SCALE,
+                  )
+                : heroGeometry(MORPH_VH, ADJ_VH, VH_PER_STOP, LINGER_VH),
         [isMobile],
     );
 
     // Negative so the circle's array order matches the focus order (LARA MARTIN -> programmer
     // -> learner -> ...). normalizeDeg/angularDistance already handle negative rotation.
-    const rotate = useTransform(scrollYProgress, [adjEnd, rotateEnd], [0, -360]);
+    const rotate = useTransform(
+        scrollYProgress,
+        [adjEnd, rotateEnd],
+        [0, -360],
+    );
     const mp = useTransform(scrollYProgress, [0, morphEnd], [0, 1]);
     const adjMv = useTransform(scrollYProgress, [morphEnd, adjEnd], [0, 1]);
     // LinksBar fades out over the front portion of the morph.
@@ -229,15 +243,19 @@ export default function NameCircle({
         return () => observer.disconnect();
     }, []);
 
-    // Turn on scroll-snapping only while this hero is mounted (i.e. only on the home page).
+    // Turn on scroll-snapping only while this hero is mounted (i.e. only on the home page) —
+    // and only on desktop. On touch devices CSS scroll-snap interrupts the inertial fling, so
+    // the page decelerates abruptly the instant the finger lifts (unnatural). Mobile has no
+    // side proofs to snap an adjective next to anyway, so skip snapping there entirely.
     useEffect(() => {
+        if (isMobile) return;
         const el = document.documentElement;
         const prev = el.style.scrollSnapType;
         el.style.scrollSnapType = "y proximity";
         return () => {
             el.style.scrollSnapType = prev;
         };
-    }, []);
+    }, [isMobile]);
 
     const [adj, setAdj] = useState(0);
     useMotionValueEvent(adjMv, "change", (v) => setAdj(v));
@@ -448,7 +466,10 @@ export default function NameCircle({
                         </p>
                         <p
                             className="whitespace-nowrap leading-none"
-                            style={{ fontSize: "0.5625em", color: MARTIN_START }}
+                            style={{
+                                fontSize: "0.5625em",
+                                color: MARTIN_START,
+                            }}
                         >
                             <span ref={restMartinRef}>MARTIN</span>
                         </p>
@@ -526,7 +547,9 @@ export default function NameCircle({
                                         transform: "translate(-50%, -50%)",
                                         lineHeight: 1,
                                         zIndex: 1,
-                                        fontSize: isMobile ? "2.7rem" : "3.6rem",
+                                        fontSize: isMobile
+                                            ? "2.7rem"
+                                            : "3.6rem",
                                         fontWeight: 400,
                                         WebkitTextStrokeWidth: STROKE,
                                         WebkitTextStrokeColor: "currentColor",

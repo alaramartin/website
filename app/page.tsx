@@ -45,7 +45,7 @@ const proofs: Record<string, ReactNode> = {
         <div className={`${serif.className} text-bodytext flex flex-col`}>
             <ProofHeading>Projects</ProofHeading>
             <div className="-mt-2 mb-2">Some of my favorites.</div>
-            <div className="flex flex-col -ml-6">
+            <div className="flex flex-col md:-ml-6">
                 {miniProjects.map(
                     (project, index) =>
                         project.miniDescription && (
