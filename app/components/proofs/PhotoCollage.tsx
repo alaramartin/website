@@ -1,30 +1,31 @@
-// Placeholder collage for the "photographer" proof. Real photos go in public/ later;
-// for now these are neutral tiles laid out in a small masonry-ish grid.
-const TILES = [
-    "aspect-[3/4]",
-    "aspect-square",
-    "aspect-square",
-    "aspect-[4/3]",
-];
+import Image from "next/image";
+
+// Collage for the "photographer" / "cat lover" proofs. Source images live in public/photos
+// and public/cats as optimized WebP; next/image lazy-loads them (the collage only renders
+// inside the md+ proof stage), so they never block the initial page load.
+const TILES = [0, 1, 2, 3];
 
 interface PhotoCollageProps {
     catOrPhoto: "cat" | "photo";
 }
 
 export default function PhotoCollage({ catOrPhoto }: PhotoCollageProps) {
+    const label = catOrPhoto === "cat" ? "Alara's cat" : "Photo by Alara";
     return (
         <div className="w-full max-w-md select-none">
             <div className="columns-2 gap-3 *:mb-3">
-                {TILES.map((aspect, i) => (
+                {TILES.map((i) => (
                     <div
                         key={i}
-                        className={`aspect-6/7 w-full break-inside-avoid flex items-center justify-center`}
+                        className={`relative aspect-6/7 w-full break-inside-avoid`}
                     >
-                        <img
-                            src={`/${catOrPhoto}s/${catOrPhoto}${i + 1}.png`}
-                            alt="Photo placeholder"
-                            className="w-full h-full object-cover rounded-lg border border-lighthighlight/50"
-                            draggable="false"
+                        <Image
+                            src={`/${catOrPhoto}s/${catOrPhoto}${i + 1}.webp`}
+                            alt={label}
+                            fill
+                            sizes="(min-width: 768px) 220px, 1px"
+                            className="object-cover rounded-lg border border-lighthighlight/50"
+                            draggable={false}
                         />
                     </div>
                 ))}

@@ -286,10 +286,16 @@ export default function NameCircle({
             });
         };
 
-        measure();
+        // Measure once the web font (Italiana) is ready so the movers appear already
+        // positioned for the final glyph metrics — measuring in the fallback font first
+        // would make the name visibly jump a couple px when the font swaps in. The
+        // SSR rest anchor holds the visible name until then (rects stays null).
+        if (document.fonts?.ready) {
+            document.fonts.ready.then(measure).catch(measure);
+        } else {
+            measure();
+        }
         window.addEventListener("resize", measure);
-        // Web font (Italiana) load shifts glyph metrics — re-measure when ready.
-        document.fonts?.ready.then(measure).catch(() => {});
         return () => window.removeEventListener("resize", measure);
     }, []);
 
@@ -320,7 +326,12 @@ export default function NameCircle({
             lineHeight: 1,
             whiteSpace: "nowrap",
             letterSpacing: `calc(${endTracking} * ${morph})`,
-            opacity: morph >= 1 ? 0 : 1,
+            // At rest (morph 0) the CSS rest-anchor is the visible name, so the movers stay
+            // hidden — that avoids a static couple-px jump from the measured mover positions
+            // not landing pixel-exact on the rest-anchor glyphs. The movers only show once the
+            // morph is underway (everything's in motion, so the handoff is imperceptible), and
+            // hide again at handoff to the circle (morph 1).
+            opacity: morph > 0 && morph < 1 ? 1 : 0,
             zIndex: 2,
             pointerEvents: "none",
         };
@@ -354,22 +365,38 @@ export default function NameCircle({
                 />
             ))}
 
-            <div className="sticky top-0 h-svh">
+            <div
+                className="sticky top-0 h-svh"
+                style={{ background: "var(--scroll-bg)" }}
+            >
                 <div ref={stageRef} className="relative h-svh w-full">
                     {/* Rest anchor: invisible, only used to measure the resting name layout.
                 Sized in vw (clamped) so it scales with the window and never overflows;
                 the movers read these measured sizes, so the visible name scales too. */}
+                    {/* This anchor IS the visible name at rest (morph 0): the server-rendered
+                HTML paints "ALARA MARTIN" instantly (white-on-red), and it stays the visible
+                name — laid out by real CSS, pixel-exact — until the morph starts. Only then do
+                the measured movers take over (in motion, so any sub-pixel handoff is unseen),
+                which avoids a static jump from the movers not landing exactly on these glyphs.
+                It's also still used for FLIP measurement (getBoundingClientRect ignores opacity). */}
                     <div
                         className="absolute bottom-0 left-1/2 -translate-x-1/2 pb-4 flex items-baseline pointer-events-none"
                         style={{
-                            opacity: 0,
+                            opacity: morph > 0 ? 0 : 1,
                             fontSize: "clamp(2.25rem, 12vw, 8rem)",
+                            fontWeight: 400,
+                            WebkitTextStrokeWidth: STROKE,
+                            WebkitTextStrokeColor: "currentColor",
                         }}
                         aria-hidden
                     >
                         <p
                             className="whitespace-nowrap leading-none"
-                            style={{ fontSize: "1em", paddingRight: "0.16em" }}
+                            style={{
+                                fontSize: "1em",
+                                paddingRight: "0.16em",
+                                color: "var(--scroll-nav)",
+                            }}
                         >
                             <span ref={restARef}>A</span>
                             <span ref={restLaraRef}>LARA</span>
@@ -380,7 +407,7 @@ export default function NameCircle({
                         </p>
                         <p
                             className="whitespace-nowrap leading-none"
-                            style={{ fontSize: "0.5625em" }}
+                            style={{ fontSize: "0.5625em", color: MARTIN_START }}
                         >
                             <span ref={restMartinRef}>MARTIN</span>
                         </p>

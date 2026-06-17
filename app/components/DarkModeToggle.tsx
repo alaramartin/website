@@ -7,16 +7,14 @@ export default function DarkModeToggle() {
     const { resolvedTheme, setTheme } = useTheme();
     const [mount, setMount] = useState(false);
 
-    // set mount once mounted, don't render until mounted
     useEffect(() => {
         setMount(true);
     }, []);
 
-    if (!mount) {
-        return null;
-    }
-
-    const isDark = resolvedTheme === "dark";
+    // Render the button immediately (it's fixed, so no layout shift); only the
+    // theme-dependent icon weight waits for mount, so server and first client render
+    // agree (regular) — no hydration mismatch, no pop-in.
+    const isDark = mount && resolvedTheme === "dark";
 
     return (
         <>

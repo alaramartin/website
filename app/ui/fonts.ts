@@ -1,26 +1,32 @@
 import { Roboto, Italiana, Poppins, Lato, EB_Garamond, PT_Mono, Inter, PT_Serif, IBM_Plex_Serif, Source_Serif_4, Literata, Space_Mono } from "next/font/google";
 
+// "optional": the hero name paints directly in Italiana when the (preloaded, tiny) font wins
+// the ~100ms block window — which it almost always does — so there's NO fallback->web-font
+// swap jump on the LCP text. On a slow link it falls back with no later swap (never a shift,
+// never the old multi-second blank). subset+weight kept minimal so the file stays small.
 export const italiana = Italiana({
-    subsets: ["latin"], weight: ['400']
+    subsets: ["latin"], weight: ['400'], display: "optional"
 });
 
+// Below-the-fold / other-page fonts: don't preload them on every route — that just steals
+// bandwidth from the critical above-the-fold fonts (italiana hero, serif nav).
 export const poppins = Poppins({
-    subsets: ["latin"], weight: ['200']
+    subsets: ["latin"], weight: ['200'], preload: false
 });
 
 export const roboto = Roboto({
-    subsets: ["latin"],
+    subsets: ["latin"], preload: false
 });
 
 export const lato = Lato({
     subsets: ["latin"],
-    weight: ['400', '700']
+    weight: ['400', '700'], preload: false
 });
 
 // export const mono = PT_Mono({weight: "400"});
 
 
-export const mono = Space_Mono({weight: "400", display: "swap"});
+export const mono = Space_Mono({weight: "400", display: "swap", preload: false});
 
 // export const garamond = EB_Garamond({
 //     subsets: ["latin"],

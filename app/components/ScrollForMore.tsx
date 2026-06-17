@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { serif } from "../ui/fonts";
 
 export default function ScrollForMore() {
-    const [mounted, setMounted] = useState(false);
-    const [opacity, setOpacity] = useState(0);
+    // Start visible: the page always loads scrolled to the top, so SSR can paint the
+    // indicator immediately (no mount gate / pop-in). The scroll listener only hides it.
+    const [opacity, setOpacity] = useState(1);
 
     useEffect(() => {
         const onScroll = () => {
@@ -13,13 +14,10 @@ export default function ScrollForMore() {
         };
 
         onScroll();
-        setMounted(true);
 
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
-
-    if (!mounted) return null;
 
     return (
         <div
