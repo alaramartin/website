@@ -45,8 +45,8 @@ const TITLES = [
     "girl who codes",
     "photographer",
     "reader",
-    "cat petter",
-    "sweet treat lover",
+    "cat lover",
+    // "sweet treat lover",
 ];
 
 // Proof stage tuning: a proof is visible within +/- PROOF_W degrees of its adjective's focus,
@@ -332,7 +332,7 @@ export default function NameCircle({
         <div
             ref={heroRef}
             data-scroll-hero={String(HERO_VH)}
-            className={`relative ${italiana.className} antialiased select-none`}
+            className={`relative ${italiana.className} antialiased`}
             style={{ height: `${HERO_VH}vh` }}
         >
             {/* Scroll-snap anchors: thin, decorative markers placed at each focus offset so the

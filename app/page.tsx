@@ -73,7 +73,7 @@ const proofs: Record<string, ReactNode> = {
                 )}
             </div>
             <Link
-                className={`${serif.className} text-md self-center justify-center inline-flex items-center text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
+                className={`${serif.className} select-none text-md self-center justify-center inline-flex items-center text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
                 href="/projects"
             >
                 See all of my projects <ArrowCircleRightIcon size={20} />
@@ -106,17 +106,14 @@ const proofs: Record<string, ReactNode> = {
         </div>
     ),
     "girl who codes": (
-        <ProofPlaceholder
-            icon={<CodeIcon size={28} />}
-            title="Girls Who Code"
-            blurb="Projects, workshops, and the community I built through Girls Who Code."
-        />
-    ),
-    photographer: (
         <div className={`${serif.className} translate-y-2`}>
-            <ProofHeading>My Photography</ProofHeading>
-            <div className="text-bodytext -mt-2 mb-2">Need bigger lens.</div>
-            <PhotoCollage />
+            <ProofHeading>Girls Who Code.</ProofHeading>
+            <div className="text-bodytext -mt-2 mb-2">
+                I found a community through Girls Who Code, and gave back by
+                creating a free program for local elementary school girls to
+                learn how to code without the barriers I encountered at [website
+                coming soon].
+            </div>
         </div>
     ),
     reader: (
@@ -133,12 +130,22 @@ const proofs: Record<string, ReactNode> = {
             </div>
         </div>
     ),
-    "cat petter": (
-        <ProofPlaceholder
-            icon={<CatIcon size={28} />}
-            title="Cat Petter"
-            blurb="Certified cat enthusiast. Photos of feline friends incoming."
-        />
+    photographer: (
+        <div className={`${serif.className} translate-y-2`}>
+            <ProofHeading>My Photography</ProofHeading>
+            <div className="text-bodytext -mt-2 mb-2">Need bigger lens.</div>
+            <PhotoCollage catOrPhoto="photo" />
+        </div>
+    ),
+    "cat lover": (
+        <div className={`${serif.className} translate-y-2`}>
+            <ProofHeading>I love cats.</ProofHeading>
+            <div className="text-bodytext -mt-2 mb-2">
+                Since I can't paste half my camera roll here, here are just a
+                few of the cats I know.
+            </div>
+            <PhotoCollage catOrPhoto="cat" />
+        </div>
     ),
     "sweet treat lover": (
         <ProofPlaceholder
@@ -156,7 +163,7 @@ const outro = (
             that&apos;s me :)
         </p>
         <p className="pt-3">
-            feel free to{" "}
+            Feel free to{" "}
             <Link href="/contact" className="link">
                 say hi
             </Link>{" "}
