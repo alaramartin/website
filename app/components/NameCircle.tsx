@@ -70,11 +70,31 @@ const LINGER_VH = 72; // scroll the final ALARA MARTIN lingers before the footer
 // One full 360° rotation passes every title through focus exactly once → one stop per title.
 const ROTATE_VH = TITLES.length * VH_PER_STOP;
 const SCROLL_VH = MORPH_VH + ADJ_VH + ROTATE_VH + LINGER_VH;
-const HERO_VH = SCROLL_VH + STICKY_VH;
 // Phase boundaries as fractions of the hero's own scroll progress (what useScroll reports).
 const MORPH_END = MORPH_VH / SCROLL_VH;
 const ADJ_END = (MORPH_VH + ADJ_VH) / SCROLL_VH;
 const ROTATE_END = (MORPH_VH + ADJ_VH + ROTATE_VH) / SCROLL_VH;
+
+// On mobile the proof stage is hidden (the circle shows adjectives only), so there's nothing
+// to read while the circle rotates — shorten the per-adjective budget + final linger so the
+// content stack below is reached faster.
+const MOBILE_VH_PER_STOP = 55;
+const MOBILE_LINGER_VH = 40;
+
+// Same scroll geometry as the constants above, but parameterized so mobile can re-derive it
+// with a shorter rotation/linger. Called with the desktop constants it reproduces SCROLL_VH /
+// HERO_VH / *_END exactly, so desktop is unchanged.
+function heroGeometry(vhPerStop: number, lingerVh: number) {
+    const rotateVh = TITLES.length * vhPerStop;
+    const scrollVh = MORPH_VH + ADJ_VH + rotateVh + lingerVh;
+    return {
+        scrollVh,
+        heroVh: scrollVh + STICKY_VH,
+        morphEnd: MORPH_VH / scrollVh,
+        adjEnd: (MORPH_VH + ADJ_VH) / scrollVh,
+        rotateEnd: (MORPH_VH + ADJ_VH + rotateVh) / scrollVh,
+    };
+}
 
 // MARTIN recolors from the resting pink straight to the final nav color (red in light, pink in
 // dark) — no white in the middle, so it never blends into the lightening background, and it
@@ -138,19 +158,38 @@ export default function NameCircle({
         target: heroRef,
         offset: ["start start", "end end"],
     });
+
+    // Mobile switch (matches Tailwind's `md` breakpoint). Drives the shorter scroll, the
+    // left shift, and the smaller circle below. SSR-safe default (false); set on mount.
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const mq = window.matchMedia("(max-width: 767px)");
+        const apply = () => setIsMobile(mq.matches);
+        apply();
+        mq.addEventListener("change", apply);
+        return () => mq.removeEventListener("change", apply);
+    }, []);
+
+    // Active scroll geometry. Module helpers (rotationAt/panelOpacity/...) keep the desktop
+    // constants since they only feed the md+ ProofStage; the visible circle + hero height +
+    // snap markers below use these so the rotation completes over the (possibly shorter) scroll.
+    const { scrollVh, heroVh, morphEnd, adjEnd, rotateEnd } = useMemo(
+        () =>
+            isMobile
+                ? heroGeometry(MOBILE_VH_PER_STOP, MOBILE_LINGER_VH)
+                : heroGeometry(VH_PER_STOP, LINGER_VH),
+        [isMobile],
+    );
+
     // Negative so the circle's array order matches the focus order (LARA MARTIN -> programmer
     // -> learner -> ...). normalizeDeg/angularDistance already handle negative rotation.
-    const rotate = useTransform(
-        scrollYProgress,
-        [ADJ_END, ROTATE_END],
-        [0, -360],
-    );
-    const mp = useTransform(scrollYProgress, [0, MORPH_END], [0, 1]);
-    const adjMv = useTransform(scrollYProgress, [MORPH_END, ADJ_END], [0, 1]);
+    const rotate = useTransform(scrollYProgress, [adjEnd, rotateEnd], [0, -360]);
+    const mp = useTransform(scrollYProgress, [0, morphEnd], [0, 1]);
+    const adjMv = useTransform(scrollYProgress, [morphEnd, adjEnd], [0, 1]);
     // LinksBar fades out over the front portion of the morph.
     const linksOpacity = useTransform(
         scrollYProgress,
-        [0, MORPH_END * 0.7],
+        [0, morphEnd * 0.7],
         [1, 0],
     );
 
@@ -215,10 +254,10 @@ export default function NameCircle({
     const snapStops = useMemo(() => {
         const stops = [0];
         for (let i = 0; i <= TITLES.length; i++) {
-            stops.push(ADJ_END + (ROTATE_END - ADJ_END) * (i / TITLES.length));
+            stops.push(adjEnd + (rotateEnd - adjEnd) * (i / TITLES.length));
         }
         return stops;
-    }, []);
+    }, [adjEnd, rotateEnd]);
 
     // FLIP measurement: rest positions (big bottom name) -> end positions (circle).
     const stageRef = useRef<HTMLDivElement>(null);
@@ -297,7 +336,9 @@ export default function NameCircle({
         }
         window.addEventListener("resize", measure);
         return () => window.removeEventListener("resize", measure);
-    }, []);
+        // Re-measure when crossing the breakpoint: the ray font-size/radius (and thus the
+        // morph end positions) differ on mobile.
+    }, [isMobile]);
 
     // Style for one morphing piece. Vertically it interpolates from the resting
     // baseline to the circle's box center (so it lands exactly on the center-anchored
@@ -342,9 +383,9 @@ export default function NameCircle({
     return (
         <div
             ref={heroRef}
-            data-scroll-hero={String(HERO_VH)}
+            data-scroll-hero={String(heroVh)}
             className={`relative ${italiana.className} antialiased`}
-            style={{ height: `${HERO_VH}vh` }}
+            style={{ height: `${heroVh}vh` }}
         >
             {/* Scroll-snap anchors: thin, decorative markers placed at each focus offset so the
           page settles with an adjective/proof centered. Driven by the same constants as the
@@ -355,7 +396,7 @@ export default function NameCircle({
                     aria-hidden
                     style={{
                         position: "absolute",
-                        top: `${p * SCROLL_VH}vh`,
+                        top: `${p * scrollVh}vh`,
                         left: 0,
                         width: 1,
                         height: 1,
@@ -461,11 +502,12 @@ export default function NameCircle({
                         <LinksBar />
                     </motion.div>
 
-                    {/* The circle: centered on mobile (graceful fallback, no proof stage there), moved
-          to the left half on md+ so the proofs have room on the right. The morph retargets
+                    {/* The circle: on mobile (no proof stage) the pivot is shifted left of center so
+          the focused adjective — which extends to the right of the pivot — reads centered; on
+          md+ it moves to the left half so the proofs have room on the right. The morph retargets
           automatically because the movers read the live pivot/ray positions. Decorative —
           must not capture clicks meant for the LinksBar underneath it. */}
-                    <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:left-[12%] md:translate-x-0 lg:left-[16%]">
+                    <div className="pointer-events-none absolute top-1/2 left-[24%] -translate-x-1/2 -translate-y-1/2 md:left-[12%] md:translate-x-0 lg:left-[16%]">
                         <div>
                             <div
                                 style={{
@@ -484,7 +526,7 @@ export default function NameCircle({
                                         transform: "translate(-50%, -50%)",
                                         lineHeight: 1,
                                         zIndex: 1,
-                                        fontSize: "3.6rem",
+                                        fontSize: isMobile ? "2.7rem" : "3.6rem",
                                         fontWeight: 400,
                                         WebkitTextStrokeWidth: STROKE,
                                         WebkitTextStrokeColor: "currentColor",
@@ -518,11 +560,14 @@ export default function NameCircle({
                                             distance <= activeWindow;
 
                                         const minRadius = isName ? 20 : 45;
+                                        // Smaller max radius on mobile so long adjectives don't
+                                        // run off a ~360px screen as they swing through.
+                                        const maxRadius = isMobile ? 52 : 70;
                                         const fullRadius =
                                             minRadius +
                                             (Math.min(distance, activeWindow) /
                                                 activeWindow) *
-                                                (70 - minRadius);
+                                                (maxRadius - minRadius);
                                         // Adjectives stay at center until the name morph finishes, then
                                         // extend out from the middle during the `adj` burst. The name ray
                                         // stays at its final radius (the mover represents it until handoff).
@@ -540,10 +585,16 @@ export default function NameCircle({
 
                                         const fontSize =
                                             isName && isActive
-                                                ? "3.2rem"
+                                                ? isMobile
+                                                    ? "2.4rem"
+                                                    : "3.2rem"
                                                 : isActive
-                                                  ? "1.7rem"
-                                                  : "1.3rem";
+                                                  ? isMobile
+                                                      ? "1.4rem"
+                                                      : "1.7rem"
+                                                  : isMobile
+                                                    ? "1.1rem"
+                                                    : "1.3rem";
                                         const color = isActive
                                             ? "var(--scroll-nav)"
                                             : "var(--color-verylightpink)";

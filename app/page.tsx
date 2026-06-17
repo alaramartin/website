@@ -4,18 +4,11 @@ import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
 import Link from "next/link";
 import { projects, skills } from "@/app/data/info.ts";
-import {
-    ArrowCircleRightIcon,
-    CodeIcon,
-    MountainsIcon,
-    CatIcon,
-    IceCreamIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
 import NameCircle from "./components/NameCircle";
 import ScrollForMore from "./components/ScrollForMore";
 import PhotoCollage from "./components/proofs/PhotoCollage";
-import ProofPlaceholder from "./components/proofs/ProofPlaceholder";
 import type { ReactNode } from "react";
 
 export const metadata = generateMetadataBase({
@@ -147,13 +140,13 @@ const proofs: Record<string, ReactNode> = {
             <PhotoCollage catOrPhoto="cat" />
         </div>
     ),
-    "sweet treat lover": (
-        <ProofPlaceholder
-            icon={<IceCreamIcon size={28} />}
-            title="Sweet Treats"
-            blurb="A running log of the best desserts I've found (and baked)."
-        />
-    ),
+    // "sweet treat lover": (
+    //     <ProofPlaceholder
+    //         icon={<IceCreamIcon size={28} />}
+    //         title="Sweet Treats"
+    //         blurb="A running log of the best desserts I've found (and baked)."
+    //     />
+    // ),
 };
 
 // Shown beside the lingering final ALARA MARTIN (after the circle has made its full rotation).
@@ -188,24 +181,20 @@ export default function Home() {
           NameCircle so it can own its own scroll source and snap markers. */}
             <NameCircle proofs={proofs} outro={outro} />
 
-            {/* ---------------------------------------------------------------------------
-          Old static About / Projects / Skills section — commented out for now (its
-          content now lives in the rotating proofs above). Kept here for reference /
-          easy restore.
-      ----------------------------------------------------------------------------
-      <div className={`pt-18 lg:px-26`}>
-        <div className="flex flex-row">
-          <div className="flex flex-col pl-4 md:pl-14">
-            <p className={`${mono.className} text-4xl pb-4 font-medium text-accent`}>About</p>
-          </div>
-        </div>
-        <div className={`w-full text-bodytext md:pl-20 px-8 ${serif.className}`}>
-          I'm a student at UC Berkeley studying Applied Math and learning how to code. Read on to
-          see my skills and projects. Feel free to <Link href="/contact" className="link">contact me</Link>!
-        </div>
-        ...Projects list (MiniProject) + "See all of my projects" CTA + Skills list...
-      </div>
-      --------------------------------------------------------------------------- */}
+            {/* Mobile content stack: the proof stage inside NameCircle is md+ only (phones are
+          too narrow to show an adjective next to its proof), so on mobile the circle shows
+          adjectives only and the core content (About, Projects, Skills) lives here. Built
+          from the SAME `proofs` map so it stays in sync with the desktop proofs. */}
+            <section className={`md:hidden px-6 pb-16 ${serif.className}`}>
+                {["LARA MARTIN", "programmer", "learner"].map((key, index) => (
+                    <div key={key}>
+                        {index !== 0 && (
+                            <div className="border-t border-lighthighlight/65 my-8" />
+                        )}
+                        {proofs[key]}
+                    </div>
+                ))}
+            </section>
         </div>
     );
 }

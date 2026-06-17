@@ -1,8 +1,9 @@
 import Image from "next/image";
 
 // Collage for the "photographer" / "cat lover" proofs. Source images live in public/photos
-// and public/cats as optimized WebP; next/image lazy-loads them (the collage only renders
-// inside the md+ proof stage), so they never block the initial page load.
+// and public/cats as optimized WebP; next/image lazy-loads them, so they never block the
+// initial page load. Renders in the md+ proof stage AND the mobile content stack, so `sizes`
+// covers both layouts (~220px tile on the desktop stage, ~45vw in the 2-col mobile stack).
 const TILES = [0, 1, 2, 3];
 
 interface PhotoCollageProps {
@@ -23,7 +24,7 @@ export default function PhotoCollage({ catOrPhoto }: PhotoCollageProps) {
                             src={`/${catOrPhoto}s/${catOrPhoto}${i + 1}.webp`}
                             alt={label}
                             fill
-                            sizes="(min-width: 768px) 220px, 1px"
+                            sizes="(min-width: 768px) 220px, 45vw"
                             className="object-cover rounded-lg border border-lighthighlight/50"
                             draggable={false}
                         />
