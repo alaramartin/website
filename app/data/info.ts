@@ -14,7 +14,7 @@ import {
     FlowerIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
-export const projects: {
+export type ProjectInfo = {
     name: string;
     githubLink: string;
     href?: string;
@@ -23,7 +23,11 @@ export const projects: {
     notes?: string[];
     tags: string[];
     year: number;
-}[] = [
+    // hardcoded; mostly the github repo created_at date
+    date: string;
+};
+
+export const projects: ProjectInfo[] = [
     {
         name: "PKL Viewer",
         githubLink: "https://github.com/alaramartin/pkl-viewer",
@@ -35,6 +39,7 @@ export const projects: {
         notes: ["15000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         year: 2025,
+        date: "2025-08-06T21:48:22Z",
     },
     {
         name: "DICOM Viewer",
@@ -46,6 +51,7 @@ export const projects: {
         notes: ["1000+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         year: 2025,
+        date: "2025-08-20T22:02:34Z",
     },
     {
         name: "AP Score Reveal",
@@ -63,6 +69,7 @@ export const projects: {
             "TailwindCSS",
         ],
         year: 2025,
+        date: "2025-07-13T21:21:09Z",
     },
     {
         name: "HIPSTER-AI",
@@ -73,6 +80,8 @@ export const projects: {
         notes: ["deployment in progress", "0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
         tags: ["PyTorch", "Python", "Git"],
         year: 2025,
+        // private repo - estimate, adjust as needed
+        date: "2025-09-24T12:00:00Z",
     },
     {
         name: "Website",
@@ -90,6 +99,7 @@ export const projects: {
             "whimsy",
         ],
         year: 2025,
+        date: "2025-10-02T02:02:29Z",
     },
     {
         name: "Alternate Website",
@@ -107,6 +117,7 @@ export const projects: {
             "whimsy",
         ],
         year: 2025,
+        date: "2025-11-12T07:59:34Z",
     },
 ];
 

@@ -2,7 +2,13 @@ import { mono, serif } from "@/app/ui/fonts";
 import NavBar from "../components/NavBar";
 import generateMetadataBase from "@/lib/metadata";
 import Timeline from "./components/Timeline";
+import { projects } from "@/app/data/info";
 import TextScramble from "../components/TextScramble";
+
+// newest -> oldest, top to bottom (reverse chronological)
+const sortedProjects = [...projects].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+);
 
 export const metadata = generateMetadataBase({
     title: "Projects",
@@ -25,7 +31,7 @@ export default function ProjectsPage() {
                         I&apos;ve made a few things over the years...
                     </p>
                 </div>
-                <Timeline />
+                <Timeline projects={sortedProjects} />
             </main>
         </>
     );

@@ -1,0 +1,73 @@
+"use client";
+import { useEffect, useRef } from "react";
+import {
+    motion,
+    useMotionValue,
+    useMotionValueEvent,
+    type MotionValue,
+} from "motion/react";
+import Project from "./Project";
+import type { ProjectInfo } from "@/app/data/info";
+
+interface TimelineNodeProps {
+    project: ProjectInfo;
+    index: number;
+    // viewport-Y of the progress bar's leading (bottom) edge
+    edgeY: MotionValue<number>;
+}
+
+export default function TimelineNode({
+    project,
+    index,
+    edgeY,
+}: TimelineNodeProps) {
+    const isLeft = index % 2 === 0;
+    const dotRef = useRef<HTMLSpanElement>(null);
+    const fill = useMotionValue(0);
+
+    // fill the dot exactly as the bar's rendered edge crosses its center, so the
+    // two are locked together (and reverse together on scroll-up).
+    function update(edge: number) {
+        const el = dotRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const dotY = rect.top + rect.height / 2;
+        const band = 14; // px window over which the dot fills as the edge passes
+        const t = (edge - dotY) / band + 0.5;
+        fill.set(Math.max(0, Math.min(1, t)));
+    }
+
+    useMotionValueEvent(edgeY, "change", update);
+    useEffect(() => {
+        update(edgeY.get());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <div className="relative grid grid-cols-1 md:grid-cols-2 items-center">
+            {/* timeline dot: ring + center fill */}
+            <span
+                ref={dotRef}
+                className="absolute -left-2 md:left-1/2 top-1/2 z-10 flex h-4 w-4 -translate-y-1/2 md:-translate-x-1/2 items-center justify-center rounded-full border-2 border-accent/80 bg-background"
+            >
+                <motion.span
+                    style={{ scale: fill }}
+                    className="h-2 w-2 rounded-full bg-accent"
+                />
+            </span>{" "}
+            <motion.div
+                initial={{ opacity: 0, x: isLeft ? -24 : 24, y: 12 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className={`pl-8 md:pl-0 w-full ${
+                    isLeft
+                        ? "md:col-start-1 md:pr-10 md:justify-self-end"
+                        : "md:col-start-2 md:pl-10 md:justify-self-start"
+                } md:self-center flex flex-row items-center`}
+            >
+                <Project {...project} />
+            </motion.div>
+        </div>
+    );
+}

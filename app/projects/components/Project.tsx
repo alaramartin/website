@@ -3,11 +3,13 @@ import { serif, mono } from "@/app/ui/fonts";
 import {
     GithubLogoIcon,
     ArrowSquareOutIcon,
+    CaretDownIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import Notes from "./Notes";
 import SkillTags from "./SkillTags";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 interface ProjectProps {
     name: string;
@@ -16,6 +18,7 @@ interface ProjectProps {
     description: string;
     notes?: string[];
     tags?: string[];
+    date?: string;
 }
 
 const DEFAULT_DATE = "August 23, 2025";
@@ -26,6 +29,7 @@ function formatDateString(dateStr: string): string {
     } else {
         const date = new Date(dateStr);
         return date.toLocaleDateString("en-US", {
+            timeZone: "UTC",
             year: "numeric",
             month: "long",
             day: "numeric",
@@ -40,46 +44,22 @@ export default function Project({
     description,
     notes,
     tags,
+    date = "DEFAULT",
 }: ProjectProps) {
     const [viewExtra, setViewExtra] = useState(false);
-    const [date, setDate] = useState<string>(DEFAULT_DATE);
-
-    useEffect(() => {
-        const controller = new AbortController();
-
-        async function fetchDate() {
-            try {
-                const repo = githubLink.split("/").pop();
-                if (!repo) return;
-
-                const res = await fetch(`/api/github/dates/${repo}`, {
-                    signal: controller.signal,
-                });
-
-                if (!res.ok || controller.signal.aborted) return;
-
-                const data = await res.json();
-                if (data.date && !controller.signal.aborted) {
-                    setDate(formatDateString(data.date));
-                }
-            } catch {
-                if (controller.signal.aborted) return;
-            }
-        }
-
-        fetchDate();
-        return () => controller.abort();
-    }, [githubLink]);
+    const hasExtra = (notes && notes.length > 0) || (tags && tags.length > 0);
 
     return (
-        <div
-            className={`${serif.className} text-bodytext antialiased border border-lighthighlight/50 hover:border-lighthighlight rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lighthighlight relative h-full w-full place-content-center transition-all duration-150`}
+        <motion.div
+            whileHover={{ y: -4 }}
+            transition={{ type: "spring", stiffness: 300, damping: 24 }}
+            className={`${serif.className} text-bodytext antialiased border border-lighthighlight/50 hover:border-lighthighlight rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lighthighlight relative h-full w-full place-content-center transition-colors duration-150`}
         >
             <div>
                 <p
                     className={`${mono.className} text-bodytext/50 pt-0.5 pb-1 text-sm`}
                 >
-                    {date}
+                    {formatDateString(date)}
                 </p>
                 <p className="text-xl font-extrabold pb-2">{name}</p>
                 <div className="absolute top-4 right-4 space-x-2">
@@ -109,31 +89,44 @@ export default function Project({
                 <p>{description}</p>
             </div>
 
-            <div className="text-center mt-1">
-                {!viewExtra && (
-                    <div
-                        className="inline-flex justify-center text-center px-3.5 py-1 rounded-lg cursor-pointer hover:bg-lighthighlight/15"
-                        onClick={() => setViewExtra(true)}
-                        title="see more"
+            {hasExtra && (
+                <div className="text-center mt-1">
+                    <AnimatePresence initial={false}>
+                        {viewExtra && (
+                            <motion.div
+                                key="extra"
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{
+                                    duration: 0.3,
+                                    ease: "easeInOut",
+                                }}
+                                style={{ overflow: "hidden" }}
+                            >
+                                {notes && <Notes notes={notes} />}
+                                {tags && <SkillTags tags={tags} />}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <button
+                        type="button"
+                        onClick={() => setViewExtra((v) => !v)}
+                        aria-expanded={viewExtra}
+                        title={viewExtra ? "see less" : "see more"}
+                        className={`${mono.className} mt-1 inline-flex items-center gap-1 text-sm text-bodytext/60 hover:text-accent px-3 py-1 rounded-lg cursor-pointer hover:bg-lighthighlight/15 transition-colors`}
                     >
-                        &middot; &middot; &middot;
-                    </div>
-                )}
-
-                {notes && viewExtra && <Notes notes={notes} />}
-
-                {tags && viewExtra && <SkillTags tags={tags} />}
-
-                {viewExtra && (
-                    <div
-                        className="inline-flex mt-1 justify-center text-center px-3.5 py-1 rounded-lg cursor-pointer hover:bg-lighthighlight/15"
-                        onClick={() => setViewExtra(false)}
-                        title="see less"
-                    >
-                        &middot; &middot; &middot;
-                    </div>
-                )}
-            </div>
-        </div>
+                        <motion.span
+                            className="inline-flex w-4 h-4"
+                            animate={{ rotate: viewExtra ? 180 : 0 }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                        >
+                            <CaretDownIcon />
+                        </motion.span>
+                    </button>
+                </div>
+            )}
+        </motion.div>
     );
 }

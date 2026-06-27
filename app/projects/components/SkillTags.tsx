@@ -12,8 +12,11 @@ const getSkillById = new Map(
 );
 
 export default function SkillTags({ tags }: SkillTagProps) {
-    // keep track of whether or not they're on desktop for the purposes of resizing the project card view
-    const [isDesktop, setIsDesktop] = useState(false);
+    // keep track of whether or not they're on desktop for the purposes of resizing the project card view.
+    // initialize synchronously so the card doesn't reflow (and the expand animation doesn't overshoot) on first open.
+    const [isDesktop, setIsDesktop] = useState(
+        () => typeof window !== "undefined" && window.innerWidth > 1000,
+    );
     useEffect(() => {
         function handleResize() {
             setIsDesktop(window.innerWidth > 1000);
