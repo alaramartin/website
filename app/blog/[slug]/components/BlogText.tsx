@@ -4,6 +4,7 @@ import path from "path";
 import LinksBar from "@/app/components/LinksBar";
 import { italiana, mono, serif } from "@/app/ui/fonts";
 import BlogsButton from "./BlogsButton";
+import PopupLink from "./PopupLink";
 
 interface BlogTextProps {
     blogSlug: string;
@@ -28,6 +29,7 @@ export default async function BlogText({ blogSlug }: BlogTextProps) {
         },
         components: {
             LinksBar,
+            PopupLink,
         },
     });
 

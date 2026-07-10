@@ -87,7 +87,6 @@ body {
 }
 
 .link:hover,
-.link:focus,
 .link:active {
     background-size: 100% 90%;
 }
