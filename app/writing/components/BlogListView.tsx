@@ -52,7 +52,7 @@ export default function BlogListView({ posts }: BlogListViewProps) {
                 {visibleBlogPosts.map(({ slug, date, description, title }) => (
                     <Link
                         key={slug}
-                        href={`/blog/${slug}`}
+                        href={`/writing/${slug}`}
                         className="inline-block h-fit p-2 md:p-4 transition-all duration-100 group"
                     >
                         <p className="group-hover:underline group-hover:decoration-lighthighlight/70 underline-offset-2 text-lg pb-0.5 text-bodytext">

@@ -31,8 +31,8 @@ export async function generateMetadata({ params }: PageProps) {
 
     return generateMetadataBase({
         title: frontmatter.title,
-        description: frontmatter.description ?? "A blog post.",
-        url: `https://alaramartin.com/blog/${slug}`,
+        description: frontmatter.description ?? "A writing piece.",
+        url: `https://alaramartin.com/writing/${slug}`,
     });
 }
 

@@ -115,7 +115,7 @@ const proofs: Record<string, ReactNode> = {
             <div className="text-bodytext -mt-2 mb-2">
                 I read. Then I write.{" "}
                 <span>
-                    <Link href="/blog" className="link">
+                    <Link href="/writing" className="link">
                         See my informal log
                     </Link>
                 </span>{" "}

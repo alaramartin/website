@@ -8,9 +8,9 @@ import BlogListView from "./components/BlogListView";
 import TextScramble from "../components/TextScramble";
 
 export const metadata = generateMetadataBase({
-    title: "Blog",
-    description: "My blog.",
-    url: "https://alaramartin.com/blog",
+    title: "Writing",
+    description: "My writing.",
+    url: "https://alaramartin.com/writing",
 });
 
 interface Frontmatter {
@@ -54,7 +54,7 @@ export default async function Page() {
                 <p
                     className={`${mono.className} cursor-default text-4xl pb-4 select-none text-accent`}
                 >
-                    <TextScramble textToScramble="Blog" />
+                    <TextScramble textToScramble="Writing" />
                 </p>
                 <p
                     className={`${serif.className} cursor-default text-md pb-4 select-none text-bodytext`}
