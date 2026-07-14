@@ -14,6 +14,10 @@ export async function GET(request: NextRequest) {
         // get the title
         const title = decodeURIComponent(urlParams.get("title") || "");
         const hasTitle = title?.trim() !== "";
+        // Optional eyebrow above the title (e.g. "Writing" on a writing-piece page).
+        // Only writing-slug pages pass it, so only they get the top kicker.
+        const label = decodeURIComponent(urlParams.get("label") || "");
+        const hasLabel = label.trim() !== "" && hasTitle;
 
         // Title stays dead-center of the image; shrink it as it gets longer so a long
         // (multi-line) blog title never wraps down into the bottom name. Short page
@@ -40,13 +44,36 @@ export async function GET(request: NextRequest) {
                     userSelect: "none",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: hasTitle ? "flex-end" : "center",
+                    justifyContent: hasLabel
+                        ? "space-between"
+                        : hasTitle
+                          ? "flex-end"
+                          : "center",
                     alignItems: "center",
                     textAlign: "center",
                     padding: "1rem",
                     background: BG,
                 }}
             >
+                {/* Eyebrow (writing pieces only): "Writing" at the top, mono/accent, smaller
+                    than the title. paddingTop mirrors the name's paddingBottom so it sits the
+                    same distance from the top as ALARA MARTIN does from the bottom. */}
+                {hasLabel && (
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            color: ACCENT,
+                            fontSize: 40,
+                            letterSpacing: "0.02em",
+                            paddingTop: "14px",
+                            fontFamily: "Space Mono",
+                        }}
+                    >
+                        {label}
+                    </div>
+                )}
+
                 {/* Page title (Writing / Projects / Contact ...): mono, centered dead-center
                     of the whole image (absolute, so the bottom name doesn't shift it up). */}
                 {hasTitle && (
@@ -64,7 +91,9 @@ export async function GET(request: NextRequest) {
                             fontSize: titleSize,
                             lineHeight: 1.1,
                             letterSpacing: "-0.01em",
-                            padding: "0 4rem",
+                            // Bottom padding lifts the centered title up a touch so it reads
+                            // optically centered against the big Italiana name at the bottom.
+                            padding: "0 4rem 48px",
                             fontFamily: "Space Mono",
                         }}
                     >

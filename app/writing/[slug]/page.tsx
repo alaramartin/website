@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: PageProps) {
         title: frontmatter.title,
         description: frontmatter.description ?? "A writing piece.",
         url: `https://alaramartin.com/writing/${slug}`,
+        ogLabel: "Writing",
     });
 }
 

@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 
 export default function generateMetadataBase(
-    { title, description, url, keywords } : {
+    { title, description, url, keywords, ogLabel } : {
     title?: string,
     description?: string,
     url?: string,
-    keywords?: string[]}
+    keywords?: string[],
+    // Small eyebrow rendered above the title on the OG image (e.g. "Writing" on a
+    // writing-piece page). Only set it where you want that kicker.
+    ogLabel?: string}
 ): Metadata {
+    const ogImageUrl = `https://alaramartin.com/og?title=${encodeURIComponent(title || "")}`
+        + (ogLabel ? `&label=${encodeURIComponent(ogLabel)}` : "");
     return {
         title: title ? title + " | Alara Martin" : "Alara Martin",
         description: description ?? "",
@@ -28,7 +33,7 @@ export default function generateMetadataBase(
             url: url,
             images: [
                 {
-                    url: `https://alaramartin.com/og?title=${title || ""}`,
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
                     alt: "preview img"
@@ -41,7 +46,7 @@ export default function generateMetadataBase(
             description: description ?? "",
             images: [
                 {
-                    url: `https://alaramartin.com/og?title=${title || ""}`,
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
                     alt: "preview img"
