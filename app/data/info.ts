@@ -22,8 +22,9 @@ export type ProjectInfo = {
     description: string;
     notes?: string[];
     tags: string[];
-    year: number;
-    // hardcoded; mostly the github repo created_at date
+    // hardcoded; mostly the github repo created_at date, month precision only (YYYY-MM)
+    // list entries in chronological order within the same month so the stable
+    // sort in projects/page.tsx keeps them correctly ordered on ties
     date: string;
 };
 
@@ -38,8 +39,7 @@ export const projects: ProjectInfo[] = [
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
         notes: ["15000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
-        year: 2025,
-        date: "2025-08-06T21:48:22Z",
+        date: "2025-08",
     },
     {
         name: "DICOM Viewer",
@@ -50,8 +50,7 @@ export const projects: ProjectInfo[] = [
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
         notes: ["1000+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
-        year: 2025,
-        date: "2025-08-20T22:02:34Z",
+        date: "2025-08",
     },
     {
         name: "AP Score Reveal",
@@ -68,8 +67,7 @@ export const projects: ProjectInfo[] = [
             "HTMLCSS",
             "TailwindCSS",
         ],
-        year: 2025,
-        date: "2025-07-13T21:21:09Z",
+        date: "2025-07",
     },
     {
         name: "HIPSTER-AI",
@@ -79,9 +77,8 @@ export const projects: ProjectInfo[] = [
             "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
         notes: ["deployment in progress", "0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
         tags: ["PyTorch", "Python", "Git"],
-        year: 2025,
         // private repo - estimate, adjust as needed
-        date: "2025-09-24T12:00:00Z",
+        date: "2025-09",
     },
     {
         name: "Website",
@@ -98,8 +95,7 @@ export const projects: ProjectInfo[] = [
             "HTMLCSS",
             "whimsy",
         ],
-        year: 2025,
-        date: "2025-10-02T02:02:29Z",
+        date: "2025-10",
     },
     {
         name: "Alternate Website",
@@ -116,8 +112,22 @@ export const projects: ProjectInfo[] = [
             "HTMLCSS",
             "whimsy",
         ],
-        year: 2025,
-        date: "2025-11-12T07:59:34Z",
+        date: "2025-11",
+    },
+    {
+        name: "Redirect",
+        githubLink: "https://github.com/alaramartin/redirect",
+        href: "https://chromewebstore.google.com/detail/redirect-rerouting-your-s/codaengcdkfgecfakjdpclppcpnmoglh",
+        description: "A Chrome extension to limit your screen time, track your usage, and redirect you to a more productive website.",
+        notes: ["try it out"],
+        tags: [
+            "React",
+            "TailwindCSS",
+            "TypeScript",
+            "HTMLCSS",
+            "Chrome_API",
+        ],
+        date: "2026-07",
     },
 ];
 

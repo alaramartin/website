@@ -21,7 +21,7 @@ interface ProjectProps {
     date?: string;
 }
 
-const DEFAULT_DATE = "August 23, 2025";
+const DEFAULT_DATE = "August 2025";
 
 function formatDateString(dateStr: string): string {
     if (dateStr == "DEFAULT") {
@@ -32,7 +32,6 @@ function formatDateString(dateStr: string): string {
             timeZone: "UTC",
             year: "numeric",
             month: "long",
-            day: "numeric",
         });
     }
 }

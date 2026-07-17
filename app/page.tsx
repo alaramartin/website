@@ -55,7 +55,7 @@ const proofs: Record<string, ReactNode> = {
                                     githubLink={project.githubLink}
                                     href={project.href}
                                     description={project.miniDescription!}
-                                    year={project.year}
+                                    year={new Date(project.date).getUTCFullYear()}
                                     tags={project.tags}
                                 />
                                 {index !== miniProjects.length - 1 && (

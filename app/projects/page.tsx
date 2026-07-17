@@ -5,7 +5,9 @@ import Timeline from "./components/Timeline";
 import { projects } from "@/app/data/info";
 import TextScramble from "../components/TextScramble";
 
-// newest -> oldest, top to bottom (reverse chronological)
+// newest -> oldest, top to bottom (reverse chronological). dates are only
+// month precision (YYYY-MM), so entries within the same month rely on the
+// stable sort preserving their order in the `projects` array (see info.ts)
 const sortedProjects = [...projects].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 );
