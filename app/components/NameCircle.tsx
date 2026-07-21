@@ -178,7 +178,7 @@ export default function NameCircle({
     // Active scroll geometry. Module helpers (rotationAt/panelOpacity/...) keep the desktop
     // constants since they only feed the md+ ProofStage; the visible circle + hero height +
     // snap markers below use these so the rotation completes over the (possibly shorter) scroll.
-    const { scrollVh, heroVh, morphEnd, adjEnd, rotateEnd } = useMemo(
+    const { heroVh, morphEnd, adjEnd, rotateEnd } = useMemo(
         () =>
             isMobile
                 ? heroGeometry(
@@ -243,20 +243,6 @@ export default function NameCircle({
         return () => observer.disconnect();
     }, []);
 
-    // Turn on scroll-snapping only while this hero is mounted (i.e. only on the home page) —
-    // and only on desktop. On touch devices CSS scroll-snap interrupts the inertial fling, so
-    // the page decelerates abruptly the instant the finger lifts (unnatural). Mobile has no
-    // side proofs to snap an adjective next to anyway, so skip snapping there entirely.
-    useEffect(() => {
-        if (isMobile) return;
-        const el = document.documentElement;
-        const prev = el.style.scrollSnapType;
-        el.style.scrollSnapType = "y proximity";
-        return () => {
-            el.style.scrollSnapType = prev;
-        };
-    }, [isMobile]);
-
     const [adj, setAdj] = useState(0);
     useMotionValueEvent(adjMv, "change", (v) => setAdj(v));
 
@@ -266,16 +252,6 @@ export default function NameCircle({
     }, []);
 
     const activeWindow = 180 / TITLES.length;
-
-    // Snap-marker progress positions: the landing (0), then each focus point — name-intro,
-    // the adjectives, and name-outro — at p = ADJ_END + (ROTATE_END - ADJ_END) * (i / n).
-    const snapStops = useMemo(() => {
-        const stops = [0];
-        for (let i = 0; i <= TITLES.length; i++) {
-            stops.push(adjEnd + (rotateEnd - adjEnd) * (i / TITLES.length));
-        }
-        return stops;
-    }, [adjEnd, rotateEnd]);
 
     // FLIP measurement: rest positions (big bottom name) -> end positions (circle).
     const stageRef = useRef<HTMLDivElement>(null);
@@ -405,25 +381,6 @@ export default function NameCircle({
             className={`relative ${italiana.className} antialiased`}
             style={{ height: `${heroVh}vh` }}
         >
-            {/* Scroll-snap anchors: thin, decorative markers placed at each focus offset so the
-          page settles with an adjective/proof centered. Driven by the same constants as the
-          rotation, so they track any retune. */}
-            {snapStops.map((p, i) => (
-                <div
-                    key={i}
-                    aria-hidden
-                    style={{
-                        position: "absolute",
-                        top: `${p * scrollVh}vh`,
-                        left: 0,
-                        width: 1,
-                        height: 1,
-                        scrollSnapAlign: "start",
-                        pointerEvents: "none",
-                    }}
-                />
-            ))}
-
             <div
                 className="sticky top-0 h-svh"
                 style={{ background: "var(--scroll-bg)" }}

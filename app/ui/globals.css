@@ -68,6 +68,13 @@
     background-color: color-mix(in oklab, #d58789 40%, transparent);
 }
 
+/* motion's useScroll defaults its container to document.scrollingElement (<html>). A static
+   root makes its scroll-offset measurement unreliable (and logs a dev warning), which could
+   leave the home hero's --scroll-bg stuck on the initial red on back-navigation. */
+html {
+    position: relative;
+}
+
 body {
     background: var(--background);
     color: var(--foreground);

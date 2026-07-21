@@ -33,8 +33,7 @@ export const projects: ProjectInfo[] = [
         name: "PKL Viewer",
         githubLink: "https://github.com/alaramartin/pkl-viewer",
         href: "https://marketplace.visualstudio.com/items?itemName=alarm.pkl-viewer",
-        miniDescription:
-            "View Python pickle files directly in VS Code.",
+        miniDescription: "View Python pickle files directly in VS Code.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
         notes: ["15000+ users :)"],
@@ -56,28 +55,25 @@ export const projects: ProjectInfo[] = [
         name: "AP Score Reveal",
         githubLink: "https://github.com/alaramartin/ap-score-cover",
         href: "https://chromewebstore.google.com/detail/ap%C2%AE-exam-score-reveal/mhjggldhegkdodlneehpkhpjbgmpohak",
-        // miniDescription: "Chrome extension to customize score reveals.",
         description:
             "Chrome extension that hides AP scores until clicked and plays custom sounds and animations for each reveal.",
-        notes: ["accidentally spoiled my own 2025 AP score reveal by inspecting the HTML to build this extension"],
-        tags: [
-            "TypeScript",
-            "React",
-            "Chrome_API",
-            "HTMLCSS",
-            "TailwindCSS",
+        notes: [
+            "accidentally spoiled my own 2025 AP score reveal by inspecting the HTML to build this extension",
         ],
+        tags: ["TypeScript", "React", "Chrome_API", "HTMLCSS", "TailwindCSS"],
         date: "2025-07",
     },
     {
         name: "HIPSTER-AI",
         githubLink: "https://github.com/stanfordaide/hipster-ai",
-        miniDescription: "Under 1mm MPJPE. aura",
         description:
-            "Pediatric acetabular index machine learning cool stuff. Built for Stanford AI Development and Evaluation Lab.",
-        notes: ["deployment in progress", "0.98mm MPJPE", "resnet-50 backbone, faster-rcnn-based keypoint detection model"],
+            "Pediatric acetabular index machine learning cool stuff. Built for the Stanford AI Development and Evaluation Lab.",
+        notes: [
+            "deployment in progress",
+            "1.70mm MPJPE",
+            "resnet-50 backbone, faster-rcnn-based keypoint detection model",
+        ],
         tags: ["PyTorch", "Python", "Git"],
-        // private repo - estimate, adjust as needed
         date: "2025-09",
     },
     {
@@ -86,7 +82,10 @@ export const projects: ProjectInfo[] = [
         href: "https://alaramartin.com",
         // miniDescription: "ts (this) website",
         description: "ts (this) website",
-        notes: ["i still don't know how to make it nicer :(", "someone pls teach me ui/ux design"],
+        notes: [
+            "i still don't know how to make it nicer :(",
+            "someone pls teach me ui/ux design",
+        ],
         tags: [
             "React",
             "NextJS",
@@ -102,8 +101,8 @@ export const projects: ProjectInfo[] = [
         githubLink: "https://github.com/alaramartin/alarming-clock",
         href: "https://clock.alaramartin.com",
         miniDescription: "my OTHER personal website",
-        description: "a sillier (in-progress) version of a personal website",
-        notes: ["experimenting"],
+        description: "a sillier, interactive version of my personal website",
+        notes: ["experimenting", "try typing something!"],
         tags: [
             "React",
             "NextJS",
@@ -118,22 +117,19 @@ export const projects: ProjectInfo[] = [
         name: "Redirect",
         githubLink: "https://github.com/alaramartin/redirect",
         href: "https://chromewebstore.google.com/detail/redirect-rerouting-your-s/codaengcdkfgecfakjdpclppcpnmoglh",
-        description: "A Chrome extension to limit your screen time, track your usage, and redirect you to a more productive website.",
+        miniDescription:
+            "Reroute your focus; take control of your screen time.",
+        description:
+            "A Chrome extension to limit your screen time, track your usage, and redirect you to a more productive website.",
         notes: ["try it out"],
-        tags: [
-            "React",
-            "TailwindCSS",
-            "TypeScript",
-            "HTMLCSS",
-            "Chrome_API",
-        ],
+        tags: ["React", "TypeScript", "HTMLCSS", "Chrome_API"],
         date: "2026-07",
     },
 ];
 
 export const skills: {
     label: string;
-        items: {
+    items: {
         id: string;
         skillName: string;
         icon: React.ElementType;
@@ -155,8 +151,16 @@ export const skills: {
             { id: "React", skillName: "React", icon: AtomIcon },
             { id: "NextJS", skillName: "NextJS", icon: TriangleIcon },
             { id: "TailwindCSS", skillName: "TailwindCSS", icon: WindIcon },
-            { id: "VS_Code_API", skillName: "VS Code API", icon: PuzzlePieceIcon },
-            { id: "Chrome_API", skillName: "Chrome API", icon: GoogleChromeLogoIcon },
+            {
+                id: "VS_Code_API",
+                skillName: "VS Code API",
+                icon: PuzzlePieceIcon,
+            },
+            {
+                id: "Chrome_API",
+                skillName: "Chrome API",
+                icon: GoogleChromeLogoIcon,
+            },
             { id: "PyTorch", skillName: "PyTorch", icon: FireIcon },
             { id: "Git", skillName: "Git", icon: GitMergeIcon },
             { id: "whimsy", skillName: "whimsy :)", icon: FlowerIcon },

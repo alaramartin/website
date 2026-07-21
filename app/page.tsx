@@ -29,7 +29,11 @@ function ProofHeading({ children }: { children: ReactNode }) {
 
 // Proof content keyed by adjective. Server-rendered here, passed to the (client) NameCircle,
 // which animates each one into focus on the right as its adjective snaps to focus in the circle.
-const miniProjects = projects.filter((p) => p.miniDescription);
+// newest -> oldest (reverse chronological), matching app/projects/page.tsx. dates are
+// month precision (YYYY-MM), so same-month entries keep their info.ts order via the stable sort.
+const miniProjects = projects
+    .filter((p) => p.miniDescription)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 const proofs: Record<string, ReactNode> = {
     "LARA MARTIN": (
