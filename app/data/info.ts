@@ -28,6 +28,60 @@ export type ProjectInfo = {
     date: string;
 };
 
+export type BookInfo = {
+    title: string;
+    author: string;
+    stars: number;
+    review: string;
+    cover: string;
+};
+
+// derive a url-safe slug from a book title, e.g. "You Don't Know JS" -> "you-dont-know-js".
+// used by both the reviews shelf links and the [slug] lookup so they always agree.
+export const bookSlug = (title: string): string =>
+    title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+export const books: BookInfo[] = [
+    {
+        title: "The Pragmatic Programmer",
+        author: "David Thomas and Andrew Hunt",
+        stars: 5,
+        review: "A must-read for any software developer. Offers practical advice and timeless principles.",
+        cover: "https://images-na.ssl-images-amazon.com/images/I/41as+WafrFL._SX258_BO1,204,203,200_.jpg",
+    },
+    {
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        stars: 5,
+        review: "Essential reading for writing maintainable and readable code. Emphasizes the importance of good coding practices.",
+        cover: "https://images-na.ssl-images-amazon.com/images/I/41xShlnTZTL._SX374_BO1,204,203,200_.jpg",
+    },
+    {
+        title: "Design Patterns",
+        author: "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+        stars: 5,
+        review: "A classic book that introduces fundamental design patterns in software engineering. Highly recommended for understanding object-oriented design.",
+        cover: "https://images-na.ssl-images-amazon.com/images/I/51kuc0iWoUL._SX258_BO1,204,203,200_.jpg",
+    },
+    {
+        title: "Refactoring",
+        author: "Martin Fowler",
+        stars: 4.5,
+        review: "Provides a comprehensive guide to improving code structure and maintainability through refactoring techniques.",
+        cover: "https://images-na.ssl-images-amazon.com/images/I/41jEbK-jG+L._SX396_BO1,204,203,200_.jpg",
+    },
+    {
+        title: "You Don't Know JS",
+        author: "Kyle Simpson",
+        stars: 3.5,
+        review: "A deep dive into JavaScript, covering its quirks and intricacies. A must-read for serious JavaScript developers.",
+        cover: "https://images-na.ssl-images-amazon.com/images/I/51kuc0iWoUL._SX258_BO1,204,203,200_.jpg",
+    },
+];
+
 export const projects: ProjectInfo[] = [
     {
         name: "PKL Viewer",

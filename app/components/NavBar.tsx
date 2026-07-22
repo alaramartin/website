@@ -5,6 +5,7 @@ import {
     HouseIcon,
     AddressBookIcon,
     FolderOpenIcon,
+    BooksIcon,
     // QuotesIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { serif } from "../ui/fonts";
@@ -13,6 +14,7 @@ import DarkModeToggle from "./DarkModeToggle";
 const navLinks = [
     { icon: HouseIcon, title: "Home", link: "/" },
     { icon: FolderOpenIcon, title: "Projects", link: "/projects" },
+    { icon: BooksIcon, title: "Reviews", link: "/reviews" },
     // { icon: QuotesIcon, title: "Writing", link: "/writing" },
     { icon: AddressBookIcon, title: "Contact", link: "/contact" },
 ];
