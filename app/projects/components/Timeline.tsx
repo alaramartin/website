@@ -50,6 +50,12 @@ export default function Timeline({ projects }: { projects: ProjectInfo[] }) {
     // viewport-Y of the progress edge, shared to each node for the dot fill
     const edgeY = useMotionValue(0);
 
+    // bumped after every curve rebuild so nodes re-check their dot against the
+    // edge even when the edge itself didn't move -- e.g. expanding a card
+    // shifts the dots but leaves the edge in place, which would otherwise
+    // strand a dot in a stale filled/unfilled state until the next scroll
+    const layoutTick = useMotionValue(0);
+
     // arc length along the curve at section-local height y (linear interp over
     // the sampled table; ys is monotonically increasing)
     function lengthAtY(y: number) {
@@ -123,6 +129,7 @@ export default function Timeline({ projects }: { projects: ProjectInfo[] }) {
         // in sync and rebuild when we next cross into the md breakpoint
         if (!isDesktop()) {
             updateEdge(scaleY.get());
+            layoutTick.set(layoutTick.get() + 1);
             return;
         }
 
@@ -164,6 +171,7 @@ export default function Timeline({ projects }: { projects: ProjectInfo[] }) {
         lookup.current = { ys, lens, total };
 
         updateEdge(scaleY.get());
+        layoutTick.set(layoutTick.get() + 1);
     }
 
     useLayoutEffect(() => {
@@ -236,6 +244,7 @@ export default function Timeline({ projects }: { projects: ProjectInfo[] }) {
                         project={project}
                         index={index}
                         edgeY={edgeY}
+                        layoutTick={layoutTick}
                     />
                 ))}
             </div>

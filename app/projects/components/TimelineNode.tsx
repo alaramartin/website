@@ -4,6 +4,7 @@ import {
     motion,
     useMotionValue,
     useMotionValueEvent,
+    useSpring,
     type MotionValue,
 } from "motion/react";
 import Project from "./Project";
@@ -14,16 +15,23 @@ interface TimelineNodeProps {
     index: number;
     // viewport-Y of the progress bar's leading (bottom) edge
     edgeY: MotionValue<number>;
+    // bumped by Timeline whenever the curve is rebuilt (layout changed)
+    layoutTick: MotionValue<number>;
 }
 
 export default function TimelineNode({
     project,
     index,
     edgeY,
+    layoutTick,
 }: TimelineNodeProps) {
     const isLeft = index % 2 === 0;
     const dotRef = useRef<HTMLSpanElement>(null);
     const fill = useMotionValue(0);
+    // render through a spring so a discontinuous target change -- a card
+    // expansion teleporting the dot out from under the edge -- animates the
+    // fill in/out just like a scroll crossing does, instead of snapping
+    const fillScale = useSpring(fill, { stiffness: 400, damping: 35 });
 
     // fill the dot exactly as the bar's rendered edge crosses its center, so the
     // two are locked together (and reverse together on scroll-up).
@@ -38,6 +46,9 @@ export default function TimelineNode({
     }
 
     useMotionValueEvent(edgeY, "change", update);
+    // re-check against the (possibly moved) dot after every curve rebuild,
+    // even if the edge value itself is unchanged
+    useMotionValueEvent(layoutTick, "change", () => update(edgeY.get()));
     useEffect(() => {
         update(edgeY.get());
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,7 +70,7 @@ export default function TimelineNode({
                 } top-1/2 z-10 flex h-4 w-4 -translate-y-1/2 md:-translate-x-1/2 items-center justify-center rounded-full border-2 border-accent/80 bg-background`}
             >
                 <motion.span
-                    style={{ scale: fill }}
+                    style={{ scale: fillScale }}
                     className="h-2 w-2 rounded-full bg-accent"
                 />
             </span>{" "}

@@ -14,7 +14,7 @@ import DarkModeToggle from "./DarkModeToggle";
 const navLinks = [
     { icon: HouseIcon, title: "Home", link: "/" },
     { icon: FolderOpenIcon, title: "Projects", link: "/projects" },
-    { icon: BooksIcon, title: "Reviews", link: "/reviews" },
+    // { icon: BooksIcon, title: "Reviews", link: "/reviews" },
     // { icon: QuotesIcon, title: "Writing", link: "/writing" },
     { icon: AddressBookIcon, title: "Contact", link: "/contact" },
 ];
