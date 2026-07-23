@@ -45,10 +45,18 @@ export default function TimelineNode({
 
     return (
         <div className="relative grid grid-cols-1 md:grid-cols-2 items-center">
-            {/* timeline dot: ring + center fill */}
+            {/* timeline dot: ring + center fill. on desktop it sits at the
+                extreme of the curve's bulge (opposite side of the card, so the
+                card is on the inside of the curve); amplitude comes from the
+                --tl-amp var set on the timeline section */}
             <span
                 ref={dotRef}
-                className="absolute -left-2 md:left-1/2 top-1/2 z-10 flex h-4 w-4 -translate-y-1/2 md:-translate-x-1/2 items-center justify-center rounded-full border-2 border-accent/80 bg-background"
+                data-timeline-dot
+                className={`absolute -left-2 ${
+                    isLeft
+                        ? "md:left-[calc(50%+var(--tl-amp))]"
+                        : "md:left-[calc(50%-var(--tl-amp))]"
+                } top-1/2 z-10 flex h-4 w-4 -translate-y-1/2 md:-translate-x-1/2 items-center justify-center rounded-full border-2 border-accent/80 bg-background`}
             >
                 <motion.span
                     style={{ scale: fill }}
