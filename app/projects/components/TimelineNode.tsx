@@ -1,13 +1,15 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     motion,
     useMotionValue,
     useMotionValueEvent,
+    useReducedMotion,
     useSpring,
     type MotionValue,
 } from "motion/react";
 import Project from "./Project";
+import TimelinePlant, { type PlantVariant } from "./TimelinePlant";
 import type { ProjectInfo } from "@/app/data/info";
 
 interface TimelineNodeProps {
@@ -33,6 +35,22 @@ export default function TimelineNode({
     // fill in/out just like a scroll crossing does, instead of snapping
     const fillScale = useSpring(fill, { stiffness: 400, damping: 35 });
 
+    // wider-band growth progress for the blooming plant, so it grows gradually
+    // as you scroll past instead of snapping over the dot's 14px band. shares
+    // the same edge, so it retracts on scroll-up in lockstep with the dot.
+    const bloom = useMotionValue(0);
+
+    // rose vs fern is a genuine 50/50, decided once on the client (in an
+    // effect) to avoid a hydration mismatch. the plant is invisible at bloom=0,
+    // so choosing after mount causes no visible flash. lean is deterministic:
+    // always away from the card (outward), so it clears the timeline curve.
+    const reduceMotion = useReducedMotion();
+    const lean: 1 | -1 = isLeft ? 1 : -1;
+    const [variant, setVariant] = useState<PlantVariant | null>(null);
+    useEffect(() => {
+        setVariant(Math.random() < 0.5 ? "rose" : "fern");
+    }, []);
+
     // fill the dot exactly as the bar's rendered edge crosses its center, so the
     // two are locked together (and reverse together on scroll-up).
     function update(edge: number) {
@@ -43,6 +61,13 @@ export default function TimelineNode({
         const band = 14; // px window over which the dot fills as the edge passes
         const t = (edge - dotY) / band + 0.5;
         fill.set(Math.max(0, Math.min(1, t)));
+        // growth starts just before the edge reaches the node and finishes just
+        // after passing it -- a shorter, tighter window (~70% of the old
+        // distance) centered near the node rather than trailing past it.
+        const bloomLead = 22; // px before the node that growth begins
+        const bloomBand = 63; // total scroll distance the bloom spans
+        const b = (edge - dotY + bloomLead) / bloomBand;
+        bloom.set(Math.max(0, Math.min(1, b)));
     }
 
     useMotionValueEvent(edgeY, "change", update);
@@ -73,6 +98,13 @@ export default function TimelineNode({
                     style={{ scale: fillScale }}
                     className="h-2 w-2 rounded-full bg-accent"
                 />
+                {variant && !reduceMotion && (
+                    <TimelinePlant
+                        bloom={bloom}
+                        variant={variant}
+                        lean={lean}
+                    />
+                )}
             </span>{" "}
             <motion.div
                 initial={{ opacity: 0, x: isLeft ? -24 : 24, y: 12 }}
