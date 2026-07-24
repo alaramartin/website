@@ -137,7 +137,7 @@ export const projects: ProjectInfo[] = [
         // miniDescription: "ts (this) website",
         description: "ts (this) website",
         notes: [
-            "i still don't know how to make it nicer :(",
+            "always making improvements!",
             "someone pls teach me ui/ux design",
         ],
         tags: [

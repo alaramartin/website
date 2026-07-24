@@ -14,6 +14,10 @@ interface TimelinePlantProps {
 
 // shrink the whole plant to ~75% of its authored size
 const SCALE = 0.75;
+// tilt the whole plant ~10deg further outward (away from the vertical timeline)
+// so the near-vertical base of the stem stops overlapping the timeline curve.
+// applied after the lean scaleX, so it mirrors correctly on both sides.
+const TILT = 10;
 const STROKE = "var(--color-accent)";
 
 // gently curved stem, from the node (0,0) up to the tip ~(13,-42). authored
@@ -21,8 +25,11 @@ const STROKE = "var(--color-accent)";
 // really is a line "growing", so it stays a stroke draw-on.
 const STEM = "M 0 0 C 2 -13, 11 -24, 13 -42";
 // the rose gets a shorter stem so its (enlarged) bud carries more of the same
-// overall height -- a bigger flower-to-stem ratio.
-const ROSE_STEM = "M 0 0 C 1 -8, 5 -16, 8 -24";
+// overall height -- a bigger flower-to-stem ratio. every point is the base
+// curve scaled 1.15x along its length (15% longer), tip now ~(9.2,-27.6).
+const ROSE_STEM = "M 0 0 C 1.15 -9.2, 5.75 -18.4, 9.2 -27.6";
+// tip of ROSE_STEM — the rose head sits here.
+const ROSE_TIP = { x: 9.2, y: -27.6 };
 
 // --- morph keyframes -------------------------------------------------------
 // every keyframe for a given element shares the exact command skeleton
@@ -55,6 +62,16 @@ const LEAVES = [
     { x: 13, y: -42, angle: -90 }, // terminal, straight up
 ];
 
+// rose gets a pair of fern-style leaves near the bud: sampled at 75% and 80%
+// up the ROSE_STEM curve, splayed onto opposite sides, and scaled to 85% of
+// the fern leaf size (15% smaller). they morph in the same hidden->bulb->leaf
+// way as the fern.
+const ROSE_LEAF_SCALE = 0.85;
+const ROSE_LEAVES = [
+    { x: 6.47, y: -20.7, angle: -22 }, // ~75% up, right side
+    { x: 7.03, y: -22.08, angle: -158 }, // ~80% up, left side
+];
+
 export default function TimelinePlant({
     bloom,
     variant,
@@ -69,6 +86,18 @@ export default function TimelinePlant({
     // fern: each leaf morphs hidden -> bulb -> leaf over its own staggered slice
     const leafPaths = LEAVES.map((_, i) => {
         const start = 0.35 + i * 0.13;
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        return useTransform(
+            bloom,
+            [start, start + 0.12, start + 0.22],
+            [LEAF_HIDDEN, LEAF_BULB, LEAF_SHAPE],
+        );
+    });
+
+    // rose: the two stem leaves morph in on staggered slices, just before the
+    // petals draw, same hidden -> bulb -> leaf morph as the fern
+    const roseLeafPaths = ROSE_LEAVES.map((_, i) => {
+        const start = 0.5 + i * 0.1;
         // eslint-disable-next-line react-hooks/rules-of-hooks
         return useTransform(
             bloom,
@@ -104,7 +133,7 @@ export default function TimelinePlant({
                 viewBox="-30 -60 60 60"
                 style={{ overflow: "visible" }}
             >
-                <g transform={`scale(${lean * SCALE}, ${SCALE})`}>
+                <g transform={`scale(${lean * SCALE}, ${SCALE}) rotate(${TILT})`}>
                     <motion.path
                         d={variant === "rose" ? ROSE_STEM : STEM}
                         fill="none"
@@ -127,10 +156,20 @@ export default function TimelinePlant({
                               />
                           ))
                         : (
-                              // rose head: tilted like the sketch, at the
-                              // (shorter) stem tip, scaled up so the bloom is
-                              // roughly 2x the v2 size
-                              <g transform="translate(8 -24) rotate(-55) scale(1.9)">
+                          <>
+                              {ROSE_LEAVES.map((leaf, i) => (
+                                  <motion.path
+                                      key={i}
+                                      transform={`translate(${leaf.x} ${leaf.y}) rotate(${leaf.angle}) scale(${ROSE_LEAF_SCALE})`}
+                                      fill={STROKE}
+                                      stroke="none"
+                                      d={roseLeafPaths[i]}
+                                  />
+                              ))}
+                              {/* rose head: tilted like the sketch, at the
+                                  (lengthened) stem tip, scaled up so the bloom
+                                  is roughly 2x the v2 size */}
+                              <g transform={`translate(${ROSE_TIP.x} ${ROSE_TIP.y}) rotate(-55) scale(1.9)`}>
                                   <motion.path
                                       fill={STROKE}
                                       stroke="none"
@@ -157,6 +196,7 @@ export default function TimelinePlant({
                                       style={{ strokeDashoffset: petalBOffset }}
                                   />
                               </g>
+                          </>
                           )}
                 </g>
             </svg>
