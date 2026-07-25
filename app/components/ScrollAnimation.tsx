@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { setScrollColors } from "@/app/ui/scrollColors";
 
 type ScrollProps = {
@@ -11,6 +12,14 @@ export default function ScrollAnimation({
   holdVH = 2.75,
   rangeVH = 0.5,
 }: ScrollProps) {
+  // Lives in the root layout, which persists across client-side navigations — so this
+  // effect does NOT rerun on its own when the route changes. Re-running it keyed on
+  // pathname is what makes the [data-scroll-hero] check below reflect the page you're
+  // actually on, instead of a stale snapshot from whichever page this mounted on first
+  // (otherwise navigating home -> another page -> back to home either leaves this
+  // fallback fighting the hero's own driver, or leaves the fallback never attached at all).
+  const pathname = usePathname();
+
   useEffect(() => {
     const root = document.documentElement;
     const isDark = () => root.classList.contains("dark");
@@ -64,7 +73,7 @@ export default function ScrollAnimation({
       window.removeEventListener("resize", onResize);
       observer.disconnect();
     };
-  }, [holdVH, rangeVH]);
+  }, [holdVH, rangeVH, pathname]);
 
   return null;
 }
