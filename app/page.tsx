@@ -8,7 +8,7 @@ import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
 import NameCircle from "./components/NameCircle";
 import ScrollForMore from "./components/ScrollForMore";
-import PhotoCollage from "./components/proofs/PhotoCollage";
+import PhotoCollage from "./components/PhotoCollage";
 import type { ReactNode } from "react";
 
 export const metadata = generateMetadataBase({
@@ -59,7 +59,9 @@ const proofs: Record<string, ReactNode> = {
                                     githubLink={project.githubLink}
                                     href={project.href}
                                     description={project.miniDescription!}
-                                    year={new Date(project.date).getUTCFullYear()}
+                                    year={new Date(
+                                        project.date,
+                                    ).getUTCFullYear()}
                                     tags={project.tags}
                                 />
                                 {index !== miniProjects.length - 1 && (
@@ -106,32 +108,35 @@ const proofs: Record<string, ReactNode> = {
         <div className={`${serif.className} translate-y-2`}>
             <ProofHeading>Girls Who Code.</ProofHeading>
             <div className="text-bodytext -mt-2 mb-2">
-                I found a community through Girls Who Code, and gave back by
-                creating a free program for local elementary school girls to
-                learn how to code without the barriers I encountered at [website
-                coming soon].
-            </div>
-        </div>
-    ),
-    reader: (
-        <div className={`${serif.className}`}>
-            <ProofHeading>Books I've Read</ProofHeading>
-            <div className="text-bodytext -mt-2 mb-2">
-                I read. Then I write.{" "}
+                I found a community in tech through Girls Who Code and{" "}
                 <span>
-                    <Link href="/writing" className="link">
-                        See my informal log
+                    <Link href="" className="link">
+                        ran a free program
                     </Link>
                 </span>{" "}
-                of books I've read, my thoughts on them, and my recommendations.
+                to teach elementary school girls in my city how to code.
             </div>
         </div>
     ),
+    // reader: (
+    //     <div className={`${serif.className}`}>
+    //         <ProofHeading>Books I've Read</ProofHeading>
+    //         <div className="text-bodytext -mt-2 mb-2">
+    //             I read. Then I write.{" "}
+    //             <span>
+    //                 <Link href="/writing" className="link">
+    //                     See my informal log
+    //                 </Link>
+    //             </span>{" "}
+    //             of books I've read, my thoughts on them, and my recommendations.
+    //         </div>
+    //     </div>
+    // ),
     photographer: (
         <div className={`${serif.className} translate-y-2`}>
             <ProofHeading>My Photography</ProofHeading>
             <div className="text-bodytext -mt-2 mb-2">Need bigger lens.</div>
-            <PhotoCollage catOrPhoto="photo" />
+            <PhotoCollage catOrPhoto="photo" landscape={true} />
         </div>
     ),
     "cat lover": (
@@ -141,7 +146,7 @@ const proofs: Record<string, ReactNode> = {
                 Since I can't paste half my camera roll here, here are just a
                 few of the cats I know.
             </div>
-            <PhotoCollage catOrPhoto="cat" />
+            <PhotoCollage catOrPhoto="cat" landscape={false} />
         </div>
     ),
     // "sweet treat lover": (

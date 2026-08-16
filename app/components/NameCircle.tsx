@@ -44,7 +44,7 @@ const TITLES = [
     "learner",
     "girl who codes",
     "photographer",
-    "reader",
+    // "reader",
     "cat lover",
     // "sweet treat lover",
 ];

@@ -90,7 +90,7 @@ export const projects: ProjectInfo[] = [
         miniDescription: "View Python pickle files directly in VS Code.",
         description:
             "View Python pickle (.pkl) files directly in the VS Code editor, quickly and safely.",
-        notes: ["15000+ users :)"],
+        notes: ["23000+ users :)"],
         tags: ["TypeScript", "Python", "VS_Code_API", "HTMLCSS", "JavaScript"],
         date: "2025-08",
     },
@@ -101,7 +101,7 @@ export const projects: ProjectInfo[] = [
         miniDescription: "View & edit DICOM images and metadata.",
         description:
             "View DICOM images and edit metadata side-by-side, right in your VS Code editor.",
-        notes: ["1000+ users :)", "first vscode extension"],
+        notes: ["2000+ users :)", "first vscode extension"],
         tags: ["TypeScript", "JavaScript", "VS_Code_API", "HTMLCSS"],
         date: "2025-08",
     },
@@ -120,10 +120,11 @@ export const projects: ProjectInfo[] = [
     {
         name: "HIPSTER-AI",
         githubLink: "https://github.com/stanfordaide/hipster-ai",
+        miniDescription: "Computer vision model for X-ray QA.",
         description:
-            "Pediatric acetabular index machine learning cool stuff. Built for the Stanford AI Development and Evaluation Lab.",
+            "Computer vision model for X-ray QA. Built for the Stanford AI Development and Evaluation Lab.",
         notes: [
-            "deployment in progress",
+            "deployment and paper submission in progress",
             "1.70mm MPJPE",
             "resnet-50 backbone, faster-rcnn-based keypoint detection model",
         ],
@@ -140,14 +141,7 @@ export const projects: ProjectInfo[] = [
             "always making improvements!",
             "someone pls teach me ui/ux design",
         ],
-        tags: [
-            "React",
-            "NextJS",
-            "TailwindCSS",
-            "TypeScript",
-            "HTMLCSS",
-            "whimsy",
-        ],
+        tags: ["React", "NextJS", "TailwindCSS", "TypeScript", "HTMLCSS"],
         date: "2025-10",
     },
     {
@@ -157,14 +151,7 @@ export const projects: ProjectInfo[] = [
         miniDescription: "my OTHER personal website",
         description: "a sillier, interactive version of my personal website",
         notes: ["experimenting", "try typing something!"],
-        tags: [
-            "React",
-            "NextJS",
-            "TailwindCSS",
-            "TypeScript",
-            "HTMLCSS",
-            "whimsy",
-        ],
+        tags: ["React", "NextJS", "TailwindCSS", "TypeScript", "HTMLCSS"],
         date: "2025-11",
     },
     {
@@ -217,7 +204,6 @@ export const skills: {
             },
             { id: "PyTorch", skillName: "PyTorch", icon: FireIcon },
             { id: "Git", skillName: "Git", icon: GitMergeIcon },
-            { id: "whimsy", skillName: "whimsy :)", icon: FlowerIcon },
         ],
     },
 ];
