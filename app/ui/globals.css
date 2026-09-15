@@ -13,6 +13,8 @@
     --whale-ink: #262325;
     --whale-paper: #f7f4f0;
     --whale-pleat: #d3cdc8;
+    --whale-accent-ink: #6b1d2f; /* burgundy body for the accent-coloured whale (independent of --color-accent) */
+    --whale-accent-pleat: #e2b8bd; /* pleats for the accent-coloured whale */
 
     --scroll-bg: #a3002c;
     /* --scroll-bg: #770020; */
@@ -33,6 +35,8 @@
     --whale-ink: #e9e1dc;
     --whale-paper: #2a2628;
     --whale-pleat: #4a4548;
+    --whale-accent-ink: #f5c4c7; /* paler pink body for the accent-coloured whale in dark mode */
+    --whale-accent-pleat: #5c3a41;
 }
 
 @theme {

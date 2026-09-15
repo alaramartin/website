@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { useReducedMotion } from "motion/react";
 import WhaleSvg, { resolveWhaleEls, useWhaleSvgRefs } from "@/app/components/whale/WhaleSvg";
 import {
@@ -169,7 +169,12 @@ export default function WhalePod() {
             <div ref={wrapperA} className="absolute left-0 top-0 will-change-transform" style={{ visibility: "hidden" }}>
                 <WhaleSvg refs={svgA} className="block w-[107px] md:w-[161px] h-auto" />
             </div>
-            <div ref={wrapperB} className="absolute left-0 top-0 will-change-transform" style={{ visibility: "hidden" }}>
+            {/* The smaller whale is burgundy in light mode and pale pink in dark (--whale-accent-ink). */}
+            <div
+                ref={wrapperB}
+                className="absolute left-0 top-0 will-change-transform"
+                style={{ visibility: "hidden", "--whale-ink": "var(--whale-accent-ink)", "--whale-pleat": "var(--whale-accent-pleat)" } as CSSProperties}
+            >
                 <WhaleSvg refs={svgB} className="block w-[98px] md:w-[146px] h-auto" />
             </div>
         </div>
