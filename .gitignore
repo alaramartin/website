@@ -43,3 +43,5 @@ next-env.d.ts
 fonts/
 optima/
 stone-serif-itc-pro/
+# whale art previews (npm run whale:preview)
+scripts/whale/preview/

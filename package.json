@@ -12,7 +12,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "whale:build": "node scripts/whale/build-whale-ink.mjs",
+    "whale:preview": "node scripts/whale/build-whale-ink.mjs --preview"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
