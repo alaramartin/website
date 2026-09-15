@@ -10,6 +10,8 @@
     --color-verylightpink: #ffacbf;
     --color-taupe: #d4a0a7;
     --color-bodytext: #070002;
+    --whale-ink: #2a2729;
+    --whale-paper: #fdfbf8;
 
     --scroll-bg: #a3002c;
     /* --scroll-bg: #770020; */
@@ -27,6 +29,8 @@
     --color-bodytext: #fff8f6;
     --color-lightpink: #ed8c91;
     --color-verylightpink: #ffacbf;
+    --whale-ink: #e9e1dc;
+    --whale-paper: #2a2628;
 }
 
 @theme {
