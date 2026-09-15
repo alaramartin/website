@@ -3,7 +3,6 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { useReducedMotion } from "motion/react";
 import WhaleSvg, { resolveWhaleEls, useWhaleSvgRefs } from "@/app/components/whale/WhaleSvg";
 import {
-    BODY_LENGTHS_PER_STROKE,
     HEAVE,
     PATH_FRAME_MS,
     applyWhaleArt,
@@ -19,7 +18,10 @@ import { createWhalePod, type Rect } from "./whalePodSim";
 // simulation each frame, and poses the drawings. It pauses while the section is off screen or
 // the tab is hidden, and only measures layout on resize.
 
-const SPEED = { desktop: 55, mobile: 40 }; // px per second, for full-size whales
+const SPEED = { desktop: 55, mobile: 60 }; // px per second before size scaling (mobile whales are 2/3 size → ~40 px/s)
+// Distance covered per tail beat. Real cetaceans cover roughly 0.6–0.8 body lengths per stroke;
+// much more and the whale looks like it's gliding faster than its tail could push it.
+const STRIDE_BODY_LENGTHS = 0.7;
 
 export default function WhalePod() {
     const reduceMotion = useReducedMotion();
@@ -38,7 +40,7 @@ export default function WhalePod() {
         if (!overlay || !wrapA || !wrapB || !elsA || !elsB) return;
         const section = overlay.parentElement ?? overlay;
 
-        const pod = createWhalePod({ bodyLengthsPerStroke: BODY_LENGTHS_PER_STROKE });
+        const pod = createWhalePod({ bodyLengthsPerStroke: STRIDE_BODY_LENGTHS });
         const views: { wrapper: HTMLDivElement; els: WhaleEls; w: number; h: number; lastDraw: number }[] = [
             { wrapper: wrapA, els: elsA, w: 0, h: 0, lastDraw: 0 },
             { wrapper: wrapB, els: elsB, w: 0, h: 0, lastDraw: PATH_FRAME_MS / 2 }, // stagger redraws
@@ -70,6 +72,8 @@ export default function WhalePod() {
                 lengths: [views[0].w, views[1].w],
                 heights: [views[0].h, views[1].h],
                 speed: window.matchMedia("(min-width: 48rem)").matches ? SPEED.desktop : SPEED.mobile,
+                // Smaller whales on narrow screens, as a scale (eased on resize) rather than a CSS size jump.
+                sizeScale: window.matchMedia("(min-width: 48rem)").matches ? 1 : 2 / 3,
             });
         };
 
@@ -79,7 +83,8 @@ export default function WhalePod() {
             // The drawing faces right; swimming left mirrors it horizontally (never vertically).
             // rotate(pitch) tilts it along the path either way, and translateY (the tail-beat heave)
             // is applied in the whale's own frame.
-            const bob = rig ? rig.heaveAt(whale.phase) * HEAVE * view.w : 0;
+            // Heave scales with tail effort: bigger when powering ahead, subtle while gliding.
+            const bob = rig ? rig.heaveAt(whale.phase) * HEAVE * whale.effort * view.w : 0;
             view.wrapper.style.transform =
                 `translate3d(${(whale.x - view.w / 2).toFixed(1)}px, ${(whale.y - view.h / 2).toFixed(1)}px, 0) ` +
                 `rotate(${whale.pitch.toFixed(4)}rad) scale(${(whale.dir * whale.scale).toFixed(3)}, ${whale.scale.toFixed(3)}) ` +
@@ -89,7 +94,7 @@ export default function WhalePod() {
         const drawAll = () => {
             if (!rig) return;
             views.forEach((view, i) => {
-                rig!.draw(view.els, pod.whales[i].phase);
+                rig!.draw(view.els, pod.whales[i].phase, { undulation: pod.whales[i].effort, bend: pod.whales[i].bend });
                 place(i);
             });
         };
@@ -105,7 +110,7 @@ export default function WhalePod() {
                 place(i);
                 if (time - view.lastDraw >= PATH_FRAME_MS) {
                     view.lastDraw = time;
-                    rig!.draw(view.els, pod.whales[i].phase);
+                    rig!.draw(view.els, pod.whales[i].phase, { undulation: pod.whales[i].effort, bend: pod.whales[i].bend });
                 }
             });
             rafId = requestAnimationFrame(tick);
@@ -167,7 +172,7 @@ export default function WhalePod() {
     return (
         <div ref={overlayRef} aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
             <div ref={wrapperA} className="absolute left-0 top-0 will-change-transform" style={{ visibility: "hidden" }}>
-                <WhaleSvg refs={svgA} className="block w-[118px] md:w-[177px] h-auto" />
+                <WhaleSvg refs={svgA} className="block w-[177px] h-auto" />
             </div>
             {/* The smaller whale is burgundy in light mode and pale pink in dark (--whale-accent-ink). */}
             <div
@@ -175,7 +180,7 @@ export default function WhalePod() {
                 className="absolute left-0 top-0 will-change-transform"
                 style={{ visibility: "hidden", "--whale-ink": "var(--whale-accent-ink)", "--whale-pleat": "var(--whale-accent-pleat)" } as CSSProperties}
             >
-                <WhaleSvg refs={svgB} className="block w-[108px] md:w-[161px] h-auto" />
+                <WhaleSvg refs={svgB} className="block w-[161px] h-auto" />
             </div>
         </div>
     );

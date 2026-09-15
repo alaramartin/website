@@ -28,8 +28,11 @@ export type WhaleEls = {
 };
 
 export type WhaleRig = {
-    /** Pose the whale's shape at swim-cycle phase 0..1. */
-    draw(els: WhaleEls, phase: number): void;
+    /**
+     * Pose the whale's shape at swim-cycle phase 0..1. `flex.undulation` (≈ tail effort, 1 = cruise)
+     * scales a travelling wave down the spine; `flex.bend` (−1..1) curves the body into a turn.
+     */
+    draw(els: WhaleEls, phase: number, flex?: { undulation?: number; bend?: number }): void;
     /** Body heave at phase 0..1, normalised to ±1 (positive = belly-ward). */
     heaveAt(phase: number): number;
 };
@@ -42,6 +45,12 @@ export const VIEW_H = 338;
 export const BODY_LENGTHS_PER_STROKE = 1.2; // how far one tail beat carries the whale
 export const PATH_FRAME_MS = 33; // shape redraws capped at ~30fps; translation stays per-frame
 export const HEAVE = 0.012; // peak vertical body heave per tail beat, as a fraction of whale length
+// The mesh's swim cycle barely flexes the body (it's nearly all tail), so a travelling wave is added
+// down the spine, head to tail, arriving at the tail in step with the tail beat.
+const SPINE_WAVE = 60; // mesh units (body ≈ 900) of spine flex at full effort, before the envelope
+const SPINE_WAVELENGTH = 1.1; // body lengths per spine wave (cetaceans ≈ 1–1.2)
+const TURN_BEND = 30; // mesh units the tail end swings toward a turn at the full turning rate
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const SMOOTH_PASSES = 12; // Taubin smoothing of the outline ring (removes mesh jitter without shrinking)
 
 let inkPromise: Promise<WhaleInk> | null = null;
@@ -123,6 +132,24 @@ export function createWhaleRig(data: WhaleInk): WhaleRig {
     const peak = Math.max(...raw.map(Math.abs)) || 1;
     const heave = Float32Array.from(raw, (v) => v / peak);
 
+    // Spine flex: the body's rest-frame extent (head at high x) and the tail's phase in the cycle,
+    // so the added wave reaches the tail in step with the mesh's own tail beat.
+    let headX = -Infinity;
+    let tailX = Infinity;
+    for (const i of data.ring) {
+        headX = Math.max(headX, frames[0][i * 2]);
+        tailX = Math.min(tailX, frames[0][i * 2]);
+    }
+    const bodyLength = Math.max(1, headX - tailX);
+    let sinSum = 0;
+    let cosSum = 0;
+    tipY.forEach((y, k) => {
+        const a = (2 * Math.PI * k) / tipY.length;
+        sinSum += (y - meanY) * Math.sin(a);
+        cosSum += (y - meanY) * Math.cos(a);
+    });
+    const tailPhase = Math.atan2(cosSum, sinSum); // tail tip offset ≈ R·sin(2π·phase + tailPhase)
+
     const drawBody = (els: WhaleEls) => {
         const ring = data.ring;
         for (let i = 0; i < n; i++) {
@@ -169,7 +196,7 @@ export function createWhaleRig(data: WhaleInk): WhaleRig {
     };
 
     return {
-        draw(els, phase) {
+        draw(els, phase, flex) {
             const count = frames.length;
             const samplePosition = phase * count;
             const center = Math.floor(samplePosition);
@@ -186,6 +213,21 @@ export function createWhaleRig(data: WhaleInk): WhaleRig {
             const f3 = frames[(center + 2) % count];
             for (let i = 0; i < positions.length; i++) {
                 positions[i] = f0[i] * w0 + f1[i] * w1 + f2[i] * w2 + f3[i] * w3;
+            }
+            const undulation = flex?.undulation ?? 1;
+            const bend = flex?.bend ?? 0;
+            if (undulation !== 0 || bend !== 0) {
+                // Travelling wave down the spine (head → tail), growing toward the tail, plus a curve
+                // into turns with the head steady and the tail swinging. Applied to every tracked
+                // vertex, so the outline, fin and fluke all flex together.
+                const base = 2 * Math.PI * phase + tailPhase;
+                const k = (2 * Math.PI) / SPINE_WAVELENGTH;
+                for (let i = 0; i < positions.length; i += 2) {
+                    const u = clamp01((headX - positions[i]) / bodyLength); // 0 at the head, 1 at the tail
+                    positions[i + 1] +=
+                        undulation * SPINE_WAVE * u * u * (1 - 0.6 * u) * Math.sin(base + k * (1 - u)) +
+                        bend * TURN_BEND * u * u;
+                }
             }
             drawBody(els);
             els.fin.setAttribute("transform", fitFin(positions));

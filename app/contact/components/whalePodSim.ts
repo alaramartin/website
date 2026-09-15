@@ -29,6 +29,7 @@ export type PodLayout = {
     lengths: [number, number]; // unscaled drawing size of each whale, px
     heights: [number, number];
     speed: number; // cruise speed for full-size whales, px/s
+    sizeScale?: number; // extra size multiplier (e.g. smaller whales on narrow screens)
 };
 
 export type PodWhale = {
@@ -42,11 +43,22 @@ export type PodWhale = {
     len: number; // scaled body length, px
     h: number; // scaled drawing height, px
     visible: boolean; // any part on screen
+    effort: number; // how hard the tail is working (1 ≈ steady cruise); scales the body's heave
+    bend: number; // −1..1: how far the body curves into its current turn (drawing's local frame)
 };
 
 export type CrossingStyle = "wave" | "swoop" | "arc" | "fallback";
 
-type Whale = PodWhale & { strokeFactor: number };
+type Whale = PodWhale & {
+    strokeFactor: number;
+    vx: number; // smoothed velocity, px/s — the body points along this
+    vy: number;
+    accel: number; // smoothed change in speed, px/s²
+    pitchVel: number; // rad/s — tilt follows its target through a smooth spring, not a hard rate cap
+    baseLen: number; // unscaled drawing size, px
+    baseH: number;
+    targetScale: number; // scale the layout calls for; `scale` eases toward it
+};
 type Point = { x: number; y: number };
 type Band = { lo: number; hi: number };
 type Path = { xs: Float32Array; ys: Float32Array; txs: Float32Array; tys: Float32Array; length: number };
@@ -55,7 +67,10 @@ const TUNING = {
     referenceHeight: 900, // sections at least this tall show whales at full size
     minScale: 0.7,
     maxPitchDeg: 68, // steepest climb or dive (tilt changes are separately rate-capped when drawn)
-    maxPitchRateDeg: 14, // cap on how fast a whale's tilt can change, degrees per second
+    maxPitchRateDeg: 18, // cap on how fast a whale's tilt can change, degrees per second
+    pitchTau: 0.22, // seconds for a whale's tilt to settle onto a new heading (a smooth spring, no ticking)
+    maxPitchAccelDeg: 120, // cap on how quickly tilting itself can start or stop, degrees per second²
+    spacingTau: 0.6, // seconds for extra spacing between the two whales to ease in or out
     minTurnRadius: 0.6, // body lengths — bends slow the pair and drawn tilt is rate-capped, so this can be fairly tight
     clearance: 0.08, // body lengths of open water kept between the pair and any text
     sampleStep: 4, // px between samples of the planned curve
@@ -80,6 +95,11 @@ const TUNING = {
     arrangeTau: 7, // seconds to ease into a new arrangement
     arrangeHoldSeconds: [3, 8],
     maxRelativeSpeed: 0.35, // cap on how fast one whale moves relative to the other, × pair speed
+    lateralSlipDeg: 12, // sideways shifts within the pair are slow enough to need at most this much tilt
+    thrustGain: 2.5, // seconds: speeding up works the tail harder, slowing down lets it glide
+    bodyBendTau: 0.35, // seconds to ease the body's curve into and out of turns
+    scaleTau: 0.5, // seconds to ease whale size after a resize
+    replanDelay: 0.3, // seconds after the last resize before re-planning the rest of a crossing
 };
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -100,6 +120,7 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
 
     const makeWhale = (strokeFactor: number): Whale => ({
         x: -1e4, y: 0, pitch: 0, dir: 1, speed: 0, phase: random(), scale: 1, len: 1, h: 1, visible: false, strokeFactor,
+        vx: 0, vy: 0, accel: 0, effort: 1, bend: 0, baseLen: 1, baseH: 1, targetScale: 1, pitchVel: 0,
     });
     const whales: [Whale, Whale] = [makeWhale(1.05), makeWhale(0.93)];
 
@@ -121,6 +142,11 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
     let fallbacks = 0;
     const failures: Record<string, number> = {}; // rejected plan attempts, by "style:reason"
     let lastPlanMs = 0;
+    let needsReplan = false; // the layout changed mid-crossing
+    let replanAt = 0;
+    let resizedAt = -Infinity; // when the section's size last changed
+    let seenThisCrossing = false; // whether either whale has been on screen yet this crossing
+    let crossingStartedAt = 0; // when the current crossing's path was planned
 
     let speedFactor = 1;
     let speedVel = 0;
@@ -129,7 +155,12 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
     let podSpeed = 0; // the pair's actual speed along the path, px/s (acceleration-limited)
     let lastSeparationPush = 0; // debug: how far the spacing check pushed the pair apart this frame, px
     let lastProjected = false; // debug: whether the arrangement safety clamp fired this frame
-    let separation = 0; // extra spacing currently applied between the two bodies, px (rate-limited)
+    let sepAlong = 0; // extra spacing between the two whales along the path, px (eased in and out)
+    let sepLateral = 0; // extra spacing across the path, px
+    let sepGoalAlong = 0; // where that spacing is easing toward
+    let sepGoalLateral = 0;
+    let sepAlongVel = 0;
+    let sepLateralVel = 0;
     let smoothedTarget = 0; // low-passed target pair speed, px/s
 
     // Relative arrangement: da = how far whale 0 is ahead of whale 1 along the path (px),
@@ -196,7 +227,7 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
 
     // Smooth curve through waypoints: x via monotone cubic (so it never reverses), y via
     // Catmull-Rom, resampled every sampleStep px of arc length.
-    function buildPath(points: Point[]): Path {
+    function buildPath(points: Point[], startSlope?: number): Path {
         const n = points.length;
         const xs = points.map((p) => p.x);
         const ys = points.map((p) => p.y);
@@ -213,6 +244,7 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
             }
         }
         const my = ys.map((_, i) => (i === 0 ? ys[1] - ys[0] : i === n - 1 ? ys[n - 1] - ys[n - 2] : (ys[i + 1] - ys[i - 1]) / 2));
+        if (startSlope !== undefined) my[0] = mx[0] * startSlope; // continue smoothly from an existing path
 
         const dense: Point[] = [];
         for (let i = 0; i < n - 1; i++) {
@@ -266,7 +298,7 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
     const tiltAt = (tx: number, ty: number) => Math.atan2(dir * ty, dir * tx);
 
     // Returns why a planned path is unusable, or null if it's fine.
-    function pathProblem(p: Path): string | null {
+    function pathProblem(p: Path, skipPx = 0, ignoreLayout = false): string | null {
         const maxPitch = (TUNING.maxPitchDeg * Math.PI) / 180;
         const minRadius = TUNING.minTurnRadius * avgLen();
         const count = p.xs.length;
@@ -281,8 +313,10 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
             }
             const x = p.xs[i];
             const y = p.ys[i];
-            if (x < -reach || x > W + reach) continue; // fully off screen: anything goes
+            if (x < -reach || x > W + reach || y < -reach || y > H + reach) continue; // fully off screen: anything goes
+            if (i * TUNING.sampleStep < skipPx) continue; // continuing after a resize: let the pair swim clear first
             const pad = padding(tilt);
+            if (ignoreLayout) continue; // last-resort path: only the swimming checks above apply
             if (y < pad.edgeY || y > H - pad.edgeY) return "edge";
             if (hitsText(x, y, pad)) return "text";
         }
@@ -362,19 +396,50 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         return out;
     }
 
-    function plan(from?: Point): boolean {
+    // When the text leaves no clear way across at all (a very small window), still swim rather than
+    // hide: a gentle straight line at whichever height overlaps the text least. The text is layered
+    // above the whales, so they pass behind it.
+    function behindTextPath(from?: Point, startSlope?: number): boolean {
+        const margin = offscreenMargin();
+        const endX = dir > 0 ? W + margin : -margin;
+        if (from && dir * (endX - from.x) < 120) return false;
+        const pad = padding(0);
+        let bestY = H / 2;
+        let fewestBlocked = Infinity;
+        for (let y = Math.min(pad.edgeY, H / 2); y <= Math.max(H - pad.edgeY, H / 2); y += 4) {
+            let blocked = 0;
+            for (let k = 0; k <= 24; k++) if (hitsText((W * k) / 24, y, pad)) blocked++;
+            if (blocked < fewestBlocked || (blocked === fewestBlocked && Math.abs(y - H / 2) < Math.abs(bestY - H / 2))) {
+                fewestBlocked = blocked;
+                bestY = y;
+            }
+        }
+        const start = from ?? { x: dir > 0 ? -margin : W + margin, y: bestY };
+        const mid = { x: (start.x + endX) / 2, y: bestY };
+        const points = dir * (mid.x - start.x) >= 60 ? [start, mid, { x: endX, y: bestY }] : [start, { x: endX, y: bestY }];
+        const candidate = buildPath(points, startSlope);
+        if (pathProblem(candidate, 0, true)) return false;
+        path = candidate;
+        style = "fallback";
+        fallbacks++;
+        return true;
+    }
+
+    function plan(from?: Point, startSlope?: number): boolean {
         const started = now();
         const laneList = bands();
         const gapList = gaps();
         if (!laneList.length) {
             lastPlanMs = now() - started;
-            return false;
+            return behindTextPath(from, startSlope);
         }
         let kind = chooseStyle(laneList.length, gapList.length);
         for (let attempt = 0; attempt < TUNING.planTries; attempt++) {
             if (attempt === Math.floor(TUNING.planTries * 0.7) && kind !== "wave") kind = "wave"; // too awkward: go gentler
-            const candidate = buildPath(waypoints(kind, laneList, gapList, from));
-            const problem = pathProblem(candidate);
+            const points = waypoints(kind, laneList, gapList, from);
+            if (points.length < 2) break; // already at (or past) the far edge: nothing left to plan
+            const candidate = buildPath(points, startSlope);
+            const problem = pathProblem(candidate, from ? 0.8 * maxLen() : 0);
             if (!problem) {
                 path = candidate;
                 style = kind;
@@ -387,16 +452,57 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         const lane = laneList[Math.floor(random() * laneList.length)];
         const y = (lane.lo + lane.hi) / 2;
         const margin = offscreenMargin();
+        if (from && dir * ((dir > 0 ? W + margin : -margin) - from.x) < 120) {
+            lastPlanMs = now() - started;
+            return false; // too close to the far edge for a fallback path
+        }
         const straight = buildPath([
             from ?? { x: dir > 0 ? -margin : W + margin, y },
             { x: W / 2, y },
             { x: dir > 0 ? W + margin : -margin, y },
-        ]);
+        ], startSlope);
         lastPlanMs = now() - started;
-        if (pathProblem(straight)) return false;
+        if (pathProblem(straight, from ? 0.8 * maxLen() : 0)) return behindTextPath(from, startSlope);
         path = straight;
         style = "fallback";
         fallbacks++;
+        return true;
+    }
+
+    // After a resize: keep the stretch of path the whales are currently on (so nothing jumps) and
+    // re-plan the rest of the crossing around the new layout, continuing smoothly from its end.
+    function replanRest(): boolean {
+        if (!path) return true;
+        const old = path;
+        const step = TUNING.sampleStep;
+        const spread = (Math.abs(rel.da) + Math.abs(sepAlong)) / 2;
+        const iFrom = Math.max(0, Math.floor((sPod - spread - maxLen()) / step));
+        const iTo = Math.min(old.xs.length - 1, Math.ceil((sPod + spread + 1.2 * maxLen()) / step));
+        if (iTo >= old.xs.length - 2) return true; // nearly through this crossing anyway
+        const margin = offscreenMargin();
+        if (dir * ((dir > 0 ? W + margin : -margin) - old.xs[iTo]) < 150) return true; // about to leave anyway
+        const keptStyle = style;
+        if (!plan({ x: old.xs[iTo], y: old.ys[iTo] }, old.tys[iTo] / old.txs[iTo])) {
+            path = old;
+            style = keptStyle;
+            return false;
+        }
+        const fresh = path!;
+        const count = iTo - iFrom + fresh.xs.length; // fresh's first sample is old's sample iTo
+        const join = (a: Float32Array, b: Float32Array) => {
+            const out = new Float32Array(count);
+            out.set(a.subarray(iFrom, iTo + 1), 0);
+            out.set(b.subarray(1), iTo - iFrom + 1);
+            return out;
+        };
+        path = {
+            xs: join(old.xs, fresh.xs),
+            ys: join(old.ys, fresh.ys),
+            txs: join(old.txs, fresh.txs),
+            tys: join(old.tys, fresh.tys),
+            length: (count - 1) * step,
+        };
+        sPod -= iFrom * step;
         return true;
     }
 
@@ -448,16 +554,18 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         const maxAccel = TUNING.relativeAccel * cruise;
         // Spring toward the goal, but cap how quickly the relative velocity may change, so neither
         // whale surges ahead or drops back abruptly.
-        const ease = (x: number, v: number, target: number): [number, number] => {
+        const ease = (x: number, v: number, target: number, maxV: number): [number, number] => {
             const [, wanted] = spring(x, v, target, tau, dt);
-            const nv = v + clamp(wanted - v, -maxAccel * dt, maxAccel * dt);
+            const nv = clamp(v + clamp(wanted - v, -maxAccel * dt, maxAccel * dt), -maxV, maxV);
             return [x + nv * dt, nv];
         };
         const maxRel = TUNING.maxRelativeSpeed * pairSpeed;
-        rel.vda = clamp(rel.vda, -maxRel, maxRel);
-        [rel.da, rel.vda] = ease(rel.da, rel.vda, goal.da);
-        [rel.dn, rel.vdn] = ease(rel.dn, rel.vdn, goal.dn);
-        [rel.c, rel.vc] = ease(rel.c, rel.vc, goal.c);
+        // A whale can't slide sideways: shifts across the path are kept slow relative to forward
+        // speed, so a slight tilt toward the new position is enough to make them.
+        const maxSideways = Math.tan((TUNING.lateralSlipDeg * Math.PI) / 180) * pairSpeed;
+        [rel.da, rel.vda] = ease(rel.da, rel.vda, goal.da, maxRel);
+        [rel.dn, rel.vdn] = ease(rel.dn, rel.vdn, goal.dn, maxSideways);
+        [rel.c, rel.vc] = ease(rel.c, rel.vc, goal.c, maxSideways);
         // Safety: never let them sit level while overlapping along the path.
         const L = avgLen();
         const h = avgH();
@@ -492,52 +600,103 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
     };
 
     function pose(dt: number) {
-        const along = [rel.da / 2, -rel.da / 2];
-        const lateral = [rel.c + rel.dn / 2, rel.c - rel.dn / 2];
-        const targets = whales.map((_, i) => {
+        // Extra spacing (see below) is applied in the path's own frame: along it and across it.
+        const along = [rel.da / 2 + sepAlong / 2, -rel.da / 2 - sepAlong / 2];
+        const lateral = [rel.c + rel.dn / 2 + sepLateral / 2, rel.c - rel.dn / 2 - sepLateral / 2];
+        const targets = whales.map((w, i) => {
             const p = pathAt(sPod + along[i]);
-            return { x: p.x - p.ty * lateral[i], y: p.y + p.tx * lateral[i], pitch: tiltAt(p.tx, p.ty), dir };
+            // The spacing check uses each whale's pitch as currently drawn; the new pitch follows the
+            // whale's actual motion and is set below.
+            return {
+                x: p.x - p.ty * lateral[i],
+                y: p.y + p.tx * lateral[i],
+                pitch: dt > 0 ? w.pitch : tiltAt(p.tx, p.ty),
+                dir,
+                tx: p.tx,
+                ty: p.ty,
+            };
         });
-        if (dt > 0) {
-            // Tilt eases toward the path's angle at a capped rate, so no bend (or offset from the
-            // path) can make a whale lift or dip suddenly. Done before the spacing check below so
-            // the whales are kept apart as they're actually drawn.
-            const maxStep = ((TUNING.maxPitchRateDeg * Math.PI) / 180) * dt;
-            targets.forEach((t, i) => {
-                t.pitch = whales[i].pitch + clamp(t.pitch - whales[i].pitch, -maxStep, maxStep);
-            });
-        }
         const need = 0.42 * (whales[0].h + whales[1].h);
         const gap = bodyGap(targets[0], whales[0].len, targets[1], whales[1].len);
         // Extra spacing builds up and releases at a capped rate (with a little hysteresis) rather
         // than appearing in a single frame.
-        const wanted = Math.max(0, need - gap + (separation > 0 ? 2 : 0));
-        separation = dt > 0 ? clamp(wanted, separation - 0.5 * cruise * dt, separation + 0.5 * cruise * dt) : wanted;
-        lastSeparationPush = separation;
-        if (separation > 0) {
-            // Ease apart along the line between them.
+        // When the bodies get too close, ease them apart in the direction they're already offset from
+        // each other, split into along-path and across-path parts. That direction changes smoothly as
+        // they move, so the push can't suddenly flip. Once there's room again it's released gradually.
+        if (dt > 0) {
+            const rate = 0.5 * Math.max(podSpeed, 0.5 * cruise) * dt;
+            const t = pathAt(sPod);
             const dx = targets[0].x - targets[1].x;
             const dy = targets[0].y - targets[1].y;
             const d = Math.hypot(dx, dy) || 1;
-            const push = separation / 2;
-            targets[0].x += (dx / d) * push;
-            targets[0].y += (dy / d) * push;
-            targets[1].x -= (dx / d) * push;
-            targets[1].y -= (dy / d) * push;
+            const ua = (dx * t.tx + dy * t.ty) / d; // along-path share of the direction between them
+            const un = (-dx * t.ty + dy * t.tx) / d; // across-path share
+            if (gap < need) {
+                const extra = Math.min(need - gap, rate);
+                sepGoalAlong += extra * ua;
+                sepGoalLateral += extra * un;
+            } else if (gap > need + 8) {
+                // Release only with a generous dead zone, so it doesn't toggle on and off near the edge.
+                const size = Math.hypot(sepGoalAlong, sepGoalLateral);
+                if (size > 0) {
+                    const keep = Math.max(0, size - Math.min(gap - need - 8, 0.5 * rate)) / size;
+                    sepGoalAlong *= keep;
+                    sepGoalLateral *= keep;
+                }
+            }
+            sepGoalAlong = clamp(sepGoalAlong, -1.2 * avgLen(), 1.2 * avgLen());
+            sepGoalLateral = clamp(sepGoalLateral, -0.6 * avgH(), 0.6 * avgH()); // stays within the text clearance
+            // The applied spacing eases toward that goal through a spring, so it never ticks.
+            [sepAlong, sepAlongVel] = spring(sepAlong, sepAlongVel, sepGoalAlong, TUNING.spacingTau, dt);
+            [sepLateral, sepLateralVel] = spring(sepLateral, sepLateralVel, sepGoalLateral, TUNING.spacingTau, dt);
         }
+        lastSeparationPush = Math.hypot(sepAlong, sepLateral);
         whales.forEach((w, i) => {
             const t = targets[i];
-            if (dt > 0) {
-                const travelled = Math.hypot(t.x - w.x, t.y - w.y) / dt;
-                // Smoothed (and ignoring the jump to a new crossing), since it drives the tail beat.
-                const measured = travelled > cruise * 5 ? w.speed : travelled;
-                w.speed += (measured - w.speed) * (1 - Math.exp(-dt / 0.3));
-                const strokeSeconds = (strokeLengths * w.strokeFactor * w.len) / Math.max(w.speed, 8);
+            if (dt > 0 && Math.hypot(t.x - w.x, t.y - w.y) / dt < cruise * 5) {
+                // A whale points where it's going: the body angle follows its own smoothed velocity
+                // (whatever moves it — path, formation shifts, spacing), at a capped turning rate.
+                const k = 1 - Math.exp(-dt / 0.25);
+                w.vx += ((t.x - w.x) / dt - w.vx) * k;
+                w.vy += ((t.y - w.y) / dt - w.vy) * k;
+                const speed = Math.hypot(w.vx, w.vy);
+                const maxPitch = (TUNING.maxPitchDeg * Math.PI) / 180;
+                const heading =
+                    dir * w.vx > 1 ? clamp(Math.atan2(dir * w.vy, dir * w.vx), -maxPitch, maxPitch) : tiltAt(t.tx, t.ty);
+                // Tilt follows the heading through a critically damped spring with capped turning speed
+                // and turning acceleration. (A plain rate cap ticks back and forth whenever the target
+                // wobbles near the cap — that was the jitter on some turns.)
+                const maxRate = (TUNING.maxPitchRateDeg * Math.PI) / 180;
+                const maxAngAccel = (TUNING.maxPitchAccelDeg * Math.PI) / 180;
+                const omega = 2 / TUNING.pitchTau;
+                const angAccel = clamp(omega * omega * (heading - w.pitch) - 2 * omega * w.pitchVel, -maxAngAccel, maxAngAccel);
+                w.pitchVel = clamp(w.pitchVel + angAccel * dt, -maxRate, maxRate);
+                w.pitch += w.pitchVel * dt;
+                // The body curves into its turns (tail swinging toward the turn), in proportion to how
+                // fast it's turning. Positive = toward the drawing's local +y.
+                const bendTarget = (dir * w.pitchVel) / maxRate;
+                w.bend += (bendTarget - w.bend) * (1 - Math.exp(-dt / TUNING.bodyBendTau));
+                // Tail effort: speeding up works the tail harder and faster, slowing down lets it glide.
+                w.accel += ((speed - w.speed) / dt - w.accel) * (1 - Math.exp(-dt / 0.5));
+                w.speed = speed;
+                const thrust = Math.max(speed + TUNING.thrustGain * w.accel, 0.15 * cruise);
+                w.effort = clamp(thrust / Math.max(cruise, 1), 0.35, 1.5);
+                const strokeSeconds = (strokeLengths * w.strokeFactor * w.len) / thrust;
                 w.phase = (w.phase + dt / strokeSeconds) % 1;
+            } else if (dt === 0) {
+                // Starting a crossing (or a still pose): already cruising along the path.
+                const v = podSpeed || cruise;
+                w.vx = t.tx * v;
+                w.vy = t.ty * v;
+                w.speed = v;
+                w.accel = 0;
+                w.effort = 1;
+                w.bend = 0;
+                w.pitchVel = 0;
+                w.pitch = t.pitch;
             }
             w.x = t.x;
             w.y = t.y;
-            w.pitch = t.pitch;
             w.dir = dir;
             w.visible = active && t.x + w.len / 2 > 0 && t.x - w.len / 2 < W && t.y + w.len / 2 > 0 && t.y - w.len / 2 < H;
         });
@@ -545,11 +704,16 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
 
     function startCrossing() {
         if (!plan()) {
-            pauseUntil = clock + 3; // nowhere to swim right now (tiny or crowded screen); try later
+            // Nowhere to swim right now (tiny or crowded screen): try again soon — very soon if the window
+            // is being resized, so the whales don't sit out of sight.
+            pauseUntil = clock + (clock - resizedAt < 5 ? 0.5 : 3);
             return;
         }
         active = true;
         crossings++;
+        needsReplan = false;
+        seenThisCrossing = false;
+        crossingStartedAt = clock;
         sPod = 0;
         podSpeed = cruise * speedFactor;
         smoothedTarget = podSpeed;
@@ -574,15 +738,39 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
 
     // Bends slow the pair down so direction changes stay gradual.
     const bendFactor = () => {
-        const a = pathAt(sPod - 60);
-        const b = pathAt(sPod + 60);
-        const turn = Math.abs(tiltAt(b.tx, b.ty) - tiltAt(a.tx, a.ty));
-        return clamp(1 - (turn / 120) * avgLen() * 0.9, 0.55, 1);
+        // Radians of heading change per px of path, around arc length s.
+        const curvatureAt = (s: number) => {
+            const a = pathAt(s - 60);
+            const b = pathAt(s + 60);
+            return Math.abs(tiltAt(b.tx, b.ty) - tiltAt(a.tx, a.ty)) / 120;
+        };
+        // Use the tightest bend anywhere either whale can be right now (ahead of or behind the pair's
+        // centre), made tighter still for a whale on the inside of the curve.
+        const reachAlong = 0.5 * (Math.abs(rel.da) + Math.abs(sepAlong)) + 0.5 * avgLen();
+        const pathCurvature = Math.max(curvatureAt(sPod - reachAlong), curvatureAt(sPod), curvatureAt(sPod + reachAlong));
+        const insideOffset = Math.abs(rel.c) + 0.5 * (Math.abs(rel.dn) + Math.abs(sepLateral));
+        const curvature = pathCurvature / Math.max(0.25, 1 - pathCurvature * insideOffset);
+        // A whale can only swing its body so fast (maxPitchRateDeg). Through tighter bends, slow down
+        // enough that the body keeps pointing where it's going instead of lagging behind the path.
+        const bodyLimit =
+            curvature > 1e-6 ? (((TUNING.maxPitchRateDeg * Math.PI) / 180) * 0.85) / curvature / Math.max(cruise, 1) : 1;
+        return clamp(Math.min(1 - curvature * avgLen() * 0.9, bodyLimit), 0.55, 1);
     };
 
     function step(dt: number) {
         if (!ready) return;
         clock += dt;
+        // Ease whale size toward what the layout calls for (e.g. after a resize) instead of snapping.
+        const grow = 1 - Math.exp(-dt / TUNING.scaleTau);
+        for (const w of whales) {
+            w.scale += (w.targetScale - w.scale) * grow;
+            w.len = w.baseLen * w.scale;
+            w.h = w.baseH * w.scale;
+        }
+        if (active && needsReplan && clock >= replanAt) {
+            if (replanRest()) needsReplan = false;
+            else replanAt = clock + 0.6; // no way through yet: keep swimming and try again shortly
+        }
         if (!active) {
             if (clock >= pauseUntil) startCrossing();
             if (!active) {
@@ -613,6 +801,18 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         updateArrangement(dt, podSpeed);
         pose(dt);
 
+        if (whales.some((w) => w.visible)) seenThisCrossing = true;
+        // Lost from view because the window was resized: don't make them finish an invisible path and
+        // then pause — start a fresh crossing straight away, coming back in from the side they ended up
+        // past (as if they'd turned around out of sight), or reversing if they were cut off above/below.
+        if (seenThisCrossing && resizedAt > crossingStartedAt && whales.every((w) => !w.visible)) {
+            const cx = (whales[0].x + whales[1].x) / 2;
+            dir = cx > W ? -1 : cx < 0 ? 1 : -dir;
+            active = false;
+            pauseUntil = clock;
+            startCrossing();
+            return;
+        }
         // Done as soon as both whales have swum out past the far edge — no need to finish the
         // invisible tail of the path.
         const pastExit = whales.every(
@@ -628,13 +828,18 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
     // ---- lifecycle --------------------------------------------------------------------------
 
     function setLayout(layout: PodLayout) {
+        if (ready && (layout.width !== W || layout.height !== H)) resizedAt = clock;
         W = layout.width;
         H = layout.height;
-        const scale = clamp(H / TUNING.referenceHeight, TUNING.minScale, 1);
+        const scale = clamp(H / TUNING.referenceHeight, TUNING.minScale, 1) * (layout.sizeScale ?? 1);
+        const first = !ready;
         whales.forEach((w, i) => {
-            w.scale = scale;
-            w.len = layout.lengths[i] * scale;
-            w.h = layout.heights[i] * scale;
+            w.baseLen = layout.lengths[i];
+            w.baseH = layout.heights[i];
+            w.targetScale = scale;
+            if (first) w.scale = scale; // later size changes (resizes) ease in — see step()
+            w.len = w.baseLen * w.scale;
+            w.h = w.baseH * w.scale;
         });
         cruise = layout.speed * scale;
         rects = [...layout.obstacles, { l: -1e5, t: -1e5, r: 1e5, b: layout.navBottom }];
@@ -642,11 +847,10 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
             ? layout.obstacles.reduce((u, r) => ({ l: Math.min(u.l, r.l), t: Math.min(u.t, r.t), r: Math.max(u.r, r.r), b: Math.max(u.b, r.b) }))
             : null;
         ready = W > 0 && H > 0;
+        // Mid-crossing, keep swimming the current path and re-plan the rest once resizing settles.
         if (active && path) {
-            // Re-plan the rest of this crossing around the new layout, from where the pair is now.
-            const here = pathAt(sPod);
-            if (plan({ x: here.x, y: here.y })) sPod = 0;
-            else active = false;
+            needsReplan = true;
+            replanAt = clock + TUNING.replanDelay;
         }
     }
 
@@ -687,7 +891,7 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         /** For tests and tuning. */
         debug: () => ({
             active, dir, clock, crossings, fallbacks, style, lastPlanMs, sPod, path, rel: { ...rel }, speedFactor,
-            podSpeed, lastSeparationPush, lastProjected,
+            podSpeed, lastSeparationPush, lastProjected, needsReplan,
             failures: { ...failures },
             bands: ready ? bands() : [],
             gaps: ready ? gaps() : [],

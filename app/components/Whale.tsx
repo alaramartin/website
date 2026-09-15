@@ -86,7 +86,7 @@ export default function Whale() {
             place();
             if (time - lastPathTime >= PATH_FRAME_MS) {
                 lastPathTime = time;
-                rig.draw(els, phase);
+                rig.draw(els, phase, { undulation: 1 });
             }
 
             const offscreen = dir === 1 ? x >= containerW : x <= -whaleW;
