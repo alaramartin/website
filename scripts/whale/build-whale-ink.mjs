@@ -314,7 +314,7 @@ const FIN_SEGMENTS = [
 const pt = (p) => `${p[0]} ${p[1]}`;
 const fin = `M${pt(FIN_START)}${FIN_SEGMENTS.map(([c1, c2, e]) => `C${pt(c1)} ${pt(c2)} ${pt(e)}`).join("")}Z`;
 
-// Fin pen work, in mesh units (the whale is 904 wide; at 171px on screen, 1 unit ≈ 0.19px).
+// Fin pen work, in mesh units (the whale is 904 wide; at 159px on screen, 1 unit ≈ 0.18px).
 // Keep the tip no heavier than the outline: at footer size, dense or thick tip lines merge into a blob.
 const FIN_LINE = { rootWidth: 1.0, tipWidth: 1.1, pressureWobble: 0.15 };
 const FIN_HATCH = { count: 3, width: 0.45 };
@@ -467,16 +467,16 @@ if (process.argv.includes("--preview")) {
         whale(11, 820, 10, 740, L),
         whale(4, 20, 290, 740, L),
         whale(22, 820, 290, 740, L),
-        // throat + fin close-up, and real footer sizes (171px desktop, 107px mobile; 342 ≈ 171 @2x)
+        // throat + fin close-up, and real footer sizes (159px desktop, 100px mobile; 318 ≈ 159 @2x)
         closeUp(20, 580, 900, 450, "440 180 320 160", L),
-        whale(0, 960, 620, 342, L),
-        whale(0, 960, 800, 171, L),
-        whale(11, 1160, 800, 171, L),
-        whale(0, 1360, 810, 107, L),
+        whale(0, 960, 620, 318, L),
+        whale(0, 960, 800, 159, L),
+        whale(11, 1160, 800, 159, L),
+        whale(0, 1360, 810, 100, L),
         // dark mode
-        whale(0, 20, 1100, 342, D),
-        whale(11, 380, 1100, 342, D),
-        whale(0, 740, 1140, 171, D),
+        whale(0, 20, 1100, 318, D),
+        whale(11, 380, 1100, 318, D),
+        whale(0, 740, 1140, 159, D),
         closeUp(940, 1090, 640, 320, "440 180 320 160", D),
     ].join("");
     mkdirSync(PREVIEW_DIR, { recursive: true });

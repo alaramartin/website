@@ -1,4 +1,5 @@
 import ContactLink from "./components/ContactLink";
+import WhalePod from "./components/WhalePod";
 import NavBar from "../components/NavBar";
 import { italiana, mono, serif } from "../ui/fonts";
 import {
@@ -59,17 +60,20 @@ export default function ContactPage() {
     return (
         <>
             <NavBar />
-            <div className="h-screen flex flex-col items-center text-center justify-center select-none">
+            <div className="relative h-screen flex flex-col items-center text-center justify-center select-none">
+                {/* Two whales roam this screen, steering around anything marked data-whale-avoid. */}
+                <WhalePod />
                 <p
-                    className={`${mono.className} text-3xl font-bold text-accent`}
+                    data-whale-avoid
+                    className={`relative z-10 ${mono.className} text-3xl font-bold text-accent`}
                 >
                     <TextScramble textToScramble="Contact Me" />
                 </p>
                 <div
-                    className={`max-md:mt-6 flex flex-col lg:inline-flex lg:flex-row ${serif.className}`}
+                    className={`relative z-10 max-md:mt-6 flex flex-col lg:inline-flex lg:flex-row ${serif.className}`}
                 >
                     {contactLinks.map((contactLink) => (
-                        <div key={contactLink.contactType}>
+                        <div key={contactLink.contactType} data-whale-avoid>
                             <ContactLink contact={contactLink} />
                         </div>
                     ))}

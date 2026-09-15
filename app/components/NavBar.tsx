@@ -25,6 +25,7 @@ export default function NavBar() {
 
     return (
         <div
+            data-site-nav
             className={`fixed top-0 left-0 w-full px-4 md:px-8 pt-2.5 pb-2 z-50 bg-inherit ${serif.className} ${isHomePage ? "text-(--scroll-nav)" : "text-accent"}`}
         >
             <div className="mx-auto flex items-center justify-start md:space-x-30 space-x-8">
