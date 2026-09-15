@@ -167,7 +167,7 @@ export default function WhalePod() {
     return (
         <div ref={overlayRef} aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
             <div ref={wrapperA} className="absolute left-0 top-0 will-change-transform" style={{ visibility: "hidden" }}>
-                <WhaleSvg refs={svgA} className="block w-[107px] md:w-[161px] h-auto" />
+                <WhaleSvg refs={svgA} className="block w-[118px] md:w-[177px] h-auto" />
             </div>
             {/* The smaller whale is burgundy in light mode and pale pink in dark (--whale-accent-ink). */}
             <div
@@ -175,7 +175,7 @@ export default function WhalePod() {
                 className="absolute left-0 top-0 will-change-transform"
                 style={{ visibility: "hidden", "--whale-ink": "var(--whale-accent-ink)", "--whale-pleat": "var(--whale-accent-pleat)" } as CSSProperties}
             >
-                <WhaleSvg refs={svgB} className="block w-[98px] md:w-[146px] h-auto" />
+                <WhaleSvg refs={svgB} className="block w-[108px] md:w-[161px] h-auto" />
             </div>
         </div>
     );

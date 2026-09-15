@@ -54,9 +54,9 @@ type Path = { xs: Float32Array; ys: Float32Array; txs: Float32Array; tys: Float3
 const TUNING = {
     referenceHeight: 900, // sections at least this tall show whales at full size
     minScale: 0.7,
-    maxPitchDeg: 62, // steepest climb or dive
+    maxPitchDeg: 68, // steepest climb or dive (tilt changes are separately rate-capped when drawn)
     maxPitchRateDeg: 14, // cap on how fast a whale's tilt can change, degrees per second
-    minTurnRadius: 0.8, // body lengths — with bends slowing the pair, keeps pitch changes gradual
+    minTurnRadius: 0.6, // body lengths — bends slow the pair and drawn tilt is rate-capped, so this can be fairly tight
     clearance: 0.08, // body lengths of open water kept between the pair and any text
     sampleStep: 4, // px between samples of the planned curve
     waypointSpacing: [200, 420], // px between waypoints along x
@@ -65,21 +65,21 @@ const TUNING = {
     pauseSeconds: [1.75, 4.25], // out of sight between crossings
     offscreenSpeedup: 4.5, // swim faster while neither whale is visible (entering/leaving past the edges)
     returnChance: 0.7, // come back the way they left, rather than re-enter from the same side
-    speedRange: [0.7, 1.35], // pair speed, as a fraction of cruise
+    speedRange: [0.75, 1.1], // pair speed, as a fraction of cruise
     speedHoldSeconds: [8, 16], // how long before picking a new pair speed
     speedTau: 6, // seconds to ease into a new speed
-    pairAccel: 0.12, // max change in pair speed while visible, × cruise per second
-    relativeAccel: 0.2, // max change in one whale's speed relative to the other, × cruise per second
-    pitchSpeedBoost: 0.12, // a little faster when diving, slower when climbing
+    pairAccel: 0.06, // max change in pair speed while visible, × cruise per second
+    relativeAccel: 0.1, // max change in one whale's speed relative to the other, × cruise per second
+    pitchSpeedBoost: 0.06, // a little faster when diving, slower when climbing
     // Relative arrangement of the two whales (along = along the path, lateral = across it).
     alongRange: 1.3, // body lengths either way
     lateralRange: 1.15, // drawing heights either way
     centreRange: 0.1, // drawing heights the pair as a whole drifts off the path
     clearAlong: 1.1, // body lengths ahead before they may be at the same height
     clearLateral: 0.95, // drawing heights apart whenever they're not clearly staggered
-    arrangeTau: 5, // seconds to ease into a new arrangement
+    arrangeTau: 7, // seconds to ease into a new arrangement
     arrangeHoldSeconds: [3, 8],
-    maxRelativeSpeed: 0.7, // cap on how fast one whale moves relative to the other, × pair speed
+    maxRelativeSpeed: 0.35, // cap on how fast one whale moves relative to the other, × pair speed
 };
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -186,8 +186,9 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         const steep = padding((50 * Math.PI) / 180);
         const L = maxLen();
         const out = [];
-        const left = { lo: -0.6 * L, hi: textBox.l - steep.x };
-        const right = { lo: textBox.r + steep.x, hi: W + 0.6 * L };
+        // Passages may sit well past the screen edge, so the dive can happen mostly out of view.
+        const left = { lo: -1.0 * L, hi: textBox.l - steep.x };
+        const right = { lo: textBox.r + steep.x, hi: W + 1.0 * L };
         if (left.hi - left.lo > 10) out.push(left);
         if (right.hi - right.lo > 10) out.push(right);
         return out;
@@ -314,7 +315,7 @@ export function createWhalePod(options: { random?: () => number; bodyLengthsPerS
         const passage = (g: { lo: number; hi: number }, a: Band, b: Band) => {
             const x = clamp(between(g.lo, g.hi), g.lo, g.hi);
             const mid = (a.lo + a.hi + b.lo + b.hi) / 4 + between(-0.06, 0.06) * H;
-            const lead = between(170, 300); // room to bend into and out of the dive/climb
+            const lead = between(150, 340); // room to bend into and out of the dive/climb
             anchors.push({ x: x - dir * lead, y: inBand(a), lane: a });
             anchors.push({ x, y: mid, lane: null });
             anchors.push({ x: x + dir * lead, y: inBand(b), lane: b });

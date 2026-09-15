@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
+import { usePathname } from "next/navigation";
 import { useReducedMotion } from "motion/react";
 import WhaleSvg, { resolveWhaleEls, useWhaleSvgRefs } from "./whale/WhaleSvg";
 import {
@@ -166,13 +167,24 @@ export default function Whale() {
             aria-hidden="true"
             className="relative w-full h-[46px] md:h-[70px] mt-6 overflow-hidden pointer-events-none"
         >
+            {/* Same colours as the smaller contact-page whale (--whale-accent-*). */}
             <div
                 ref={wrapperRef}
                 className="absolute left-0 top-[2px] will-change-transform"
-                style={{ visibility: "hidden" }}
+                style={{ visibility: "hidden", "--whale-ink": "var(--whale-accent-ink)", "--whale-pleat": "var(--whale-accent-pleat)" } as CSSProperties}
             >
                 <WhaleSvg refs={svgRefs} className="block w-[100px] md:w-[159px] h-auto" />
             </div>
         </div>
     );
+}
+
+/**
+ * The footer's whale, on every page except /contact (which has its own pair of whales). Mounting
+ * <Whale /> per page means it starts fresh when navigating away from /contact.
+ */
+export function FooterWhale() {
+    const pathname = usePathname();
+    // Without the whale, keep the footer's original spacing below the divider.
+    return pathname === "/contact" ? <div aria-hidden="true" className="h-14" /> : <Whale />;
 }
