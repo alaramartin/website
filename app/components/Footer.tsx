@@ -6,8 +6,11 @@ import { italiana, serif } from "../ui/fonts";
 const Footer = () => {
     return (
         <>
+            {/* Divider lives outside <footer> so the whale below it can span the full page width. */}
+            <div className="mx-16 md:mx-30 mt-60 border-t-2 border-t-lighthighlight/80" />
+            <Whale />
             <footer
-                className="text-center mx-16 md:mx-30 mt-60 md:px-30 pt-20 pb-16 border-t-2 border-t-lighthighlight/80 cursor-default select-none"
+                className="text-center mx-16 md:mx-30 md:px-30 pt-6 pb-16 cursor-default select-none"
                 style={{ color: "var(--color-footertext)" }}
             >
                 <LinksBar direction="row" />
@@ -18,8 +21,6 @@ const Footer = () => {
                     <MostRecentCommit />
                 </span>
             </footer>
-            {/* Outside <footer> so it spans the full page width, not the footer's inset. */}
-            <Whale />
         </>
     );
 };

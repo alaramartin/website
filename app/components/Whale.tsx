@@ -34,7 +34,7 @@ const BODY_LENGTHS_PER_STROKE = 1.2; // how far one tail beat carries the whale
 const PATH_FRAME_MS = 33; // shape redraws capped at ~30fps; translation stays per-frame
 const REST_MIN_MS = 3000;
 const REST_MAX_MS = 5000;
-const BOB_PX = 2;
+const HEAVE = 0.012; // peak vertical body heave per tail beat, as a fraction of whale length (≈ ±2px at 171px)
 const SMOOTH_PASSES = 12; // Taubin smoothing of the outline ring (removes mesh jitter without shrinking)
 
 // Least-squares affine map from rest positions to current positions for a vertex group.
@@ -104,6 +104,7 @@ export default function Whale() {
         let tmpY = new Float32Array(0);
         let segments: string[] = [];
         let fitFin: ((pos: Float32Array) => string) | null = null;
+        let heave = new Float32Array(0); // per keyframe, normalised to ±1
         let disposed = false;
 
         let containerW = 0;
@@ -191,7 +192,13 @@ export default function Whale() {
         };
 
         const place = () => {
-            const bob = Math.sin(phase * Math.PI * 2) * BOB_PX;
+            let bob = 0;
+            if (heave.length) {
+                const p = phase * heave.length;
+                const k = Math.floor(p);
+                const t = p - k;
+                bob = (heave[k % heave.length] * (1 - t) + heave[(k + 1) % heave.length] * t) * HEAVE * whaleW;
+            }
             wrapper.style.transform = `translate3d(${x.toFixed(2)}px, ${bob.toFixed(2)}px, 0) scaleX(${dir})`;
         };
 
@@ -260,6 +267,16 @@ export default function Whale() {
             tmpY = new Float32Array(n);
             segments = new Array(n);
             fitFin = makeAffineFit(frames[0], loaded.fin);
+
+            // Body heave tied to the tail beat, in counter-phase with the tail tip: while the fluke
+            // sweeps up the body sinks, and while it sweeps down the body rises.
+            const tipY = frames.map(
+                (f) => loaded.tailTip.reduce((sum, i) => sum + f[loaded.ring[i] * 2 + 1], 0) / loaded.tailTip.length,
+            );
+            const meanY = tipY.reduce((sum, y) => sum + y, 0) / tipY.length;
+            const raw = tipY.map((y) => meanY - y); // screen y points down, so tail up → positive → body down
+            const peak = Math.max(...raw.map(Math.abs)) || 1;
+            heave = Float32Array.from(raw, (v) => v / peak);
             for (const [name, d] of Object.entries(loaded.art)) {
                 svg.querySelector(`[data-art="${name}"]`)?.setAttribute("d", d);
             }
@@ -317,7 +334,7 @@ export default function Whale() {
         <div
             ref={containerRef}
             aria-hidden="true"
-            className="relative w-full h-11 md:h-17 -mt-10 mb-8 overflow-hidden pointer-events-none"
+            className="relative w-full h-[46px] md:h-[70px] mt-6 overflow-hidden pointer-events-none"
         >
             <div
                 ref={wrapperRef}
@@ -328,7 +345,7 @@ export default function Whale() {
                     ref={svgRef}
                     viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
                     overflow="visible"
-                    className="block w-[100px] md:w-[160px] h-auto"
+                    className="block w-[107px] md:w-[171px] h-auto"
                 >
                     <defs>
                         <path id={`${id}-body`} ref={bodyRef} d="" />
