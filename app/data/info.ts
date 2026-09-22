@@ -12,6 +12,7 @@ import {
     CoffeeIcon,
     CodeIcon,
     FlowerIcon,
+    ShippingContainerIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
 export type ProjectInfo = {
@@ -168,6 +169,47 @@ export const projects: ProjectInfo[] = [
     },
 ];
 
+// hackathon projects, same shape as `projects` above. shown in the "hacker" proof on
+// the home page, and merged into the /projects timeline by date (see projects/page.tsx).
+export const hackathonProjects: ProjectInfo[] = [
+    {
+        name: "ORIGIN",
+        githubLink: "https://github.com/alaramartin/mantisgridhacks",
+        miniDescription:
+            "1st Place Grand Prize at MantisGrid AI Infra hackathon.",
+        description: "1st Place Grand Prize at MantisGrid AI Infra hackathon.",
+        notes: ["$4k cash", "graphs are cool"],
+        tags: ["Python", "Docker"],
+        date: "2026-09",
+    },
+    {
+        name: "SafePath",
+        githubLink: "https://github.com/alaramartin/viskohacks",
+        miniDescription:
+            "2nd Place at Live Models Hackathon (Visko x Reactor).",
+        description: "2nd Place at Live Models Hackathon (Visko x Reactor).",
+        notes: ["$2k cash"],
+        tags: ["TypeScript", "React", "NextJS", "Python", "HTMLCSS"],
+        date: "2026-09",
+    },
+    {
+        name: "UX-Agent",
+        githubLink: "https://github.com/AzizAkturin/TeamSnorlax-UX-Agent",
+        miniDescription: "Best Use of Tensorlake at Nozomio Hackathon.",
+        description: "Best Use of Tensorlake at Nozomio Hackathon.",
+        notes: ["whole buncha credits"],
+        tags: [
+            "TypeScript",
+            "React",
+            "NextJS",
+            "TailwindCSS",
+            "Python",
+            "HTMLCSS",
+        ],
+        date: "2026-05",
+    },
+];
+
 export const skills: {
     label: string;
     items: {
@@ -204,6 +246,11 @@ export const skills: {
             },
             { id: "PyTorch", skillName: "PyTorch", icon: FireIcon },
             { id: "Git", skillName: "Git", icon: GitMergeIcon },
+            {
+                id: "Docker",
+                skillName: "Docker",
+                icon: ShippingContainerIcon,
+            },
         ],
     },
 ];

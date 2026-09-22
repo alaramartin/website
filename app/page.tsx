@@ -3,7 +3,7 @@ import NavBar from "./components/NavBar";
 import MiniProject from "./components/MiniProject";
 import Skill from "./components/Skill";
 import Link from "next/link";
-import { projects, skills } from "@/app/data/info.ts";
+import { hackathonProjects, projects, skills } from "@/app/data/info.ts";
 import { ArrowCircleRightIcon } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
 import NameCircle from "./components/NameCircle";
@@ -31,9 +31,15 @@ function ProofHeading({ children }: { children: ReactNode }) {
 // which animates each one into focus on the right as its adjective snaps to focus in the circle.
 // newest -> oldest (reverse chronological), matching app/projects/page.tsx. dates are
 // month precision (YYYY-MM), so same-month entries keep their info.ts order via the stable sort.
-const miniProjects = projects
-    .filter((p) => p.miniDescription)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const byNewest = (list: typeof projects) =>
+    list
+        .filter((p) => p.miniDescription)
+        .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
+
+const miniProjects = byNewest(projects);
+const miniHackathonProjects = byNewest(hackathonProjects);
 
 const proofs: Record<string, ReactNode> = {
     "LARA MARTIN": (
@@ -102,6 +108,31 @@ const proofs: Record<string, ReactNode> = {
                     </div>
                 </div>
             ))}
+        </div>
+    ),
+    hacker: (
+        <div className={`${serif.className} translate-y-2 flex flex-col`}>
+            <ProofHeading>Hackathons.</ProofHeading>
+            <div className="text-bodytext -mt-2 mb-2">
+                I&apos;ve been to a few. Even won some. Check them out:
+            </div>
+            <div className="flex flex-col md:-ml-6">
+                {miniHackathonProjects.map((project, index) => (
+                    <div key={project.name}>
+                        <MiniProject
+                            name={project.name}
+                            githubLink={project.githubLink}
+                            href={project.href}
+                            description={project.miniDescription!}
+                            year={new Date(project.date).getUTCFullYear()}
+                            tags={project.tags}
+                        />
+                        {index !== miniHackathonProjects.length - 1 && (
+                            <div className="border-t border-lighthighlight/65 my-1" />
+                        )}
+                    </div>
+                ))}
+            </div>
         </div>
     ),
     "girl who codes": (
@@ -192,17 +223,20 @@ export default function Home() {
 
             {/* Mobile content stack: the proof stage inside NameCircle is md+ only (phones are
           too narrow to show an adjective next to its proof), so on mobile the circle shows
-          adjectives only and the core content (About, Projects, Skills) lives here. Built
-          from the SAME `proofs` map so it stays in sync with the desktop proofs. */}
+          adjectives only and the core content (About, Projects, Skills, Hackathons) lives
+          here. Built from the SAME `proofs` map so it stays in sync with the desktop
+          proofs, and kept in the same order as TITLES in NameCircle. */}
             <section className={`md:hidden px-6 pb-16 ${serif.className}`}>
-                {["LARA MARTIN", "programmer", "learner"].map((key, index) => (
-                    <div key={key}>
-                        {index !== 0 && (
-                            <div className="border-t border-lighthighlight/65 my-8" />
-                        )}
-                        {proofs[key]}
-                    </div>
-                ))}
+                {["LARA MARTIN", "programmer", "learner", "hacker"].map(
+                    (key, index) => (
+                        <div key={key}>
+                            {index !== 0 && (
+                                <div className="border-t border-lighthighlight/65 my-8" />
+                            )}
+                            {proofs[key]}
+                        </div>
+                    ),
+                )}
             </section>
         </div>
     );

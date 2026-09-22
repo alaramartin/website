@@ -42,6 +42,7 @@ const TITLES = [
     "LARA MARTIN",
     "programmer",
     "learner",
+    "hacker",
     "girl who codes",
     "photographer",
     // "reader",
