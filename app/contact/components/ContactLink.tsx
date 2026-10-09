@@ -14,7 +14,7 @@ interface ContactLinkProps {
 const ContactLink = ({ contact }: ContactLinkProps) => {
     const IconComponent = contact.icon;
     return (
-        <div className="my-6 md:my-10 lg:m-10 flex lg:flex-row items-center w-full">
+        <div className="my-6 lg:m-10 flex lg:flex-row items-center w-full lg:w-auto">
             <div className="flex flex-col items-center text-center justify-center mx-3 max-lg:w-1/8 text-accent">
                 <IconComponent size={24} className="mb-1" />
                 <p className={`text-sm ${mono.className}`}>

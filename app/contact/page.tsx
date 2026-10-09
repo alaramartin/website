@@ -8,6 +8,7 @@ import {
     GithubLogoIcon,
     // GlobeIcon,
     DiscordLogoIcon,
+    XLogoIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import generateMetadataBase from "@/lib/metadata";
 import TextScramble from "../components/TextScramble";
@@ -42,6 +43,12 @@ const contactLinks: {
         username: "alaramartin",
         icon: GithubLogoIcon,
     },
+    {
+        contactType: "X",
+        href: "https://x.com/alara_martin_",
+        username: "alara_martin_",
+        icon: XLogoIcon,
+    },
     // {
     //     contactType: "Website",
     //     href: "https://alaramartin.com",
@@ -60,7 +67,7 @@ export default function ContactPage() {
     return (
         <>
             <NavBar />
-            <div className="relative h-screen flex flex-col items-center text-center justify-center select-none">
+            <div className="relative min-h-screen py-20 flex flex-col items-center text-center justify-center select-none">
                 {/* Two whales roam this screen, steering around anything marked data-whale-avoid. */}
                 <WhalePod />
                 <p
@@ -70,11 +77,16 @@ export default function ContactPage() {
                     <TextScramble textToScramble="Contact Me" />
                 </p>
                 <div
-                    className={`relative z-10 max-md:mt-6 flex flex-col lg:inline-flex lg:flex-row ${serif.className}`}
+                    className={`relative z-10 max-md:mt-6 flex flex-col lg:flex-row lg:flex-wrap lg:justify-center lg:w-full lg:max-w-5xl ${serif.className}`}
                 >
                     {contactLinks.map((contactLink) => (
-                        <div key={contactLink.contactType} data-whale-avoid>
-                            <ContactLink contact={contactLink} />
+                        <div
+                            key={contactLink.contactType}
+                            className="lg:basis-1/3 lg:flex lg:justify-center"
+                        >
+                            <div data-whale-avoid>
+                                <ContactLink contact={contactLink} />
+                            </div>
                         </div>
                     ))}
                 </div>
