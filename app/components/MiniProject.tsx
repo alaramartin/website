@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { serif, mono } from "@/app/ui/fonts";
+import { serif } from "@/app/ui/fonts";
 import {
     GithubLogoIcon,
     ArrowSquareOutIcon,
@@ -14,7 +14,6 @@ interface MiniProjectProps {
     githubLink: string;
     href?: string;
     description: string;
-    year: number;
     tags?: string[];
 }
 
@@ -29,17 +28,11 @@ const MiniProject = ({
     githubLink,
     href,
     description,
-    year,
     tags,
 }: MiniProjectProps) => {
     return (
         <div className="group text-bodytext">
             <div className={`flex items-center w-full md:px-2 py-2 text-left`}>
-                <div
-                    className={`${mono.className} hidden md:flex opacity-50 group-hover:opacity-60 text-md md:text-[0.95rem] items-center gap-2 text-lg font-medium md:font-bold p-2 transition-all duration-150`}
-                >
-                    {year}
-                </div>
                 <div className="flex md:opacity-75 md:group-hover:opacity-100 text-md md:text-lg items-center gap-2 text-lg font-semibold md:font-bold p-2 transition-all duration-150">
                     {name}
                 </div>

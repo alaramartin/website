@@ -3,6 +3,8 @@ import { skills } from "@/app/data/info.ts";
 
 interface SkillTagProps {
     tags: string[];
+    // left-side timeline cards are right-aligned on desktop
+    side?: "left" | "right";
 }
 
 const getSkillById = new Map(
@@ -11,7 +13,9 @@ const getSkillById = new Map(
         .map((skill) => [skill.id, skill]),
 );
 
-export default function SkillTags({ tags }: SkillTagProps) {
+export default function SkillTags({ tags, side = "right" }: SkillTagProps) {
+    const justify =
+        side === "left" ? "justify-start md:justify-end" : "justify-start";
     // keep track of whether or not they're on desktop for the purposes of resizing the project card view.
     // initialize synchronously so the card doesn't reflow (and the expand animation doesn't overshoot) on first open.
     const [isDesktop, setIsDesktop] = useState(
@@ -28,11 +32,11 @@ export default function SkillTags({ tags }: SkillTagProps) {
 
     if (isDesktop) {
         return (
-            <div className="mt-2 flex justify-center flex-nowrap flex-col">
+            <div className="mt-2 -mx-2 flex flex-nowrap flex-col">
                 {Array.from(
                     { length: Math.ceil(tags.length / 6) },
                     (_, rowIndex) => (
-                        <div key={rowIndex} className="flex justify-center">
+                        <div key={rowIndex} className={`flex ${justify}`}>
                             {tags
                                 .slice(rowIndex * 6, (rowIndex + 1) * 6)
                                 .map((tag) => {
@@ -63,7 +67,7 @@ export default function SkillTags({ tags }: SkillTagProps) {
         );
     } else {
         return (
-            <div className="mt-2 flex flex-wrap justify-center">
+            <div className={`mt-2 -mx-1 flex flex-wrap ${justify}`}>
                 {tags.map((tag) => {
                     // only show maximum of 3 tags per row
                     const skillData = getSkillById.get(tag);

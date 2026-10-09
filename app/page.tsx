@@ -65,9 +65,6 @@ const proofs: Record<string, ReactNode> = {
                                     githubLink={project.githubLink}
                                     href={project.href}
                                     description={project.miniDescription!}
-                                    year={new Date(
-                                        project.date,
-                                    ).getUTCFullYear()}
                                     tags={project.tags}
                                 />
                                 {index !== miniProjects.length - 1 && (
@@ -124,7 +121,6 @@ const proofs: Record<string, ReactNode> = {
                             githubLink={project.githubLink}
                             href={project.href}
                             description={project.miniDescription!}
-                            year={new Date(project.date).getUTCFullYear()}
                             tags={project.tags}
                         />
                         {index !== miniHackathonProjects.length - 1 && (

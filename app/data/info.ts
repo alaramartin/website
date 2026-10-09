@@ -27,6 +27,9 @@ export type ProjectInfo = {
     // list entries in chronological order within the same month so the stable
     // sort in projects/page.tsx keeps them correctly ordered on ties
     date: string;
+    // set by the projects timeline when it merges in `hackathonProjects`, so
+    // those entries can be marked; never set in the data below
+    hackathon?: boolean;
 };
 
 export type BookInfo = {

@@ -8,7 +8,8 @@ import {
     useSpring,
     type MotionValue,
 } from "motion/react";
-import Project from "./Project";
+import Project, { formatDateString, HackathonMark } from "./Project";
+import { mono } from "@/app/ui/fonts";
 import TimelinePlant, { type PlantVariant } from "./TimelinePlant";
 import type { ProjectInfo } from "@/app/data/info";
 
@@ -106,6 +107,17 @@ export default function TimelineNode({
                     />
                 )}
             </span>{" "}
+            {/* desktop date: on the far side of the dot from the card */}
+            <span
+                className={`hidden md:block absolute top-1/2 -translate-y-1/2 whitespace-nowrap ${mono.className} text-sm text-bodytext/50 ${
+                    isLeft
+                        ? "left-[calc(50%+var(--tl-amp)+1.5rem)]"
+                        : "right-[calc(50%+var(--tl-amp)+1.5rem)]"
+                }`}
+            >
+                {formatDateString(project.date)}
+                {project.hackathon && <HackathonMark />}
+            </span>
             <motion.div
                 initial={{ opacity: 0, x: isLeft ? -24 : 24, y: 12 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -113,11 +125,11 @@ export default function TimelineNode({
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className={`pl-8 md:pl-0 w-full ${
                     isLeft
-                        ? "md:col-start-1 md:pr-10 md:justify-self-end"
+                        ? "md:col-start-1 md:pr-10 md:justify-self-end md:justify-end"
                         : "md:col-start-2 md:pl-10 md:justify-self-start"
                 } md:self-center flex flex-row items-center`}
             >
-                <Project {...project} />
+                <Project {...project} side={isLeft ? "left" : "right"} />
             </motion.div>
         </div>
     );

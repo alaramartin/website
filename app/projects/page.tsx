@@ -12,9 +12,10 @@ import TextScramble from "../components/TextScramble";
 // month precision (YYYY-MM), so entries within the same month rely on the stable
 // sort preserving their order here: `projects` first, then `hackathonProjects`
 // (see info.ts)
-const sortedProjects = [...projects, ...hackathonProjects].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-);
+const sortedProjects = [
+    ...projects,
+    ...hackathonProjects.map((p) => ({ ...p, hackathon: true })),
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 export const metadata = generateMetadataBase({
     title: "Projects",

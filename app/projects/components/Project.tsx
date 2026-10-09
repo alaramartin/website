@@ -19,11 +19,20 @@ interface ProjectProps {
     notes?: string[];
     tags?: string[];
     date?: string;
+    hackathon?: boolean;
+    // which side of the desktop timeline the card sits on; left cards are
+    // right-aligned so both columns hug the curve
+    side?: "left" | "right";
+}
+
+// small marker after a hackathon project's date, here and in TimelineNode
+export function HackathonMark() {
+    return <span className="text-accent/80"> · hackathon</span>;
 }
 
 const DEFAULT_DATE = "August 2025";
 
-function formatDateString(dateStr: string): string {
+export function formatDateString(dateStr: string): string {
     if (dateStr == "DEFAULT") {
         return DEFAULT_DATE;
     } else {
@@ -44,52 +53,64 @@ export default function Project({
     notes,
     tags,
     date = "DEFAULT",
+    hackathon,
+    side = "right",
 }: ProjectProps) {
     const [viewExtra, setViewExtra] = useState(false);
     const hasExtra = (notes && notes.length > 0) || (tags && tags.length > 0);
+    const isLeft = side === "left";
 
     return (
-        <motion.div
-            whileHover={{ y: -4 }}
-            transition={{ type: "spring", stiffness: 300, damping: 24 }}
-            className={`${serif.className} text-bodytext antialiased border border-lighthighlight/50 hover:border-lighthighlight rounded-2xl p-4 shadow-lg/5 hover:shadow-lg/15 shadow-lighthighlight relative h-full w-full place-content-center transition-colors duration-150`}
+        <div
+            className={`${serif.className} text-bodytext antialiased rounded-2xl p-4 relative w-fit max-w-full hover:bg-lighthighlight/10 transition-colors duration-150 ${
+                isLeft ? "md:text-right" : ""
+            }`}
         >
             <div>
+                {/* on desktop the date sits across the timeline from the card
+                    (see TimelineNode); mobile has no room there, so keep it here */}
                 <p
-                    className={`${mono.className} text-bodytext/50 pt-0.5 pb-1 text-sm`}
+                    className={`${mono.className} md:hidden text-bodytext/50 pt-0.5 pb-1 text-sm`}
                 >
                     {formatDateString(date)}
+                    {hackathon && <HackathonMark />}
                 </p>
-                <p className="text-xl font-extrabold pb-2">{name}</p>
-                <div className="absolute top-4 right-4 space-x-2">
-                    <Link
-                        href={githubLink}
-                        target="_blank"
-                        aria-label="View the source code on GitHub!"
-                        className="inline-block border border-lighthighlight/50 rounded-lg p-2 hover:bg-lighthighlight/20 transition-colors cursor-pointer"
-                    >
-                        <div className="w-4 h-4">
-                            <GithubLogoIcon />
-                        </div>
-                    </Link>
-                    {href && (
+                <div
+                    className={`flex items-center gap-2 pb-2 ${
+                        isLeft ? "md:flex-row-reverse" : ""
+                    }`}
+                >
+                    <p className="text-xl font-extrabold">{name}</p>
+                    <div className="flex items-center gap-0.5">
                         <Link
-                            href={href}
+                            href={githubLink}
                             target="_blank"
-                            aria-label="Check it out!"
-                            className="inline-block border border-lighthighlight/50 rounded-lg p-2 hover:bg-lighthighlight/20 transition-colors cursor-pointer"
+                            aria-label="View the source code on GitHub!"
+                            className="inline-flex p-1 text-bodytext/50 hover:text-accent transition-colors cursor-pointer"
                         >
                             <div className="w-4 h-4">
-                                <ArrowSquareOutIcon />
+                                <GithubLogoIcon />
                             </div>
                         </Link>
-                    )}
+                        {href && (
+                            <Link
+                                href={href}
+                                target="_blank"
+                                aria-label="Check it out!"
+                                className="inline-flex p-1 text-bodytext/50 hover:text-accent transition-colors cursor-pointer"
+                            >
+                                <div className="w-4 h-4">
+                                    <ArrowSquareOutIcon />
+                                </div>
+                            </Link>
+                        )}
+                    </div>
                 </div>
                 <p>{description}</p>
             </div>
 
             {hasExtra && (
-                <div className="text-center mt-1">
+                <div className="mt-1">
                     <AnimatePresence initial={false}>
                         {viewExtra && (
                             <motion.div
@@ -103,8 +124,8 @@ export default function Project({
                                 }}
                                 style={{ overflow: "hidden" }}
                             >
-                                {notes && <Notes notes={notes} />}
-                                {tags && <SkillTags tags={tags} />}
+                                {notes && <Notes notes={notes} side={side} />}
+                                {tags && <SkillTags tags={tags} side={side} />}
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -113,9 +134,9 @@ export default function Project({
                         type="button"
                         onClick={() => setViewExtra((v) => !v)}
                         aria-expanded={viewExtra}
-                        title={viewExtra ? "see less" : "see more"}
-                        className={`${mono.className} mt-1 inline-flex items-center gap-1 text-sm text-bodytext/60 hover:text-accent px-3 py-1 rounded-lg cursor-pointer hover:bg-lighthighlight/15 transition-colors`}
+                        className={`${mono.className} mt-1 inline-flex items-center gap-1 text-sm text-bodytext/50 hover:text-accent py-1 cursor-pointer transition-colors`}
                     >
+                        {viewExtra ? "less" : "more"}
                         <motion.span
                             className="inline-flex w-4 h-4"
                             animate={{ rotate: viewExtra ? 180 : 0 }}
@@ -126,6 +147,6 @@ export default function Project({
                     </button>
                 </div>
             )}
-        </motion.div>
+        </div>
     );
 }
