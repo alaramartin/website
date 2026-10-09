@@ -152,7 +152,7 @@ export const projects: ProjectInfo[] = [
         name: "Alternate Website",
         githubLink: "https://github.com/alaramartin/alarming-clock",
         href: "https://clock.alaramartin.com",
-        miniDescription: "my OTHER personal website",
+        miniDescription: "My OTHER personal website.",
         description: "a sillier, interactive version of my personal website",
         notes: ["experimenting", "try typing something!"],
         tags: ["React", "NextJS", "TailwindCSS", "TypeScript", "HTMLCSS"],

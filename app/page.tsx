@@ -20,11 +20,16 @@ export const metadata = generateMetadataBase({
 function ProofHeading({ children }: { children: ReactNode }) {
     return (
         <p
-            className={`${mono.className} text-3xl pb-4 font-medium text-accent`}
+            className={`${mono.className} text-3xl pb-1 font-medium text-accent`}
         >
             {children}
         </p>
     );
+}
+
+// The one-line intro under each proof heading, so every panel shares the same rhythm.
+function ProofSubtitle({ children }: { children: ReactNode }) {
+    return <div className="text-bodytext opacity-80 mb-6">{children}</div>;
 }
 
 // Proof content keyed by adjective. Server-rendered here, passed to the (client) NameCircle,
@@ -45,7 +50,7 @@ const proofs: Record<string, ReactNode> = {
     "LARA MARTIN": (
         <div className={`${serif.className} text-bodytext`}>
             <ProofHeading>About</ProofHeading>
-            <p>
+            <p className="max-w-prose">
                 I&apos;m a student at UC Berkeley studying Applied Math and
                 learning how to code. Keep scrolling to learn more about me!
             </p>
@@ -54,10 +59,10 @@ const proofs: Record<string, ReactNode> = {
     programmer: (
         <div className={`${serif.className} text-bodytext flex flex-col`}>
             <ProofHeading>Projects</ProofHeading>
-            <div className="-mt-2 mb-2">Some of my favorites.</div>
-            <div className="flex flex-col md:-ml-6">
+            <ProofSubtitle>Some of my favorites.</ProofSubtitle>
+            <div className="flex flex-col divide-y divide-lighthighlight/35">
                 {miniProjects.map(
-                    (project, index) =>
+                    (project) =>
                         project.miniDescription && (
                             <div key={project.name}>
                                 <MiniProject
@@ -67,15 +72,12 @@ const proofs: Record<string, ReactNode> = {
                                     description={project.miniDescription!}
                                     tags={project.tags}
                                 />
-                                {index !== miniProjects.length - 1 && (
-                                    <div className="border-t border-lighthighlight/65 my-1" />
-                                )}
                             </div>
                         ),
                 )}
             </div>
             <Link
-                className={`${serif.className} select-none text-md self-center justify-center inline-flex items-center text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:transform hover:-translate-y-px rounded-lg m-6 py-2 px-3 gap-1 transition-all`}
+                className={`${serif.className} select-none text-md self-start inline-flex items-center text-bodytext border border-lighthighlight shadow-sm shadow-lighthighlight/30 hover:shadow-lg hover:shadow-lighthighlight/30 hover:transform hover:-translate-y-px rounded-lg mt-6 py-2 px-3 gap-1 transition-all`}
                 href="/projects"
             >
                 See all of my projects <ArrowCircleRightIcon size={20} />
@@ -85,22 +87,15 @@ const proofs: Record<string, ReactNode> = {
     learner: (
         <div className={`${serif.className}`}>
             <ProofHeading>Skills</ProofHeading>
-            <div className="-mt-2 mb-4 text-bodytext">
-                I neither know nor think I know.
-            </div>
+            <ProofSubtitle>I neither know nor think I know.</ProofSubtitle>
             {skills.map((section) => (
                 <div key={section.label} className="mb-5">
                     <p className="text-sm tracking-wide text-bodytext/80 mb-2">
                         {section.label}
                     </p>
-                    <div className="flex flex-row text-bodytext flex-wrap">
+                    <div className="flex flex-row text-bodytext flex-wrap gap-x-4 gap-y-1">
                         {section.items.map((skill) => (
-                            <div
-                                key={skill.id}
-                                className="inline-block w-max px-3"
-                            >
-                                <Skill id={skill.id} skill={skill} />
-                            </div>
+                            <Skill key={skill.id} id={skill.id} skill={skill} />
                         ))}
                     </div>
                 </div>
@@ -108,13 +103,13 @@ const proofs: Record<string, ReactNode> = {
         </div>
     ),
     hacker: (
-        <div className={`${serif.className} translate-y-2 flex flex-col`}>
-            <ProofHeading>Hackathons.</ProofHeading>
-            <div className="text-bodytext -mt-2 mb-2">
+        <div className={`${serif.className} flex flex-col`}>
+            <ProofHeading>Hackathons</ProofHeading>
+            <ProofSubtitle>
                 I&apos;ve been to a few. Even won some. Check them out:
-            </div>
-            <div className="flex flex-col md:-ml-6">
-                {miniHackathonProjects.map((project, index) => (
+            </ProofSubtitle>
+            <div className="flex flex-col divide-y divide-lighthighlight/35">
+                {miniHackathonProjects.map((project) => (
                     <div key={project.name}>
                         <MiniProject
                             name={project.name}
@@ -123,18 +118,15 @@ const proofs: Record<string, ReactNode> = {
                             description={project.miniDescription!}
                             tags={project.tags}
                         />
-                        {index !== miniHackathonProjects.length - 1 && (
-                            <div className="border-t border-lighthighlight/65 my-1" />
-                        )}
                     </div>
                 ))}
             </div>
         </div>
     ),
     "girl who codes": (
-        <div className={`${serif.className} translate-y-2`}>
-            <ProofHeading>Girls Who Code.</ProofHeading>
-            <div className="text-bodytext -mt-2 mb-2">
+        <div className={`${serif.className}`}>
+            <ProofHeading>Girls Who Code</ProofHeading>
+            <ProofSubtitle>
                 I found a community in tech through Girls Who Code and{" "}
                 <span>
                     <Link href="" className="link">
@@ -142,7 +134,7 @@ const proofs: Record<string, ReactNode> = {
                     </Link>
                 </span>{" "}
                 to teach elementary school girls in my city how to code.
-            </div>
+            </ProofSubtitle>
         </div>
     ),
     // reader: (
@@ -160,19 +152,19 @@ const proofs: Record<string, ReactNode> = {
     //     </div>
     // ),
     photographer: (
-        <div className={`${serif.className} translate-y-2`}>
-            <ProofHeading>My Photography</ProofHeading>
-            <div className="text-bodytext -mt-2 mb-2">Need bigger lens.</div>
+        <div className={`${serif.className}`}>
+            <ProofHeading>Photography</ProofHeading>
+            <ProofSubtitle>Need bigger lens.</ProofSubtitle>
             <PhotoCollage catOrPhoto="photo" landscape={true} />
         </div>
     ),
     "cat lover": (
-        <div className={`${serif.className} translate-y-2`}>
-            <ProofHeading>I love cats.</ProofHeading>
-            <div className="text-bodytext -mt-2 mb-2">
-                Since I can't paste half my camera roll here, here are just a
-                few of the cats I know.
-            </div>
+        <div className={`${serif.className}`}>
+            <ProofHeading>Cats</ProofHeading>
+            <ProofSubtitle>
+                Since I can&apos;t paste half my camera roll here, here are just
+                a few of the cats I know.
+            </ProofSubtitle>
             <PhotoCollage catOrPhoto="cat" landscape={false} />
         </div>
     ),

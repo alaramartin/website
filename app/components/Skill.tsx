@@ -11,14 +11,12 @@ const Skill = ({ id, skill }: SkillProps) => {
     return (
         <div
             id={id}
-            className="inline-flex items-center gap-x-1 group p-1 rounded-xl"
+            className="inline-flex items-center gap-x-1.5 py-1"
         >
-            <div className="w-4 h-4 transition-all duration-200">
+            <div className="w-4 h-4 text-accent">
                 <IconComponent />
             </div>
-            <p className="underline decoration-lighthighlight/40 underline-offset-3">
-                {skill.skillName}
-            </p>
+            <p>{skill.skillName}</p>
         </div>
     );
 };

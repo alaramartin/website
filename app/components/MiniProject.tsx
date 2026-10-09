@@ -1,12 +1,7 @@
 "use client";
 import Link from "next/link";
 import { serif } from "@/app/ui/fonts";
-import {
-    GithubLogoIcon,
-    ArrowSquareOutIcon,
-    CaretRightIcon,
-    CaretDownIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { skills } from "@/app/data/info.ts";
 
 interface MiniProjectProps {
@@ -32,66 +27,30 @@ const MiniProject = ({
 }: MiniProjectProps) => {
     return (
         <div className="group text-bodytext">
-            <div className={`flex items-center w-full md:px-2 py-2 text-left`}>
-                <div className="flex md:opacity-75 md:group-hover:opacity-100 text-md md:text-lg items-center gap-2 text-lg font-semibold md:font-bold p-2 transition-all duration-150">
-                    {name}
-                </div>
-                <p className="pl-2 opacity-80 hover:opacity-90 text-md transition-all duration-150">
-                    {description}
-                </p>
-
-                <div className="ml-auto text-right space-x-3 inline-flex">
-                    {/* <div className="flex-row hidden md:flex">
-                        {tags &&
-                            tags.slice(0, 3).map((tag) => {
-                                const skillData = getSkillById.get(tag);
-                                if (!skillData) return null;
-                                const IconComponent = skillData.icon;
-                                return (
-                                    <div
-                                        key={tag}
-                                        className="items-center border border-lighthighlight rounded-lg mx-1 p-1"
-                                        title={`Skill: ${skillData.skillName}`}
-                                    >
-                                        <IconComponent
-                                            size={14}
-                                            className="m-0.5"
-                                        />
-                                    </div>
-                                );
-                            })}
-                    </div> */}
-
+            <div className={`flex items-start w-full gap-4 py-3 text-left`}>
+                <div className="min-w-0">
+                    {/* The name is the link, so the row doesn't need its own "open" icon. */}
                     <Link
                         href={href || githubLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Check it out!"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                        }}
-                        className={`flex items-center w-full ml-2 md:ml-0 p-0.5`}
+                        className="link font-semibold leading-snug"
                     >
-                        <div className="opacity-80 group-hover:opacity-100 hover:transform hover:-translate-y-px duration-150">
-                            <ArrowSquareOutIcon size={20} />
-                        </div>
+                        {name}
                     </Link>
-
-                    <Link
-                        href={githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="View the source code on GitHub!"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                        }}
-                        className={`flex items-center w-full p-0.5`}
-                    >
-                        <div className="opacity-80 hover:opacity-100 hover:transform hover:-translate-y-px duration-150">
-                            <GithubLogoIcon size={20} />
-                        </div>
-                    </Link>
+                    <p className="opacity-70 leading-snug">{description}</p>
                 </div>
+
+                {/* Quiet until the row is hovered; always visible on touch (no hover). */}
+                <Link
+                    href={githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View the source code for ${name} on GitHub`}
+                    className="ml-auto shrink-0 p-0.5 mt-1 opacity-60 md:opacity-0 md:group-hover:opacity-60 hover:opacity-100! focus-visible:opacity-100 transition-opacity duration-150"
+                >
+                    <GithubLogoIcon size={18} />
+                </Link>
             </div>
         </div>
     );

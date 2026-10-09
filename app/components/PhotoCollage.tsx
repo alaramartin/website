@@ -3,7 +3,7 @@ import Image from "next/image";
 // Collage for the "photographer" / "cat lover" proofs. Source images live in public/photos
 // and public/cats as optimized WebP; next/image lazy-loads them, so they never block the
 // initial page load. Renders in the md+ proof stage AND the mobile content stack, so `sizes`
-// covers both layouts (~220px/275px tile on the desktop stage, ~45vw/55vw in the 2-col mobile
+// covers both layouts (~190px/240px tile on the desktop stage, ~45vw/55vw in the 2-col mobile
 // stack — the wider numbers are for landscape, whose container is scaled up so its tiles end up
 // the same on-page size as portrait's; see the comment below).
 const TILES = [0, 1, 2, 3];
@@ -24,7 +24,7 @@ export default function PhotoCollage({
     // end up the same on-page area as portrait ones instead of looking noticeably smaller.
     return (
         <div
-            className={`w-full ${landscape ? "max-w-140" : "max-w-md"} select-none`}
+            className={`w-full ${landscape ? "max-w-120" : "max-w-sm"} select-none`}
         >
             <div className="columns-2 gap-3 *:mb-3">
                 {TILES.map((i) => (
@@ -38,8 +38,8 @@ export default function PhotoCollage({
                             fill
                             sizes={
                                 landscape
-                                    ? "(min-width: 768px) 275px, 55vw"
-                                    : "(min-width: 768px) 220px, 45vw"
+                                    ? "(min-width: 768px) 240px, 55vw"
+                                    : "(min-width: 768px) 190px, 45vw"
                             }
                             className="object-cover rounded-lg border border-lighthighlight/50"
                             draggable={false}
