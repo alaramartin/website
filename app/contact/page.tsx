@@ -79,13 +79,17 @@ export default function ContactPage() {
                 <div
                     className={`relative z-10 max-md:mt-6 flex flex-col lg:flex-row lg:flex-wrap lg:justify-center lg:w-full lg:max-w-5xl ${serif.className}`}
                 >
-                    {contactLinks.map((contactLink) => (
+                    {contactLinks.map((contactLink, index) => (
                         <div
                             key={contactLink.contactType}
                             className="lg:basis-1/3 lg:flex lg:justify-center"
                         >
                             <div data-whale-avoid>
-                                <ContactLink contact={contactLink} />
+                                <ContactLink
+                                    contact={contactLink}
+                                    variant={index % 2 === 0 ? "rose" : "fern"}
+                                    delay={index * 0.12}
+                                />
                             </div>
                         </div>
                     ))}

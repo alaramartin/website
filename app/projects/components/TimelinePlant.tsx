@@ -1,5 +1,21 @@
 "use client";
 import { motion, useTransform, type MotionValue } from "motion/react";
+import {
+    STEM,
+    ROSE_STEM,
+    ROSE_TIP,
+    LEAF_HIDDEN,
+    LEAF_BULB,
+    LEAF_SHAPE,
+    BUD_HIDDEN,
+    BUD_BULB,
+    BUD_SHAPE,
+    PETAL_A,
+    PETAL_B,
+    LEAVES,
+    ROSE_LEAF_SCALE,
+    ROSE_LEAVES,
+} from "@/app/components/plant/plantPaths";
 
 export type PlantVariant = "rose" | "fern";
 
@@ -19,58 +35,6 @@ const SCALE = 0.75;
 // applied after the lean scaleX, so it mirrors correctly on both sides.
 const TILT = 10;
 const STROKE = "var(--color-accent)";
-
-// gently curved stem, from the node (0,0) up to the tip ~(13,-42). authored
-// pointing up-right; `lean` mirrors it via scaleX on the root group. this one
-// really is a line "growing", so it stays a stroke draw-on.
-const STEM = "M 0 0 C 2 -13, 11 -24, 13 -42";
-// the rose gets a shorter stem so its (enlarged) bud carries more of the same
-// overall height -- a bigger flower-to-stem ratio. every point is the base
-// curve scaled 1.15x along its length (15% longer), tip now ~(9.2,-27.6).
-const ROSE_STEM = "M 0 0 C 1.15 -9.2, 5.75 -18.4, 9.2 -27.6";
-// tip of ROSE_STEM — the rose head sits here.
-const ROSE_TIP = { x: 9.2, y: -27.6 };
-
-// --- morph keyframes -------------------------------------------------------
-// every keyframe for a given element shares the exact command skeleton
-// (M _ _ C _ _, _ _, _ _ C _ _, _ _, _ _) so motion can interpolate the
-// numbers between them: collapsed-at-origin -> round bulb -> final shape.
-
-const LEAF_HIDDEN = "M 0 0 C 0 0, 0 0, 0 0 C 0 0, 0 0, 0 0";
-const LEAF_BULB = "M 0 0 C 0 -2.6, 5 -2.6, 5 0 C 5 2.6, 0 2.6, 0 0";
-// rounded base at the origin, pointed tip at (13,0) — the two cubics meet at a
-// corner there, so it reads as a real leaf point
-const LEAF_SHAPE = "M 0 0 C 0 -4, 8 -5, 13 0 C 8 5, 0 4, 0 0";
-
-const BUD_HIDDEN = "M 0 0 C 0 0, 0 0, 0 0 C 0 0, 0 0, 0 0";
-const BUD_BULB = "M 0 0 C 0 -3, 6 -3, 6 0 C 6 3, 0 3, 0 0";
-// fat, slightly-pointed oval — the sketch's "thick end"
-const BUD_SHAPE = "M 0 0 C 0 -5, 9 -6, 12 0 C 9 6, 0 5, 0 0";
-
-// short curves carved through the bud in the background colour to suggest
-// petal separations (the "curved line or two" from the sketch)
-const PETAL_A = "M 2 -1 C 4 -3, 7 -3, 9 0";
-const PETAL_B = "M 3 2 C 5 0, 7 0, 9 -1";
-
-// fern leaves: 3 alternating up the stem + 1 terminal frond. positioned onto
-// the stem via a static translate/rotate. the angles splay wide off the stem
-// (nearly sideways) so it reads as a frond, not thorns hugging a line.
-const LEAVES = [
-    { x: 4, y: -13, angle: -22 }, // right, splayed out
-    { x: 7, y: -22, angle: -158 }, // left, splayed out
-    { x: 10, y: -31, angle: -22 }, // right, splayed out
-    { x: 13, y: -42, angle: -90 }, // terminal, straight up
-];
-
-// rose gets a pair of fern-style leaves near the bud: sampled at 75% and 80%
-// up the ROSE_STEM curve, splayed onto opposite sides, and scaled to 85% of
-// the fern leaf size (15% smaller). they morph in the same hidden->bulb->leaf
-// way as the fern.
-const ROSE_LEAF_SCALE = 0.85;
-const ROSE_LEAVES = [
-    { x: 6.47, y: -20.7, angle: -22 }, // ~75% up, right side
-    { x: 7.03, y: -22.08, angle: -158 }, // ~80% up, left side
-];
 
 export default function TimelinePlant({
     bloom,
