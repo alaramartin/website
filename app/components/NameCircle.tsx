@@ -20,6 +20,7 @@ import {
 import LinksBar from "./LinksBar";
 import { setScrollColors } from "@/app/ui/scrollColors";
 import { italiana } from "@/app/ui/fonts";
+import NameWreath from "./plant/NameWreath";
 
 // Scroll timeline (fractions of page scrollYProgress):
 //   [0, MORPH_END]        -> name morph: the "A" of ALARA flies to the circle center to
@@ -496,6 +497,12 @@ export default function NameCircle({
                                     margin: "0 auto",
                                 }}
                             >
+                                {/* Prototype: a vine trailing LARA MARTIN around the A. */}
+                                <NameWreath
+                                    rotate={rotate}
+                                    count={TITLES.length}
+                                    isMobile={isMobile}
+                                />
                                 <span
                                     ref={pivotRef}
                                     style={{
