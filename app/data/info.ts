@@ -13,6 +13,7 @@ import {
     CodeIcon,
     FlowerIcon,
     ShippingContainerIcon,
+    CurrencyEthIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
 export type ProjectInfo = {
@@ -176,6 +177,15 @@ export const projects: ProjectInfo[] = [
 // the home page, and merged into the /projects timeline by date (see projects/page.tsx).
 export const hackathonProjects: ProjectInfo[] = [
     {
+        name: "Cash Cow",
+        githubLink: "https://github.com/cabbles/b-bhacks",
+        miniDescription: "2nd Most Creative at B@BHacks 2.0.",
+        description: "2nd Most Creative at B@BHacks 2.0.",
+        notes: ["$500 cash", "getting into blockchain..."],
+        tags: ["Solidity"],
+        date: "2026-10",
+    },
+    {
         name: "ORIGIN",
         githubLink: "https://github.com/alaramartin/mantisgridhacks",
         miniDescription:
@@ -229,6 +239,7 @@ export const skills: {
             { id: "Python", skillName: "Python", icon: FilePyIcon },
             { id: "Java", skillName: "Java", icon: CoffeeIcon },
             { id: "HTMLCSS", skillName: "HTML/CSS", icon: CodeIcon },
+            { id: "Solidity", skillName: "Solidity", icon: CurrencyEthIcon },
         ],
     },
     {
