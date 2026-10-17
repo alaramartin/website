@@ -171,11 +171,32 @@ export const projects: ProjectInfo[] = [
         tags: ["React", "TypeScript", "HTMLCSS", "Chrome_API"],
         date: "2026-07",
     },
+    {
+        name: "Yet Another Personal Website",
+        githubLink: "https://github.com/alaramartin/website-plain",
+        href: "https://me.alaramartin.com",
+        miniDescription:
+            "Another personal website, because two weren't enough.",
+        description: "Another personal website, because two weren't enough.",
+        notes: ["just one more personal website"],
+        tags: ["React", "NextJS", "TailwindCSS", "TypeScript", "HTMLCSS"],
+        date: "2026-10",
+    },
 ];
 
 // hackathon projects, same shape as `projects` above. shown in the "hacker" proof on
 // the home page, and merged into the /projects timeline by date (see projects/page.tsx).
 export const hackathonProjects: ProjectInfo[] = [
+    {
+        name: "Tab",
+        githubLink: "https://github.com/alaramartin/paradigmhacks",
+        miniDescription: "Autocomplete for your entire Mac.",
+        description:
+            "Autocomplete for your entire Mac. Built at Paradigm Frontiers 2026.",
+        notes: ["Tempo for one-click payments", "tried out Jev"],
+        tags: ["TypeScript", "HTMLCSS"],
+        date: "2026-10",
+    },
     {
         name: "Cash Cow",
         githubLink: "https://github.com/cabbles/b-bhacks",
