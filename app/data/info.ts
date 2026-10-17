@@ -190,6 +190,7 @@ export const hackathonProjects: ProjectInfo[] = [
     {
         name: "Tab",
         githubLink: "https://github.com/alaramartin/paradigmhacks",
+        href: "https://x.com/alara_martin_/status/2110875781819928838",
         miniDescription: "Autocomplete for your entire Mac.",
         description:
             "Autocomplete for your entire Mac. Built at Paradigm Frontiers 2026.",
