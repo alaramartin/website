@@ -264,6 +264,67 @@ body {
     color: rgb(var(--accent-rgb));
 }
 
+/* /projects: rows that slide open in place; the name goes red on hover and gets the dotted line when open */
+.index-name {
+    transition: color 0.15s;
+}
+
+.index-row button:hover .index-name {
+    color: rgb(var(--accent-rgb));
+}
+
+.index-row[data-open="true"] .index-name {
+    background-image: radial-gradient(
+        circle,
+        rgb(var(--accent-rgb)) 40%,
+        transparent 45%
+    );
+    background-size: 0.12em 0.06em;
+    background-position: 0 92%;
+    background-repeat: repeat-x;
+}
+
+/* the + / − at the end of each row: a Georgia glyph, so it sits on the same line as the name */
+.index-plus {
+    width: 0.6em;
+    text-align: center;
+    color: var(--muted);
+    opacity: 0.7;
+    transition:
+        color 0.15s,
+        opacity 0.15s;
+}
+
+.index-row button:hover .index-plus {
+    color: rgb(var(--accent-rgb));
+    opacity: 1;
+}
+
+.index-row button:focus-visible {
+    outline: 1.5px solid rgba(var(--accent-rgb), 0.6);
+    outline-offset: 2px;
+}
+
+.index-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+        grid-template-rows 0.22s ease-out,
+        opacity 0.18s ease-out;
+}
+
+.index-row[data-open="true"] .index-panel {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .index-panel {
+        transition: none;
+    }
+}
+
 /* the other top nav tabs: plain grey, turning red on hover */
 .nav-link {
     transition: color 0.15s;
