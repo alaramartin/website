@@ -16,13 +16,13 @@ export default function Home() {
             >
                 <Headline />
                 <p className="mt-6 max-w-md">
-                    I study Applied Math and Statistics at UC Berkeley. I also{" "}
+                    I study Applied Math and Data Science at UC Berkeley. I also{" "}
                     <Link href="/projects" className="link">
                         build things
                     </Link>{" "}
                     and{" "}
                     <Link href="/hacks" className="link">
-                        win things
+                        win hackathons
                     </Link>
                     .
                 </p>
