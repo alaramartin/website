@@ -45,8 +45,8 @@ body {
 /* link underline that slides up on hover */
 .link {
     background-image: linear-gradient(
-        rgba(var(--accent-rgb), 0.4),
-        rgba(var(--accent-rgb), 0.4)
+        rgba(var(--accent-rgb), 0.25),
+        rgba(var(--accent-rgb), 0.25)
     );
     background-size: 100% 0.1em;
     background-position-y: 100%;

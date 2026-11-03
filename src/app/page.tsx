@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Corners from "./Corners";
 import Headline from "./Headline";
 import Nav from "./Nav";
@@ -15,8 +16,15 @@ export default function Home() {
             >
                 <Headline />
                 <p className="mt-6 max-w-md">
-                    I study Applied Math and Statistics at UC Berkeley. I also
-                    build things.
+                    I study Applied Math and Statistics at UC Berkeley. I also{" "}
+                    <Link href="/projects" className="link">
+                        build things
+                    </Link>{" "}
+                    and{" "}
+                    <Link href="/hacks" className="link">
+                        win things
+                    </Link>
+                    .
                 </p>
             </div>
 

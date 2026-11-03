@@ -267,14 +267,25 @@ export default function Headline() {
         document.fonts?.ready.then(measure);
     }, []);
 
+    // Background tabs still fire (throttled) timers but don't paint, so the steps would pile up
+    // and the prism would then race through all of them in one transition on return. Hold the
+    // word while the page is hidden instead.
+    const [hidden, setHidden] = useState(false);
+    useEffect(() => {
+        const update = () => setHidden(document.hidden);
+        update();
+        document.addEventListener("visibilitychange", update);
+        return () => document.removeEventListener("visibilitychange", update);
+    }, []);
+
     // Hovering a linked adjective, or fanning them all out, holds the current word; the wait
     // starts over once that ends.
     useEffect(() => {
-        if (paused || fanned) return;
+        if (paused || fanned || hidden) return;
         const wait = step % WORDS.length === 0 ? NAME_REST_MS : REST_MS;
         const id = setTimeout(() => setStep((s) => s + 1), wait);
         return () => clearTimeout(id);
-    }, [step, paused, fanned]);
+    }, [step, paused, fanned, hidden]);
 
     // Once a flip lands, load the word for the face now waiting below.
     useEffect(() => {
