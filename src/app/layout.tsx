@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SITE_URL } from "./site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,8 +14,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alara Martin",
-  description: "Alara Martin",
+  metadataBase: new URL(SITE_URL),
+  title: { default: "Alara Martin", template: "%s · Alara Martin" },
+  description:
+    "Alara Martin studies Applied Math and Data Science at UC Berkeley, builds software and wins hackathons.",
+  authors: [{ name: "Alara Martin", url: SITE_URL }],
+  openGraph: {
+    type: "website",
+    siteName: "Alara Martin",
+    locale: "en_US",
+  },
+  twitter: { card: "summary_large_image", creator: "@alara_martin_" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

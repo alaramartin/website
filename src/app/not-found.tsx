@@ -5,7 +5,8 @@ import Nav from "./Nav";
 import Whale from "./Whale";
 
 export const metadata: Metadata = {
-    title: "404 · Alara Martin",
+    title: "404",
+    robots: { index: false },
 };
 
 // Same frame as the homepage, with just the 404 in the middle. It sits a little above true

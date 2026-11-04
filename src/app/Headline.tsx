@@ -157,14 +157,18 @@ const caseFlips = (step: number) =>
 function Prism({
     turns,
     left,
+    hidden,
     children,
 }: {
     turns: number;
     left?: string;
+    // hides the whole prism from screen readers and crawlers' accessible text
+    hidden?: boolean;
     children: (k: number, front: boolean) => React.ReactNode;
 }) {
     return (
         <div
+            aria-hidden={hidden || undefined}
             className="absolute inset-y-0 right-0"
             style={{
                 left: left ?? 0,
@@ -178,6 +182,8 @@ function Prism({
                 return (
                     <div
                         key={k}
+                        // only the face showing counts; the rest are turned away
+                        aria-hidden={!front || undefined}
                         className="absolute inset-0 whitespace-nowrap"
                         style={{
                             pointerEvents: front ? "auto" : "none",
@@ -476,14 +482,19 @@ export default function Headline() {
                             openFan();
                     }}
                 >
+                    {/* The name as plain text, for screen readers and search engines. The
+                        animated letters below are hidden from them. */}
+                    <span className="sr-only">Alara Martin</span>
                     <span
                         ref={upperRef}
+                        aria-hidden
                         className="invisible absolute whitespace-pre"
                     >
                         A
                     </span>
                     <span
                         ref={lowerRef}
+                        aria-hidden
                         className="invisible absolute whitespace-pre"
                     >
                         a
@@ -501,7 +512,7 @@ export default function Headline() {
                             transition: `opacity ${FLIP_MS}ms ease-in-out`,
                         }}
                     />
-                    <Prism turns={caseFlips(step)}>
+                    <Prism turns={caseFlips(step)} hidden>
                         {(k) => (k % 2 === 0 ? "A" : "a")}
                     </Prism>
                     <Prism
@@ -512,7 +523,9 @@ export default function Headline() {
                             const i = faces[k];
                             if (i === null) return null;
                             return i === 0 ? (
-                                <span data-fan-trigger>{rest(i)}</span>
+                                <span aria-hidden data-fan-trigger>
+                                    {rest(i)}
+                                </span>
                             ) : (
                                 <AdjLink
                                     word={WORDS[i]}

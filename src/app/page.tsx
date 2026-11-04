@@ -1,12 +1,50 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Corners from "./Corners";
 import Headline from "./Headline";
 import Nav from "./Nav";
 import Whale from "./Whale";
+import { SITE_URL, SOCIAL_URLS } from "./site";
+
+export const metadata: Metadata = {
+    alternates: { canonical: "/" },
+};
+
+// Tells search engines who the site is about and which profiles are the same person.
+const JSON_LD = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Person",
+            "@id": `${SITE_URL}/#person`,
+            name: "Alara Martin",
+            url: SITE_URL,
+            image: `${SITE_URL}/opengraph-image.png`,
+            jobTitle: "Student",
+            affiliation: {
+                "@type": "CollegeOrUniversity",
+                name: "University of California, Berkeley",
+            },
+            sameAs: SOCIAL_URLS,
+        },
+        {
+            "@type": "WebSite",
+            name: "Alara Martin",
+            url: SITE_URL,
+            author: { "@id": `${SITE_URL}/#person` },
+        },
+    ],
+};
 
 export default function Home() {
     return (
         <main className="relative h-dvh overflow-hidden">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c"),
+                }}
+            />
             <Whale />
             <Nav />
 

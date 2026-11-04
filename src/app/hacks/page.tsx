@@ -5,7 +5,10 @@ import Carousel from "./Carousel";
 import { HACKS, type Hack } from "./hacks";
 
 export const metadata: Metadata = {
-    title: "Hacks · Alara Martin",
+    title: "Hacks",
+    description:
+        "Hackathons Alara Martin has entered: what got built at each and how it placed.",
+    alternates: { canonical: "/hacks" },
 };
 
 // "2025-10" → "oct 2025"
@@ -67,6 +70,7 @@ function Post({ hack }: { hack: Hack }) {
 export default function Hacks() {
     return (
         <main className="relative h-dvh overflow-hidden">
+            <h1 className="sr-only">Hacks</h1>
             <div className="feed-fade no-scrollbar absolute inset-0 overflow-y-auto">
                 <div className="mx-auto max-w-xl px-8 sm:px-4 pt-14 pb-20">
                     {HACKS.map((hack) => (
