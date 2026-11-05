@@ -152,10 +152,10 @@ export default function Whale() {
         <div ref={overlayRef} className="pointer-events-none absolute inset-0 overflow-hidden">
             <a
                 ref={wrapperRef}
-                href="https://alaramartin.com"
+                href="https://me.alaramartin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="alaramartin.com"
+                aria-label="me.alaramartin.com"
                 className="whale-link pointer-events-auto absolute left-0 top-0 block will-change-transform"
                 style={{ visibility: "hidden" }}
             >
