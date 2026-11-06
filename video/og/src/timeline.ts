@@ -8,8 +8,8 @@ export const FPS = 30;
 
 export const NAME_PX = 124; // the old OG image's name was ~155px
 export const WHALE_PX = 177; // the site's whale, before the sim scales it to the frame
-const SIZE_SCALE = 1.5; // the sim shrinks whales to 0.7× on a 630px-tall frame; bring it back up
-const SPEED = 80; // px/s at full size; the site uses 55
+const SIZE_SCALE = 1.8; // the sim shrinks whales to 0.7× on a 630px-tall frame; bring it back up
+const SPEED = 67; // px/s at full size, before the sim scales it with the whale (≈84 px/s on screen); the site uses 55
 const STRIDE_BODY_LENGTHS = 0.7;
 const WHALE_H = WHALE_PX * (338 / 904); // VIEW_H / VIEW_W
 const KEEP_HIDDEN_S = 1.2; // offscreen pauses (the turnarounds) are cut down to this
@@ -97,4 +97,4 @@ export function simulate(seed: number): Pose[] {
     return out.slice(firstGap, gapMids[gapMids.length - 1]);
 }
 
-export const SEED = 347;
+export const SEED = 138;
