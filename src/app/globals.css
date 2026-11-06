@@ -333,3 +333,13 @@ body {
 .nav-link:hover {
     color: rgb(var(--accent-rgb));
 }
+
+/* /contact: the handle goes red on hover, like a /projects row */
+.contact-row:hover .index-name {
+    color: rgb(var(--accent-rgb));
+}
+
+.contact-row:focus-visible {
+    outline: 1.5px solid rgba(var(--accent-rgb), 0.6);
+    outline-offset: 2px;
+}

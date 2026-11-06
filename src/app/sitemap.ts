@@ -23,5 +23,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
         { url: `${SITE_URL}/projects`, lastModified: projects, priority: 0.8 },
         { url: `${SITE_URL}/hacks`, lastModified: hacks, priority: 0.8 },
+        { url: `${SITE_URL}/contact`, priority: 0.5 },
     ];
 }

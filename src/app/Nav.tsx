@@ -6,6 +6,7 @@ const TABS = [
     { label: "/home", href: "/" },
     { label: "/projects", href: "/projects" },
     { label: "/hacks", href: "/hacks" },
+    { label: "/contact", href: "/contact" },
 ];
 
 export default function Nav() {
