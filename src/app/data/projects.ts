@@ -1,5 +1,5 @@
 // The /projects page.
-// Data carried over from alaramartin.com (github.com/alaramartin/website, app/data/info.ts).
+// Data carried over from me.alaramartin.com (github.com/alaramartin/website-plain, app/data/info.ts).
 
 export type Link = { label: string; href: string };
 
@@ -25,9 +25,9 @@ export const PROJECTS: Project[] = [
         date: "2026-10",
         description: "My current personal website.",
         stack: ["React", "NextJS", "TailwindCSS", "TypeScript", "HTML/CSS"],
-        github: "https://github.com/alaramartin/website-plain",
+        github: "https://github.com/alaramartin/website",
         live: {
-            label: "me.alaramartin.com",
+            label: "alaramartin.com",
             href: "https://alaramartin.com",
         },
     },
@@ -121,8 +121,8 @@ export const PROJECTS: Project[] = [
         date: "2025-10",
         description: "My first ever personal website.",
         stack: ["React", "NextJS", "TailwindCSS", "TypeScript", "HTML/CSS"],
-        github: "https://github.com/alaramartin/website",
-        live: { label: "alaramartin.com", href: "https://me.alaramartin.com" },
+        github: "https://github.com/alaramartin/website-plain",
+        live: { label: "me.alaramartin.com", href: "https://me.alaramartin.com" },
     },
     {
         name: "HIPSTER-AI",

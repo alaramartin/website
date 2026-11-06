@@ -8,7 +8,7 @@ import {
 } from "react";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
 
-// The name, then the adjectives from alaramartin.com's NameCircle. Each one is split into its
+// The name, then the adjectives from me.alaramartin.com's NameCircle. Each one is split into its
 // leading letter ("A" or "a", which only flips when the case changes) and the rest, which spins.
 const NAME = "Alara Martin.";
 const ADJECTIVES = ["programmer", "hacker", "photographer", "student"];

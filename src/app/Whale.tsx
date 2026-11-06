@@ -12,7 +12,7 @@ import {
 import { createWhalePod, type Rect } from "./whale/whalePodSim";
 
 // One ink humpback roaming the whole screen, steering around anything marked data-whale-avoid.
-// Swimming comes from whale/whalePodSim.ts (copied from alaramartin.com's contact page).
+// Swimming comes from whale/whalePodSim.ts (copied from me.alaramartin.com's contact page).
 
 const SPEED = 55; // px per second
 const STRIDE_BODY_LENGTHS = 0.7;
