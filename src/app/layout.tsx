@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Alara Martin",
     locale: "en_US",
+    // Rendered by video/og (the whale swimming round the name); the OG image is a frame from it.
+    videos: [{ url: `${SITE_URL}/og.mp4`, type: "video/mp4", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image", creator: "@alara_martin_" },
 };

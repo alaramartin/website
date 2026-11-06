@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The OG video's Remotion project has its own dependencies.
+    "video/**",
   ]),
 ]);
 

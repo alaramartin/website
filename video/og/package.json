@@ -1,0 +1,17 @@
+{
+  "name": "og-video",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render OgVideo ../../public/og.mp4 --codec h264 --crf 20 --pixel-format yuv420p --muted",
+    "still": "remotion still OgImage ../../src/app/opengraph-image.png"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.541",
+    "@types/react": "^19.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.541",
+    "typescript": "^5.9.3"
+  }
+}
