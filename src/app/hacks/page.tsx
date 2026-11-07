@@ -7,7 +7,7 @@ import { HACKS, type Hack } from "./hacks";
 export const metadata: Metadata = {
     title: "Hacks",
     description:
-        "Hackathons Alara Martin has entered: what got built at each and how it placed.",
+        "Hackathons I've attended, and won.",
     alternates: { canonical: "/hacks" },
 };
 

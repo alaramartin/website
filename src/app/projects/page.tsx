@@ -6,7 +6,7 @@ import Row from "./Row";
 
 export const metadata: Metadata = {
     title: "Projects",
-    description: "Software Alara Martin has built, with stacks and links to code.",
+    description: "Things I've built.",
     alternates: { canonical: "/projects" },
 };
 

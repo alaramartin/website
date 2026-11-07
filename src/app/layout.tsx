@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "Alara Martin", template: "%s · Alara Martin" },
   description:
-    "Alara Martin studies Applied Math and Data Science at UC Berkeley, builds software and wins hackathons.",
+    "My personal website.",
   authors: [{ name: "Alara Martin", url: SITE_URL }],
   openGraph: {
     type: "website",

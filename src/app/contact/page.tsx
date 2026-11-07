@@ -5,7 +5,7 @@ import { CONTACTS, external } from "../data/contacts";
 
 export const metadata: Metadata = {
     title: "Contact",
-    description: "How to reach Alara Martin: email, LinkedIn, GitHub, X and Discord.",
+    description: "Contact me.",
     alternates: { canonical: "/contact" },
 };
 
