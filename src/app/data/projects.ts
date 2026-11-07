@@ -16,6 +16,8 @@ export type Project = {
     post?: Link;
     // set for hackathon builds
     hackathon?: { event: string; result?: string };
+    // set when there's a writeup: src/writeups/<slug>.mdx, shown at /projects/<slug>
+    writeup?: string;
 };
 
 // Newest first; ties keep the order they're listed in.

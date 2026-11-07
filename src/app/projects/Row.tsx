@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useId, useState } from "react";
 import { formatDate, linksOf, type Project } from "../data/projects";
 
@@ -58,6 +59,19 @@ export default function Row({ project: p }: { project: Project }) {
                             ))}
                         </p>
                         <p className="mt-3 max-w-md">{p.description}</p>
+                        {p.writeup && (
+                            <p className="mt-3">
+                                <Link
+                                    href={`/projects/${p.writeup}`}
+                                    className="writeup-link"
+                                >
+                                    Read the writeup
+                                    <span aria-hidden className="writeup-arrow">
+                                        {"\u2192"}
+                                    </span>
+                                </Link>
+                            </p>
+                        )}
                         {p.hackathon && (
                             <p className="mt-2 font-mono text-sm text-[var(--muted)] opacity-80">
                                 built at {p.hackathon.event.toLowerCase()}

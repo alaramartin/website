@@ -24,5 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${SITE_URL}/projects`, lastModified: projects, priority: 0.8 },
         { url: `${SITE_URL}/hacks`, lastModified: hacks, priority: 0.8 },
         { url: `${SITE_URL}/contact`, priority: 0.5 },
+        ...PROJECTS.filter((p) => p.writeup).map((p) => ({
+            url: `${SITE_URL}/projects/${p.writeup}`,
+            priority: 0.7,
+        })),
     ];
 }

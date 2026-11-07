@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
+  // writeups are .mdx files in src/writeups, imported by /projects/[slug]
+  pageExtensions: ["ts", "tsx", "md", "mdx"],
   // /resume shows the PDF in place (the URL stays /resume), and saving it suggests a clean filename.
   async rewrites() {
     return [{ source: "/resume", destination: "/alara-martin-resume.pdf" }];
@@ -17,4 +20,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default createMDX({})(nextConfig);

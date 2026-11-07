@@ -18,7 +18,9 @@ export default function Nav() {
             className="absolute left-1/2 top-4 flex -translate-x-1/2 gap-4 font-mono text-sm text-[var(--muted)] opacity-70"
         >
             {TABS.map(({ label, href }) => {
-                const current = pathname === href;
+                // /projects stays underlined on a writeup page
+                const current =
+                    href === "/" ? pathname === "/" : pathname.startsWith(href);
                 return (
                     <Link
                         key={href}
