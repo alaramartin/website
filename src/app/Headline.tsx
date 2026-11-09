@@ -558,7 +558,9 @@ export default function Headline() {
                     />
                 </h1>
 
-                <ul aria-hidden={!fanned}>
+                {/* data-nosnippet: the cards have no real space after "a", so search
+                    snippets would read them as "aprogrammer; ahacker". */}
+                <ul aria-hidden={!fanned} data-nosnippet>
                     {WORDS.map((word, i) => {
                         const d = slot(i);
                         const shown = fanned && d !== 0;

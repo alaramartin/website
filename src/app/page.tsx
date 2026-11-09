@@ -8,6 +8,8 @@ import { SITE_URL, SOCIAL_URLS } from "./site";
 
 export const metadata: Metadata = {
     alternates: { canonical: "/" },
+    description:
+        "I study Applied Math and Data Science at UC Berkeley. I also build things and win hackathons.",
 };
 
 // Tells search engines who the site is about and which profiles are the same person.
