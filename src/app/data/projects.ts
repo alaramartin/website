@@ -23,6 +23,18 @@ export type Project = {
 // Newest first; ties keep the order they're listed in.
 export const PROJECTS: Project[] = [
     {
+        name: "Dock Cleanup",
+        date: "2026-11",
+        description:
+            "A Mac menu bar app and Raycast extension. Drag a box over icons in your Dock and those apps quit and get removed from it.",
+        stack: ["Swift", "TypeScript", "Raycast API", "macOS Accessibility API"],
+        github: "https://github.com/alaramartin/dock-cleanup",
+        live: {
+            label: "raycast store",
+            href: "https://www.raycast.com/alara_martin/dock-cleanup",
+        },
+    },
+    {
         name: "Yet Another Personal Website",
         date: "2026-10",
         description: "My current personal website.",
